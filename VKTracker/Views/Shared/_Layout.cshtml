@@ -51,7 +51,7 @@
                                 <span></span>
                             </span>
                         </button>
-                        
+
                     </div>
 
                     <div class="d-flex align-items-center">
@@ -60,14 +60,17 @@
                                 <span class="d-flex align-items-center">
                                     <img class="rounded-circle header-profile-user" src="~/images/users/avatar-1.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">UserName</span>
+                                        @{
+                                            string userName = User != null ? User.Identity.Name : "";
+                                        }
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">@userName</span>
                                         <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
                                     </span>
                                 </span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <h6 class="dropdown-header">Close your session</h6>
-                                <a class="dropdown-item" asp-action="SignOut" asp-controller="Account">
+                                <a class="dropdown-item" href="@Url.Action("Logout","Account")">
                                     <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span>
                                 </a>
                             </div>
@@ -110,7 +113,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" asp-action="Index" asp-controller="Home">
+                            <a class="nav-link menu-link" href="@Url.Action("Dashboard","Home")">
                                 <i class="mdi mdi-speedometer"></i>
                                 <span data-key="t-dashboards">Dashboards</span>
                             </a>
@@ -121,46 +124,10 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
-                                <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">Masters</span>
+                            <a class="nav-link menu-link" href="@Url.Action("Index","Master")">
+                                <i class="mdi mdi-notebook-edit-outline"></i> <span data-key="t-order">Masters</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarPages">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a asp-controller="Customer" asp-action="Index" class="nav-link" data-key="t-customer"> Customer </a>
-                                    </li>
 
-                                    <li class="nav-item">
-                                        <a asp-controller="Accessories" asp-action="Index" class="nav-link" data-key="t-productaccessories"> Accessories </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a asp-controller="Product" asp-action="Index" class="nav-link" data-key="t-product"> Product </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="menu-title">
-                            <i class="ri-more-fill"></i> <span data-key="t-pages">General</span>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" asp-controller="Order" asp-action="Index">
-                                <i class="mdi mdi-notebook-edit-outline"></i> <span data-key="t-order">Order</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" asp-controller="Service" asp-action="Index">
-                                <i class="mdi mdi-account-wrench-outline"></i> <span data-key="t-service">Service</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" asp-controller="Notification" asp-action="Index">
-                                <i class="mdi mdi-bell-badge-outline"></i> <span data-key="t-notification">Notification</span>
-                            </a>
                         </li>
                     </ul>
                 </div>

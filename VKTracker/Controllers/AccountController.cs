@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository;
@@ -26,13 +21,21 @@ namespace VKTracker.Controllers
                 if (isValid)
                 {
                     FormsAuthentication.SetAuthCookie(objModel.UserName, false);
+                    return RedirectToAction("Dashboard", "Home");
                 }
                 else
                 {
                     ModelState.AddModelError("", "invalid Username or Password");
+                    return View();
                 }
             }
-            return RedirectToAction("Dashboard", "Home");
         }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Account");
+        }
+
     }
 }
