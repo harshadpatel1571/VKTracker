@@ -32,7 +32,7 @@ namespace VKTracker.Controllers
                     ModelState.AddModelError("", "invalid Username or Password");
                 }
             }
-            return RedirectToAction("Home", "Dashboard");
+            return RedirectToAction("Dashboard", "Home");
         }
     }
 }
