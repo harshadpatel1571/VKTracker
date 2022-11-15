@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html lang="en" id="theme" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="img-1" data-preloader="enable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - VKTracker</title>
+    <link rel="shortcut icon" href="~/images/favicon.ico">
+    <script src="~/Scripts/layout.js"></script>
+    <link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/monolith.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/app.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/datatable/buttons.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/datatable/datatables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/datatable/responsive.bootstrap4.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="index.html" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="~/images/logo-sm.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="~/images/logo-dark.png" alt="" height="17">
+                                </span>
+                            </a>
+
+                            <a href="index.html" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="~/images/logo-sm.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="~/images/logo-light.png" alt="" height="17">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none" id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+                        
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown ms-sm-3 header-item topbar-user">
+                            <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user" src="~/images/users/avatar-1.jpg" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">UserName</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
+                                    </span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <h6 class="dropdown-header">Close your session</h6>
+                                <a class="dropdown-item" asp-action="SignOut" asp-controller="Account">
+                                    <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="app-menu navbar-menu">
+            <div class="navbar-brand-box">
+                <a href="index.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="~/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="~/images/logo-dark.png" alt="" height="17">
+                    </span>
+                </a>
+                <a href="index.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="~/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="~/images/logo-light.png" alt="" height="17">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+
+                    <div id="two-column-menu">
+                    </div>
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title">
+                            <span data-key="t-menu">Menu</span>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" asp-action="Index" asp-controller="Home">
+                                <i class="mdi mdi-speedometer"></i>
+                                <span data-key="t-dashboards">Dashboards</span>
+                            </a>
+                        </li>
+
+                        <li class="menu-title">
+                            <i class="ri-more-fill"></i> <span data-key="t-pages">Masters</span>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
+                                <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">Masters</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarPages">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a asp-controller="Customer" asp-action="Index" class="nav-link" data-key="t-customer"> Customer </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a asp-controller="Accessories" asp-action="Index" class="nav-link" data-key="t-productaccessories"> Accessories </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a asp-controller="Product" asp-action="Index" class="nav-link" data-key="t-product"> Product </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-title">
+                            <i class="ri-more-fill"></i> <span data-key="t-pages">General</span>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" asp-controller="Order" asp-action="Index">
+                                <i class="mdi mdi-notebook-edit-outline"></i> <span data-key="t-order">Order</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" asp-controller="Service" asp-action="Index">
+                                <i class="mdi mdi-account-wrench-outline"></i> <span data-key="t-service">Service</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" asp-controller="Notification" asp-action="Index">
+                                <i class="mdi mdi-bell-badge-outline"></i> <span data-key="t-notification">Notification</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar-background"></div>
+        </div>
+        <div class="vertical-overlay"></div>
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <main role="main">
+                        @RenderBody()
+                    </main>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            &copy;
+                            @DateTime.Now.Year VKTracking
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Shreeji Technolab
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/simplebar.min.js"></script>
+    <script src="~/Scripts/waves.min.js"></script>
+    <script src="~/Scripts/feather.min.js"></script>
+    <script src="~/Scripts/lord-icon-2.1.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/sweetalert2.min.js"></script>
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/select2.init.js"></script>
+    <script src="~/Scripts/choices.min.js"></script>
+    <script src="~/Scripts/flatpickr.min.js"></script>
+    <script src="~/Scripts/pickr.min.js"></script>
+    <script src="~/Scripts/form-pickers.init.js"></script>
+    <script src="~/Scripts/plugins.js"></script>
+
+    <script src="~/Scripts/datatable/jquery.dataTables.js"></script>
+    <script src="~/Scripts/datatable/dataTables.bootstrap4.js"></script>
+    <script src="~/Scripts/datatable/dataTables.responsive.js"></script>
+    <script src="~/Scripts/datatable/responsive.bootstrap4.js"></script>
+    <script src="~/Scripts/datatable/dataTables.buttons.js"></script>
+    <script src="~/Scripts/datatable/buttons.bootstrap4.js"></script>
+    <script src="~/Scripts/datatable/jszip.js"></script>
+    <script src="~/Scripts/datatable/pdfmake.js"></script>
+    <script src="~/Scripts/datatable/vfs_fonts.js"></script>
+    <script src="~/Scripts/datatable/buttons.html5.js"></script>
+    <script src="~/Scripts/datatable/buttons.print.js"></script>
+    <script src="~/Scripts/datatable/buttons.colVis.js"></script>
+    <script src="~/Scripts/app.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
