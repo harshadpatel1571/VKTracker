@@ -5,14 +5,10 @@
 /.vs
 /VKTracker/bin
 /VKTracker/obj/Debug
-/VKTracker/Properties
 /VKTracker.Common/bin/Debug
 /VKTracker.Common/obj/Debug
-/VKTracker.Common/Properties
 /VKTracker.Model/bin/Debug
 /VKTracker.Model/obj/Debug
-/VKTracker.Model/Properties
 /VKTracker.Repository/bin/Debug
 /VKTracker.Repository/obj/Debug
-/VKTracker.Repository/Properties
 /packages
