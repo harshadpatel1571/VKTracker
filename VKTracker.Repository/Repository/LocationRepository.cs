@@ -8,22 +8,22 @@ using VKTracker.Model.ViewModel;
 
 namespace VKTracker.Repository.Repository
 {
-    public class OrganizationRepository
+    public class LocationRepository
     {
-        public async Task<DataTableResponseCarrier<OrganizationViewModel>> GetList(DataTableFilterDto filterDto)
+        public async Task<DataTableResponseCarrier<LocationViewModel>> GetList(DataTableFilterDto filterDto)
         {
             var db = new VKTrackerEntities();
 
             try
             {
-                var result = db.Organizations.Where(x => x.IsActive).AsNoTracking().AsQueryable();
+                var result = db.Locations.Where(x => x.IsActive).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
-                    result = result.Where(x => x.Name.Contains(filterDto.SearchValue));
+                    result = result.Where(x => x.LocationName.Contains(filterDto.SearchValue));
                 }
 
-                var model = new DataTableResponseCarrier<OrganizationViewModel>
+                var model = new DataTableResponseCarrier<LocationViewModel>
                 {
                     TotalCount = result.Count()
                 };
@@ -37,10 +37,10 @@ namespace VKTracker.Repository.Repository
                     result = result.Take(filterDto.Take);
                 }
 
-                model.Data = await result.Select(x => new OrganizationViewModel
+                model.Data = await result.Select(x => new LocationViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name
+                    LocationName = x.LocationName
                 }).ToListAsync().ConfigureAwait(false);
 
                 return model;
@@ -55,19 +55,19 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Save(OrganizationViewModel objModel)
+        public async Task<bool> Save(LocationViewModel objModel)
         {
             var db = new VKTrackerEntities();
             try
             {
-                var model = new Organization();
+                var model = new Location();
 
                 if (objModel.Id > 0)
                 {
-                    model = await db.Organizations.FirstOrDefaultAsync(x => x.Id == objModel.Id).ConfigureAwait(false);
+                    model = await db.Locations.FirstOrDefaultAsync(x => x.Id == objModel.Id).ConfigureAwait(false);
                 }
 
-                model.Name = objModel.Name;
+                model.LocationName = objModel.LocationName;
                 model.CreatedBy = objModel.CreatedBy;
                 model.CreatedOn = DateTime.Now;
                 model.IsActive = true;
@@ -79,7 +79,7 @@ namespace VKTracker.Repository.Repository
                 }
                 else
                 {
-                    db.Organizations.Add(model);
+                    db.Locations.Add(model);
                 }
 
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
@@ -101,7 +101,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var model = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
+                var model = await db.Locations.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
 
                 db.Entry(model).State = EntityState.Modified;
@@ -120,15 +120,15 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<OrganizationViewModel> GetById(int id)
+        public async Task<LocationViewModel> GetById(int id)
         {
             var db = new VKTrackerEntities();
             try
             {
-                return await db.Organizations.Where(x => x.Id == id).Select(x => new OrganizationViewModel
+                return await db.Locations.Where(x => x.Id == id).Select(x => new LocationViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name
+                    LocationName = x.LocationName
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
             catch (Exception ex)

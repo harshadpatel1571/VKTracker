@@ -1,5 +1,5 @@
-﻿function bindOrganization() {
-    $('#grid').DataTable({
+﻿function bindLocation() {
+    $('#gridLocation').DataTable({
         paging: true,
         lengthChange: true,
         searching: true,
@@ -12,12 +12,12 @@
         serverSide: true,
         filter: true,
         ajax: {
-            url: "/Master/GetOrganizationList/",
+            url: "/Master/GetLocationList/",
             type: "POST",
             datatype: "json"
         },
         columns: [
-            { data: "name", name: "Name", "autoWidth": true },
+            { data: "locationName", name: "Location Name", "autoWidth": true },
             {
                 bSortable: false,
                 autoWidth: true,
@@ -31,10 +31,10 @@
                     "                                </div>",
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
-                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editOrganizationRecourd(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editLocationRecourd(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-edit-2-line\"></i>\n" +
                         "                                    </a>\n" +
-                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteOrganizationRecord(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteLocationRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
@@ -48,7 +48,7 @@
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -56,7 +56,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -64,7 +64,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -72,7 +72,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -80,15 +80,15 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             }
         ]
-    }).buttons().container().appendTo('#grid_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#gridLocation_wrapper .col-md-6:eq(0)');
 }
 
 $(document).ready(function () {
-    const table = $('#grid').DataTable();
+    const table = $('#gridLocation').DataTable();
     $('.dataTables_filter input')
         .unbind()
         .bind('input', function (e) {
@@ -101,7 +101,7 @@ $(document).ready(function () {
         });
 });
 
-function deleteOrganizationRecord(id) {
+function deleteLocationRecord(id) {
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -116,7 +116,7 @@ function deleteOrganizationRecord(id) {
         if (!t.isConfirmed) return;
         $.ajax({
             type: "POST",
-            url: "/Master/DeleteOrganization/" + id,
+            url: "/Master/DeleteLocation/" + id,
             success: function () {
                 t.value && Swal.fire({
                     title: "Deleted.",
@@ -125,7 +125,7 @@ function deleteOrganizationRecord(id) {
                     confirmButtonClass: "btn btn-primary w-xs mt-2",
                     buttonsStyling: !1
                 }).then(function () {
-                    const table = $("#grid").DataTable();
+                    const table = $("#gridLocation").DataTable();
                     table.ajax.reload(null, false);
                 });
             },
@@ -148,15 +148,15 @@ function deleteOrganizationRecord(id) {
     });
 }
 
-function editOrganizationRecourd(id) {
+function editLocationRecourd(id) {
     $.ajax({
-        url: "/Master/EditOrganization/" + id,
+        url: "/Master/EditLocation/" + id,
         type: "GET",
         success: function (response) {
             if (response.status) {
-                $("#organizationForm #Id").val(response.data.Id);
-                $("#organizationForm #Name").val(response.data.Name);
-                $("#btnOrgganizationModal").click();
+                $("#locationForm #Id").val(response.data.Id);
+                $("#locationForm #LocationName").val(response.data.LocationName);
+                $("#btnLocationModal").click();
             }
         },
         error: function (response) {
@@ -168,15 +168,15 @@ function editOrganizationRecourd(id) {
     })
 }
 
-$("#addOrganization").click(function () {
+$("#addLocation").click(function () {
 
-    if ($("#organizationForm").valid()) {
+    if ($("#locationForm").valid()) {
 
         event.preventDefault();
         $('#btnSubmit').attr('disabled', 'disabled');
-        var formData = $("#organizationForm").serialize();
+        var formData = $("#locationForm").serialize();
         $.ajax({
-            url: "/Master/SaveOrganization/",
+            url: "/Master/SaveLocation/",
             type: "POST",
             data: formData,
             dataType: "json",
@@ -192,11 +192,11 @@ $("#addOrganization").click(function () {
                         showConfirmButton: false,
                         buttonsStyling: !1
                     }).then(function () {
-                        const table = $("#grid").DataTable();
+                        const table = $("#gridLocation").DataTable();
                         table.ajax.reload(null, false);
-                        $("#organizationForm #Id").val("");
-                        $('form#organizationForm').trigger("reset");
-                        $("#organizationForm #close-modal").click();
+                        $("#locationForm #Id").val("");
+                        $('form#locationForm').trigger("reset");
+                        $("#locationForm #close-modal").click();
                     });
                 }
             },

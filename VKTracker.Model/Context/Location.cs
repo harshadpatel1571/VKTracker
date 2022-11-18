@@ -15,11 +15,11 @@ namespace VKTracker.Model.Context
     public partial class Location
     {
         public int Id { get; set; }
-        public string Location1 { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> CreteOn { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public string LocationName { get; set; }
     }
 }

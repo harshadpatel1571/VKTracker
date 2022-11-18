@@ -48,7 +48,7 @@
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -56,7 +56,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -64,7 +64,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -72,7 +72,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -80,13 +80,9 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
-            },
-            {
-                extend: 'colvis',
-                text: 'Column Visibility',
-            },
+            }
         ]
     }).buttons().container().appendTo('#parcelCodeGrid_wrapper .col-md-6:eq(0)');
 }
