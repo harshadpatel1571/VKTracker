@@ -91,6 +91,7 @@
     <Compile Include="ViewModel\DataTableFilterDto.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\OrganizationViewModel.cs" />
+    <Compile Include="ViewModel\ParcelCodeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Context\VKTrackerDBModel.Context.tt">

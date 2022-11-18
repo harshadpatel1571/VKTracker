@@ -87,6 +87,7 @@
 @section scripts
 {
     <script src="~/Scripts/custom/organizationDatatable.js"></script>
+    <script src="~/Scripts/custom/parcelCodeDataTable.js"></script>
     <script>
         $(function () {
             $('#grid').DataTable().destroy();
@@ -119,7 +120,8 @@
         });
 
         $("#btnParcel").click(function () {
-            alert("btnParcel");
+            $('#parcelCodeGrid').DataTable().destroy();
+            bindParcelCode();
         });
     </script>
 }

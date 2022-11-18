@@ -658,6 +658,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\choices.min.js" />
     <Content Include="Scripts\custom\organizationDatatable.js" />
+    <Content Include="Scripts\custom\parcelCodeDataTable.js" />
     <Content Include="Scripts\datatable\buttons.bootstrap4.js" />
     <Content Include="Scripts\datatable\buttons.colVis.js" />
     <Content Include="Scripts\datatable\buttons.html5.js" />
