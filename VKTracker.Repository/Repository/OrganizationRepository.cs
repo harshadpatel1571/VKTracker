@@ -18,7 +18,7 @@ namespace VKTracker.Repository
 
             try
             {
-                var result = db.Organizations.AsNoTracking().AsQueryable();
+                var result = db.Organizations.Where(x => x.IsActive).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -64,17 +64,17 @@ namespace VKTracker.Repository
             {
                 var model = new Organization();
 
-                if(objModel.Id > 0)
+                if (objModel.Id > 0)
                 {
-                    model = await db.Organizations.FirstOrDefaultAsync(x=>x.Id == objModel.Id).ConfigureAwait(false);
+                    model = await db.Organizations.FirstOrDefaultAsync(x => x.Id == objModel.Id).ConfigureAwait(false);
                 }
 
                 model.Name = objModel.Name;
-                model.CreatedBy = objModel.CreatedBy; 
-                model.CreatedOn = DateTime.Now; 
+                model.CreatedBy = objModel.CreatedBy;
+                model.CreatedOn = DateTime.Now;
                 model.IsActive = true;
 
-                if(objModel.Id > 0)
+                if (objModel.Id > 0)
                 {
                     model.Id = objModel.Id;
                     db.Entry(model).State = EntityState.Modified;
@@ -104,8 +104,11 @@ namespace VKTracker.Repository
             try
             {
                 var model = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
-                db.Organizations.Remove(model);
+                model.IsActive = false;
+
+                db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
+
                 return status == 1 ? true : false;
             }
             catch (Exception)

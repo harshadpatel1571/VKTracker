@@ -198,6 +198,7 @@ $("#addOrganization").click(function () {
                     }).then(function () {
                         const table = $("#grid").DataTable();
                         table.ajax.reload(null, false);
+                        $("#organizationForm #Id").val("");
                         $('form#organizationForm').trigger("reset");
                         $("#close-modal").click();
                     });
