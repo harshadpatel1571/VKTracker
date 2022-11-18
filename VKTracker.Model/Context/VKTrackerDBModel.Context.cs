@@ -25,6 +25,12 @@ namespace VKTracker.Model.Context
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Fabric> Fabrics { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Organization> Organizations { get; set; }
+        public virtual DbSet<ParcelCode> ParcelCodes { get; set; }
+        public virtual DbSet<StockCode> StockCodes { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

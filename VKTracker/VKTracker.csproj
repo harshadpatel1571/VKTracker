@@ -133,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DataExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -656,6 +657,7 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\choices.min.js" />
+    <Content Include="Scripts\custom\organizationDatatable.js" />
     <Content Include="Scripts\datatable\buttons.bootstrap4.js" />
     <Content Include="Scripts\datatable\buttons.colVis.js" />
     <Content Include="Scripts\datatable\buttons.html5.js" />
@@ -697,7 +699,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -729,6 +730,13 @@
     <Content Include="Views\Home\DashBoard.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Master\Index.cshtml" />
+    <Content Include="Views\Master\_OrganizationPartial.cshtml" />
+    <Content Include="Views\Master\_LocationPartial.cshtml" />
+    <Content Include="Views\Master\_ParcelPartial.cshtml" />
+    <Content Include="Views\Master\_ItemPartial.cshtml" />
+    <Content Include="Views\Master\_FebricPartial.cshtml" />
+    <Content Include="Views\Master\_StockPartial.cshtml" />
+    <Content Include="Views\Master\_UserPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">

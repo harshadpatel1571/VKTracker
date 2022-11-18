@@ -22,41 +22,104 @@
     <div class="card-body">
         <ul class="nav nav-pills nav-justified mb-3" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link waves-effect waves-light active" data-bs-toggle="tab" href="#pill-justified-home-1" role="tab" aria-selected="true">
-                    Home
+                <a class="nav-link waves-effect waves-light active" data-bs-toggle="tab" id="btnOrganization" href="#pill-Organization" role="tab" aria-selected="true">
+                    Organization
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" href="#pill-justified-profile-1" role="tab" aria-selected="false" tabindex="-1">
-                    Profile
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnUser" href="#pill-User" role="tab" aria-selected="false" tabindex="-1">
+                    User
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" href="#pill-justified-messages-1" role="tab" aria-selected="false" tabindex="-1">
-                    Messages
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnLocation" href="#pill-Location" role="tab" aria-selected="false" tabindex="-1">
+                    Location
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" href="#pill-justified-settings-1" role="tab" aria-selected="false" tabindex="-1">
-                    Settings
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnFebric" href="#pill-Febric" role="tab" aria-selected="false" tabindex="-1">
+                    Febric
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnItem" href="#pill-Item" role="tab" aria-selected="false" tabindex="-1">
+                    Item
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnStock" href="#pill-Stock" role="tab" aria-selected="false" tabindex="-1">
+                    Stock
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnParcel" href="#pill-Parcel" role="tab" aria-selected="false" tabindex="-1">
+                    Parcel
                 </a>
             </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content text-muted">
-            <div class="tab-pane active show" id="pill-justified-home-1" role="tabpanel">
-                <b>Home</b>
+            <div class="tab-pane active show" id="pill-Organization" role="tabpanel">
+                @Html.Partial("_OrganizationPartial")
             </div>
-            <div class="tab-pane" id="pill-justified-profile-1" role="tabpanel">
-                <b>Profile</b>
+            <div class="tab-pane" id="pill-User" role="tabpanel">
+                @Html.Partial("_UserPartial")
             </div>
-            <div class="tab-pane" id="pill-justified-messages-1" role="tabpanel">
-                <b>Messages</b>
+            <div class="tab-pane" id="pill-Location" role="tabpanel">
+                @Html.Partial("_LocationPartial")
             </div>
-            <div class="tab-pane" id="pill-justified-settings-1" role="tabpanel">
-                <b>Settings</b>
+            <div class="tab-pane" id="pill-Febric" role="tabpanel">
+                @Html.Partial("_FebricPartial")
+            </div>
+            <div class="tab-pane" id="pill-Item" role="tabpanel">
+                @Html.Partial("_ItemPartial")
+            </div>
+            <div class="tab-pane" id="pill-Stock" role="tabpanel">
+                @Html.Partial("_StockPartial")
+            </div>
+            <div class="tab-pane" id="pill-Parcel" role="tabpanel">
+                @Html.Partial("_ParcelPartial")
             </div>
         </div>
     </div>
 </div>
 
+@section scripts
+{
+    <script src="~/Scripts/custom/organizationDatatable.js"></script>
+    <script>
+        $(function () {
+            $('#grid').DataTable().destroy();
+            bindOrganization();
+        });
+
+        $("#btnOrganization").click(function () {
+            $('#grid').DataTable().destroy();
+            bindOrganization();
+        });
+
+        $("#btnUser").click(function () {
+            alert("btnUser");
+        });
+
+        $("#btnLocation").click(function () {
+            alert("btnLocation");
+        });
+
+        $("#btnFebric").click(function () {
+            alert("btnFebric");
+        });
+
+        $("#btnItem").click(function () {
+            alert("btnItem");
+        });
+
+        $("#btnStock").click(function () {
+            alert("btnStock");
+        });
+
+        $("#btnParcel").click(function () {
+            alert("btnParcel");
+        });
+    </script>
+}
