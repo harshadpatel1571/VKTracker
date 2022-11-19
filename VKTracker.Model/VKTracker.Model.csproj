@@ -110,6 +110,7 @@
       <DependentUpon>VKTrackerDBModel.edmx</DependentUpon>
       <LastGenOutput>VKTrackerDBModel.cs</LastGenOutput>
     </Content>
+    <Content Include="DBFile\VKTrackerQuery.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

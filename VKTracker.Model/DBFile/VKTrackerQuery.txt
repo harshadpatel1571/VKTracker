@@ -1,0 +1,262 @@
+USE [VKTracker]
+GO
+ALTER TABLE [dbo].[UserOrganization] DROP CONSTRAINT [FK_UserOrganization_User]
+GO
+ALTER TABLE [dbo].[UserOrganization] DROP CONSTRAINT [FK_UserOrganization_Organization]
+GO
+/****** Object:  Table [dbo].[UserOrganization]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserOrganization]') AND type in (N'U'))
+DROP TABLE [dbo].[UserOrganization]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[User]') AND type in (N'U'))
+DROP TABLE [dbo].[User]
+GO
+/****** Object:  Table [dbo].[StockCode]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockCode]') AND type in (N'U'))
+DROP TABLE [dbo].[StockCode]
+GO
+/****** Object:  Table [dbo].[ParcelCode]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelCode]') AND type in (N'U'))
+DROP TABLE [dbo].[ParcelCode]
+GO
+/****** Object:  Table [dbo].[Organization]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Organization]') AND type in (N'U'))
+DROP TABLE [dbo].[Organization]
+GO
+/****** Object:  Table [dbo].[Location]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Location]') AND type in (N'U'))
+DROP TABLE [dbo].[Location]
+GO
+/****** Object:  Table [dbo].[Item]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Item]') AND type in (N'U'))
+DROP TABLE [dbo].[Item]
+GO
+/****** Object:  Table [dbo].[Fabric]    Script Date: 19-11-2022 19:31:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Fabric]') AND type in (N'U'))
+DROP TABLE [dbo].[Fabric]
+GO
+/****** Object:  Table [dbo].[Fabric]    Script Date: 19-11-2022 19:31:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Fabric](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FabricName] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_Fabric] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Item]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Item](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ItemName] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Location]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Location](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[LocationName] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Organization]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Organization](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_Organization] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ParcelCode]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ParcelCode](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_ParcelCode] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StockCode]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StockCode](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_StockCode] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [varchar](100) NULL,
+	[LastName] [varchar](100) NULL,
+	[EmailId] [varchar](100) NULL,
+	[MobileNo] [varchar](12) NULL,
+	[UserName] [varchar](100) NOT NULL,
+	[Password] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsAdmin] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserOrganization]    Script Date: 19-11-2022 19:31:49 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserOrganization](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+ CONSTRAINT [PK_UserOrganization] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Location] ON 
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (1, N'Location 1 update', 1, NULL, CAST(N'2022-11-19T11:54:26.797' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (2, N'Location 2', 1, NULL, CAST(N'2022-11-18T23:48:18.720' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (3, N'Location 3', 1, NULL, CAST(N'2022-11-18T23:48:35.920' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (4, N'Location 4', 1, NULL, CAST(N'2022-11-19T11:34:56.623' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (5, N'Location 5', 1, NULL, CAST(N'2022-11-19T00:22:16.243' AS DateTime), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Location] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Organization] ON 
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (1, N'Org 1', 1, NULL, CAST(N'2022-11-19T11:43:11.680' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (4, N'Org 2', 1, NULL, CAST(N'2022-11-18T01:01:30.753' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (5, N'Org 3', 1, NULL, CAST(N'2022-11-18T22:04:03.760' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (6, N'New Demo', 0, NULL, CAST(N'2022-11-18T22:11:37.737' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (7, N'Org 4', 1, NULL, CAST(N'2022-11-18T23:45:45.503' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (8, N'Org 5', 0, NULL, CAST(N'2022-11-19T00:18:48.673' AS DateTime), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Organization] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ParcelCode] ON 
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (1, N'Par-C-001', 1, NULL, CAST(N'2022-11-19T11:37:41.957' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (2, N'Parcel-C-002', 1, NULL, CAST(N'2022-11-19T00:23:04.153' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (3, N'Parcel-C-003', 1, NULL, CAST(N'2022-11-19T00:23:27.437' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (4, N'Parcel-C-001', 1, NULL, CAST(N'2022-11-19T11:37:49.870' AS DateTime), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[ParcelCode] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User] ON 
+GO
+INSERT [dbo].[User] ([Id], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (1, N'Harshad', NULL, N'harshadpatel1571@gmail.com', N'8128382487', N'Admin', N'RkEIf9nIZus14fJ0vMhHDg==', 1, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[User] ([Id], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (3, N'test', N'test', NULL, NULL, N'test', N'test', 1, 0, NULL, CAST(N'2022-11-19T19:05:53.300' AS DateTime), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserOrganization] ON 
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (4, 3, 1, NULL, NULL)
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (5, 3, 5, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[UserOrganization] OFF
+GO
+ALTER TABLE [dbo].[UserOrganization]  WITH CHECK ADD  CONSTRAINT [FK_UserOrganization_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[UserOrganization] CHECK CONSTRAINT [FK_UserOrganization_Organization]
+GO
+ALTER TABLE [dbo].[UserOrganization]  WITH CHECK ADD  CONSTRAINT [FK_UserOrganization_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[UserOrganization] CHECK CONSTRAINT [FK_UserOrganization_User]
+GO
