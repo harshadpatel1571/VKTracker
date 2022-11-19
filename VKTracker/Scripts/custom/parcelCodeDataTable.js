@@ -194,10 +194,20 @@ $("#addParcelCode").click(function () {
                     }).then(function () {
                         const table = $("#parcelCodeGrid").DataTable();
                         table.ajax.reload(null, false);
-                        $("#parcelCodeForm #Id").val("");
-                        $('form#parcelCodeForm').trigger("reset");
                         $("#parcelCodeForm #close-modal").click();
                     });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
                 }
             },
             error: function (response) {
@@ -211,4 +221,10 @@ $("#addParcelCode").click(function () {
     else {
         return false;
     }
+});
+
+$('#parcelCodeModal').on('hidden.bs.modal', function () {
+    $("#parcelCodeForm #Id").val("");
+    $("#parcelCodeForm #Code-error").text("");
+    $('form#parcelCodeForm').trigger("reset");
 });

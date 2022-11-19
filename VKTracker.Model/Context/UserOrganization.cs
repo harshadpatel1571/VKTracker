@@ -12,14 +12,15 @@ namespace VKTracker.Model.Context
     using System;
     using System.Collections.Generic;
     
-    public partial class Fabric
+    public partial class UserOrganization
     {
         public int Id { get; set; }
-        public bool IsActive { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public Nullable<int> OrganizationId { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedOn { get; set; }
-        public string FabricName { get; set; }
+    
+        public virtual Organization Organization { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -140,5 +140,22 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<bool> GetDuplicate(int id, string code)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                return await db.ParcelCodes.AnyAsync(x => x.Id != id && x.Code.ToLower() == code.ToLower()).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

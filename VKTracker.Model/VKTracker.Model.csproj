@@ -71,6 +71,9 @@
     <Compile Include="Context\User.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\UserOrganization.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\VKTrackerDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

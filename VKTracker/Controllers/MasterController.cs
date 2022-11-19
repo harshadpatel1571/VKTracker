@@ -53,8 +53,12 @@ namespace VKTracker.Controllers
             }
 
             var repository = new OrganizationRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
             var respose = await repository.Save(objModel);
-
             return Json(new { status = respose });
         }
 
@@ -120,6 +124,11 @@ namespace VKTracker.Controllers
             }
 
             var repository = new LocationRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.LocationName);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });
@@ -188,6 +197,11 @@ namespace VKTracker.Controllers
             }
 
             var repository = new ParcelCodeRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Code);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });

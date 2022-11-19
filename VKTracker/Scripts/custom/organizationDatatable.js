@@ -194,10 +194,20 @@ $("#addOrganization").click(function () {
                     }).then(function () {
                         const table = $("#grid").DataTable();
                         table.ajax.reload(null, false);
-                        $("#organizationForm #Id").val("");
-                        $('form#organizationForm').trigger("reset");
                         $("#organizationForm #close-modal").click();
                     });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
                 }
             },
             error: function (response) {
@@ -211,4 +221,10 @@ $("#addOrganization").click(function () {
     else {
         return false;
     }
+});
+
+$('#organizationModal').on('hidden.bs.modal', function () {
+    $("#organizationForm #Id").val("");
+    $("#organizationForm #Name-error").text("");
+    $('form#organizationForm').trigger("reset");
 });

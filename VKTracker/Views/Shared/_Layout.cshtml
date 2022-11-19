@@ -201,6 +201,14 @@
     <script src="~/Scripts/datatable/buttons.print.js"></script>
     <script src="~/Scripts/datatable/buttons.colVis.js"></script>
     <script src="~/Scripts/app.js"></script>
+    <script type="text/javascript">
+        $('input[type="text"]').keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>

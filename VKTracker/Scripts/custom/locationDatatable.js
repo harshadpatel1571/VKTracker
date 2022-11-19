@@ -194,10 +194,20 @@ $("#addLocation").click(function () {
                     }).then(function () {
                         const table = $("#gridLocation").DataTable();
                         table.ajax.reload(null, false);
-                        $("#locationForm #Id").val("");
-                        $('form#locationForm').trigger("reset");
                         $("#locationForm #close-modal").click();
                     });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
                 }
             },
             error: function (response) {
@@ -211,4 +221,10 @@ $("#addLocation").click(function () {
     else {
         return false;
     }
+});
+
+$('#locationModal').on('hidden.bs.modal', function () {
+    $("#locationForm #Id").val("");
+    $("#locationForm #LocationName-error").text("");
+    $('form#locationForm').trigger("reset");
 });

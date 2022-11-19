@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Fabric" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FabricName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -22,7 +22,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Item" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ItemName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -82,6 +82,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="EmailId" Type="varchar" MaxLength="100" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="12" />
           <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
@@ -90,6 +94,40 @@
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="ModifiedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="UserOrganization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="OrganizationId" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_UserOrganization_Organization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
+          <End Role="UserOrganization" Type="Self.UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganization_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserOrganization" Type="Self.UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="VKTrackerModelStoreContainer">
           <EntitySet Name="Fabric" EntityType="Self.Fabric" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
@@ -98,6 +136,15 @@
           <EntitySet Name="ParcelCode" EntityType="Self.ParcelCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCode" EntityType="Self.StockCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserOrganization" EntityType="Self.UserOrganization" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_UserOrganization_Organization" Association="Self.FK_UserOrganization_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="UserOrganization" EntitySet="UserOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganization_User" Association="Self.FK_UserOrganization_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserOrganization" EntitySet="UserOrganization" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -108,24 +155,24 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fabric1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="FabricName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Item1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -150,6 +197,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserOrganizations" Relationship="VKTrackerModel.FK_UserOrganization_Organization" FromRole="Organization" ToRole="UserOrganization" />
         </EntityType>
         <EntityType Name="ParcelCode">
           <Key>
@@ -187,6 +235,11 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserOrganizations" Relationship="VKTrackerModel.FK_UserOrganization_User" FromRole="User" ToRole="UserOrganization" />
         </EntityType>
         <EntityContainer Name="VKTrackerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Fabrics" EntityType="Self.Fabric" />
@@ -196,7 +249,52 @@
           <EntitySet Name="ParcelCodes" EntityType="Self.ParcelCode" />
           <EntitySet Name="StockCodes" EntityType="Self.StockCode" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserOrganizations" EntityType="VKTrackerModel.UserOrganization" />
+          <AssociationSet Name="FK_UserOrganization_Organization" Association="VKTrackerModel.FK_UserOrganization_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="UserOrganization" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganization_User" Association="VKTrackerModel.FK_UserOrganization_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserOrganization" EntitySet="UserOrganizations" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="UserOrganization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_UserOrganization_Organization" FromRole="UserOrganization" ToRole="Organization" />
+          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_UserOrganization_User" FromRole="UserOrganization" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserOrganization_Organization">
+          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.UserOrganization" Role="UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganization_User">
+          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.UserOrganization" Role="UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -206,8 +304,8 @@
           <EntitySetMapping Name="Fabrics">
             <EntityTypeMapping TypeName="VKTrackerModel.Fabric">
               <MappingFragment StoreEntitySet="Fabric">
+                <ScalarProperty Name="FabricName" ColumnName="FabricName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Fabric1" ColumnName="Fabric" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -219,8 +317,8 @@
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="VKTrackerModel.Item">
               <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Item1" ColumnName="Item" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -284,6 +382,10 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VKTrackerModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -292,6 +394,17 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOrganizations">
+            <EntityTypeMapping TypeName="VKTrackerModel.UserOrganization">
+              <MappingFragment StoreEntitySet="UserOrganization">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
