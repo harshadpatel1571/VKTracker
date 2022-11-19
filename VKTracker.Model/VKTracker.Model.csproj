@@ -93,10 +93,13 @@
     <Compile Include="ViewModel\BaseModel.cs" />
     <Compile Include="ViewModel\BindDropdownViewModel.cs" />
     <Compile Include="ViewModel\DataTableFilterDto.cs" />
+    <Compile Include="ViewModel\FabricViewModel.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\OrganizationViewModel.cs" />
     <Compile Include="ViewModel\ParcelCodeViewModel.cs" />
+    <Compile Include="ViewModel\StockCodeViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

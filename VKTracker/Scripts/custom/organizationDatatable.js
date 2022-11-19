@@ -119,10 +119,12 @@ function deleteOrganizationRecord(id) {
             url: "/Master/DeleteOrganization/" + id,
             success: function () {
                 t.value && Swal.fire({
+                    timer: 1500,
                     title: "Deleted.",
                     text: "Your record has been deleted.",
                     icon: "success",
-                    confirmButtonClass: "btn btn-primary w-xs mt-2",
+                    showCancelButton: false,
+                    showConfirmButton: false,
                     buttonsStyling: !1
                 }).then(function () {
                     const table = $("#grid").DataTable();

@@ -90,6 +90,9 @@
     <script src="~/Scripts/custom/locationDatatable.js"></script>
     <script src="~/Scripts/custom/parcelCodeDataTable.js"></script>
     <script src="~/Scripts/custom/usersDataTable.js"></script>
+    <script src="~/Scripts/custom/fabricDataTable.js"></script>
+    <script src="~/Scripts/custom/itemDataTable.js"></script>
+    <script src="~/Scripts/custom/stockCodeDataTable.js"></script>
 
     <script>
         $(function () {
@@ -113,15 +116,18 @@
         });
 
         $("#btnFebric").click(function () {
-            alert("btnFebric");
+            $('#gridFabric').DataTable().destroy();
+            bindFabric();
         });
 
         $("#btnItem").click(function () {
-            alert("btnItem");
+            $('#gridItem').DataTable().destroy();
+            bindItem();
         });
 
         $("#btnStock").click(function () {
-            alert("btnStock");
+            $('#gridStockCode').DataTable().destroy();
+            bindStockCode();
         });
 
         $("#btnParcel").click(function () {

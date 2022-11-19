@@ -307,5 +307,222 @@ namespace VKTracker.Controllers
         }
 
         #endregion
+
+        #region Fabric
+
+        public async Task<ActionResult> GetFabricList()
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new FabricRepository();
+
+            var data = await repository.GetList(filter).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<FabricViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveFabric(FabricViewModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            var repository = new FabricRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.FabricName);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
+            var respose = await repository.Save(objModel);
+            return Json(new { status = respose });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteFabric(int id)
+        {
+            var repository = new FabricRepository();
+            var respose = await repository.Delete(id);
+
+            return Json(new { status = respose });
+        }
+
+        public async Task<ActionResult> EditFabric(int id)
+        {
+            var repository = new FabricRepository();
+            var model = await repository.GetById(id);
+
+            if (model != null)
+            {
+                return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
+        #endregion
+
+        #region Item
+
+        public async Task<ActionResult> GetItemList()
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new ItemRepository();
+
+            var data = await repository.GetList(filter).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<ItemViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveItem(ItemViewModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            var repository = new ItemRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.ItemName);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
+            var respose = await repository.Save(objModel);
+            return Json(new { status = respose });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteItem(int id)
+        {
+            var repository = new ItemRepository();
+            var respose = await repository.Delete(id);
+
+            return Json(new { status = respose });
+        }
+
+        public async Task<ActionResult> EditItem(int id)
+        {
+            var repository = new ItemRepository();
+            var model = await repository.GetById(id);
+
+            if (model != null)
+            {
+                return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
+        #endregion
+
+        #region Stock
+
+        public async Task<ActionResult> GetStockCodeList()
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new StockCodeRepository();
+
+            var data = await repository.GetList(filter).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<StockCodeViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveStockCode(StockCodeViewModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            var repository = new StockCodeRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Code);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
+            var respose = await repository.Save(objModel);
+
+            return Json(new { status = respose });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditStockCode(int id)
+        {
+            var repository = new StockCodeRepository();
+            var model = await repository.GetById(id);
+
+            if (model != null)
+            {
+                return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteStockCode(int id)
+        {
+            var repository = new StockCodeRepository();
+            var respose = await repository.Delete(id);
+
+            return Json(new { status = respose });
+        }
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-﻿function bindUsers() {
-    $('#gridUser').DataTable({
+﻿function bindStockCode() {
+    $('#gridStockCode').DataTable({
         paging: true,
         lengthChange: true,
         searching: true,
@@ -12,16 +12,12 @@
         serverSide: true,
         filter: true,
         ajax: {
-            url: "/Master/GetUsersGrid/",
+            url: "/Master/GetStockCodeList/",
             type: "POST",
             datatype: "json"
         },
         columns: [
-            { data: "firstName", name: "First Name", "autoWidth": true },
-            { data: "lastName", name: "Last Name", "autoWidth": true },
-            { data: "userName", name: "User Name", "autoWidth": true },
-            { data: "emailId", name: "Email Id", "autoWidth": true },
-            { data: "mobileNo", name: "Mobile No", "autoWidth": true },
+            { data: "code", name: "Code", "autoWidth": true },
             {
                 bSortable: false,
                 autoWidth: true,
@@ -35,10 +31,10 @@
                     "                                </div>",
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
-                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editUserRecourd(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-edit-2-line\"></i>\n" +
                         "                                    </a>\n" +
-                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteUserRecord(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
@@ -52,7 +48,7 @@
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4]
+                    columns: [0]
                 }
             },
             {
@@ -60,7 +56,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4]
+                    columns: [0]
                 }
             },
             {
@@ -68,7 +64,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4]
+                    columns: [0]
                 }
             },
             {
@@ -76,7 +72,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4]
+                    columns: [0]
                 }
             },
             {
@@ -84,15 +80,15 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4]
+                    columns: [0]
                 }
             }
         ]
-    }).buttons().container().appendTo('#gridUser_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#gridStockCode_wrapper .col-md-6:eq(0)');
 }
 
 $(document).ready(function () {
-    const table = $('#gridUser').DataTable();
+    const table = $('#gridStockCode').DataTable();
     $('.dataTables_filter input')
         .unbind()
         .bind('input', function (e) {
@@ -105,7 +101,7 @@ $(document).ready(function () {
         });
 });
 
-function deleteUserRecord(id) {
+function deleteRecord(id) {
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -120,7 +116,7 @@ function deleteUserRecord(id) {
         if (!t.isConfirmed) return;
         $.ajax({
             type: "POST",
-            url: "/Master/DeleteUser/" + id,
+            url: "/Master/DeleteStockCode/" + id,
             success: function () {
                 t.value && Swal.fire({
                     timer: 1500,
@@ -131,7 +127,7 @@ function deleteUserRecord(id) {
                     showConfirmButton: false,
                     buttonsStyling: !1
                 }).then(function () {
-                    const table = $("#gridUser").DataTable();
+                    const table = $("#gridStockCode").DataTable();
                     table.ajax.reload(null, false);
                 });
             },
@@ -154,22 +150,15 @@ function deleteUserRecord(id) {
     });
 }
 
-function editUserRecourd(id) {
+function editRecourd(id) {
     $.ajax({
-        url: "/Master/EditUser/" + id,
+        url: "/Master/EditStockCode/" + id,
         type: "GET",
         success: function (response) {
-            console.log(response.data.OrganizationId);
             if (response.status) {
-                $("#userForm #Id").val(response.data.Id);
-                $("#userForm #FirstName").val(response.data.FirstName);
-                $("#userForm #LastName").val(response.data.LastName);
-                $("#userForm #UserName").val(response.data.UserName);
-                $("#userForm #Password").val(response.data.Password);
-                $("#userForm #EmailId").val(response.data.EmailId);
-                console.log(response.data.OrganizationId);
-                $("#userForm #OrganizationId").val(response.data.OrganizationId);
-                $("#btnUserModal").click();
+                $("#stockCodeForm #Id").val(response.data.Id);
+                $("#stockCodeForm #Code").val(response.data.Code);
+                $("#btnStockCodeModal").click();
             }
         },
         error: function (response) {
@@ -181,15 +170,15 @@ function editUserRecourd(id) {
     })
 }
 
-$("#addUser").click(function () {
+$("#addStockCode").click(function () {
 
-    if ($("#userForm").valid()) {
+    if ($("#stockCodeForm").valid()) {
 
         event.preventDefault();
         $('#btnSubmit').attr('disabled', 'disabled');
-        var formData = $("#userForm").serialize();
+        var formData = $("#stockCodeForm").serialize();
         $.ajax({
-            url: "/Master/SaveUser/",
+            url: "/Master/SaveStockCode/",
             type: "POST",
             data: formData,
             dataType: "json",
@@ -205,9 +194,9 @@ $("#addUser").click(function () {
                         showConfirmButton: false,
                         buttonsStyling: !1
                     }).then(function () {
-                        const table = $("#gridUser").DataTable();
+                        const table = $("#gridStockCode").DataTable();
                         table.ajax.reload(null, false);
-                        $("#userForm #close-modal").click();
+                        $("#stockCodeForm #close-modal").click();
                     });
                 }
                 else {
@@ -236,11 +225,8 @@ $("#addUser").click(function () {
     }
 });
 
-$('#userModal').on('hidden.bs.modal', function () {
-    $("#userForm #Id").val("");
-    $("#userForm #FirstName-error").text("");
-    $("#userForm #UserName-error").text("");
-    $("#userForm #Password-error").text("");
-    $("#userForm #OrganizationId-error").text("");
-    $('form#userForm').trigger("reset");
+$('#stockCodeModal').on('hidden.bs.modal', function () {
+    $("#stockCodeForm #Id").val("");
+    $("#stockCodeForm #Code-error").text("");
+    $('form#stockCodeForm').trigger("reset");
 });
