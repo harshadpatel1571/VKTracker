@@ -88,6 +88,7 @@
           <Property Name="MobileNo" Type="varchar" MaxLength="12" />
           <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -240,6 +241,7 @@
           <Property Name="EmailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="MobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserOrganizations" Relationship="VKTrackerModel.FK_UserOrganization_User" FromRole="User" ToRole="UserOrganization" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityContainer Name="VKTrackerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Fabrics" EntityType="Self.Fabric" />
@@ -382,6 +384,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VKTrackerModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
                 <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

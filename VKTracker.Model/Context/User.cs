@@ -32,6 +32,7 @@ namespace VKTracker.Model.Context
         public string LastName { get; set; }
         public string EmailId { get; set; }
         public string MobileNo { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserOrganization> UserOrganizations { get; set; }

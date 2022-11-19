@@ -89,6 +89,8 @@
     <script src="~/Scripts/custom/organizationDatatable.js"></script>
     <script src="~/Scripts/custom/locationDatatable.js"></script>
     <script src="~/Scripts/custom/parcelCodeDataTable.js"></script>
+    <script src="~/Scripts/custom/usersDataTable.js"></script>
+
     <script>
         $(function () {
             $('#grid').DataTable().destroy();
@@ -101,7 +103,8 @@
         });
 
         $("#btnUser").click(function () {
-            alert("btnUser");
+            $('#gridUser').DataTable().destroy();
+            bindUsers();
         });
 
         $("#btnLocation").click(function () {
