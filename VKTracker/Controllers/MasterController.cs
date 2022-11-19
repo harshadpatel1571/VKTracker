@@ -4,6 +4,7 @@ using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VKTracker.Common.Helper;
 using VKTracker.Helper;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository;
@@ -236,7 +237,7 @@ namespace VKTracker.Controllers
         }
         #endregion
 
-        #region User Code
+        #region User
         public async Task<ActionResult> GetUsersGrid()
         {
             var filter = DataExtractor.Extract(Request);
@@ -277,6 +278,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.Password = Encryption.Encrypt(objModel.Password);
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });
@@ -295,6 +298,7 @@ namespace VKTracker.Controllers
         {
             var repository = new UserRepository();
             var model = await repository.GetById(id);
+            model.Password = Encryption.Decrypt(model.Password);
 
             if (model != null)
             {
