@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Master";
 }
+@using VKTracker.Model.ViewModel;
 
 <div class="row">
     <div class="col-12">
@@ -13,7 +14,6 @@
                     <li class="breadcrumb-item active">Master</li>
                 </ol>
             </div>
-
         </div>
     </div>
 </div>
@@ -60,25 +60,25 @@
         <!-- Tab panes -->
         <div class="tab-content text-muted">
             <div class="tab-pane active show" id="pill-Organization" role="tabpanel">
-                @Html.Partial("_OrganizationPartial")
+                @Html.Partial("_OrganizationPartial", new OrganizationViewModel())
             </div>
             <div class="tab-pane" id="pill-User" role="tabpanel">
-                @Html.Partial("_UserPartial")
+                @Html.Partial("_UserPartial", new UserViewModel())
             </div>
             <div class="tab-pane" id="pill-Location" role="tabpanel">
-                @Html.Partial("_LocationPartial")
+                @Html.Partial("_LocationPartial", new LocationViewModel())
             </div>
             <div class="tab-pane" id="pill-Febric" role="tabpanel">
-                @Html.Partial("_FebricPartial")
+                @Html.Partial("_FebricPartial", new FabricViewModel())
             </div>
             <div class="tab-pane" id="pill-Item" role="tabpanel">
-                @Html.Partial("_ItemPartial")
+                @Html.Partial("_ItemPartial", new ItemViewModel())
             </div>
             <div class="tab-pane" id="pill-Stock" role="tabpanel">
-                @Html.Partial("_StockPartial")
+                @Html.Partial("_StockPartial", new StockCodeViewModel())
             </div>
             <div class="tab-pane" id="pill-Parcel" role="tabpanel">
-                @Html.Partial("_ParcelPartial")
+                @Html.Partial("_ParcelPartial", new ParcelCodeViewModel())
             </div>
         </div>
     </div>

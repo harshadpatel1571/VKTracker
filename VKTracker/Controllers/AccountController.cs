@@ -9,7 +9,8 @@ namespace VKTracker.Controllers
     {
         public ActionResult Login()
         {
-            return View();
+            var loginModel = new LoginViewModel();
+            return View(loginModel);
         }
 
         [HttpPost]
