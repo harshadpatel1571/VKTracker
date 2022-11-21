@@ -244,3 +244,25 @@ $('#userModal').on('hidden.bs.modal', function () {
     $("#userForm #OrganizationId-error").text("");
     $('form#userForm').trigger("reset");
 });
+
+function BindOrganization() {
+    $.ajax({
+        url: "/Master/BindOrganizationDropdown/",
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            if (response.status) {
+                console.log(response.data)
+                $("#OrganizationId").empty();
+                $.each(response.data, function (index, key) {
+                    $("#OrganizationId").append(`<option value='${key.Value}'>${key.Text} </option>`);
+                });
+            }
+        },
+        error: function (response) {
+            alert('Error!');
+        },
+        complete: function () {
+        }
+    })
+}

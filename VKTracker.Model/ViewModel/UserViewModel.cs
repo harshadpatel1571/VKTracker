@@ -12,6 +12,7 @@ namespace VKTracker.Model.ViewModel
         public int Id { get; set; }
 
         [Required(ErrorMessage = "User Name is required.")]
+        [RegularExpression(@"^\S+(?:\s+\S+)*$", ErrorMessage = "User Name not valid.")]
         [MaxLength(50)]
         public string UserName { get; set; }
 
@@ -22,9 +23,10 @@ namespace VKTracker.Model.ViewModel
         public bool IsAdmin { get; set; }
 
         [Required(ErrorMessage = "First Name is required.")]
-        [MaxLength(20)]
+        [RegularExpression(@"^\S+(?:\s+\S+)*$", ErrorMessage = "First Name not valid.")]
         public string FirstName { get; set; }
-        [MaxLength(20)]
+
+        [RegularExpression(@"^\S+(?:\s+\S+)*$", ErrorMessage = "Last Name not valid.")]
         public string LastName { get; set; }
 
         [DataType(DataType.EmailAddress)]
@@ -34,7 +36,7 @@ namespace VKTracker.Model.ViewModel
 
         [Required(ErrorMessage = "Mobile No is required.")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"[0-9]{10}", ErrorMessage = "Enter currect Mobile No")]
+        [RegularExpression(@"[0-9]{10}", ErrorMessage = "Mobile No only 10 digit allow.")]
         public string MobileNo { get; set; }
 
 

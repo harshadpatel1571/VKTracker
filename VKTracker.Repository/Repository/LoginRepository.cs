@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using VKTracker.Common.Helper;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
@@ -12,15 +14,19 @@ namespace VKTracker.Repository
         {
         }
 
-        public bool ValidateUser(LoginViewModel objModel)
+        public async Task<UserViewModel> ValidateUser(LoginViewModel objModel)
         {
-            bool result = false;
             string encPassword = Encryption.Encrypt(objModel.Password);
             using (var db = new VKTrackerEntities())
             {
-                result = db.Users.Where(x => x.UserName == objModel.UserName && x.Password == encPassword).Any();
+                   return await db.Users.Where(x => x.UserName == objModel.UserName && x.Password == encPassword)
+                    .Select(x=> new UserViewModel
+                    {
+                        Id = x.Id,
+                        UserName = x.UserName,
+                        IsAdmin = x.IsAdmin
+                    }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
-            return result;
         }
     }
 }

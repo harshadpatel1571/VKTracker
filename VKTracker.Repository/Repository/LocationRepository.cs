@@ -10,7 +10,7 @@ namespace VKTracker.Repository.Repository
 {
     public class LocationRepository
     {
-        public async Task<DataTableResponseCarrier<LocationViewModel>> GetList(DataTableFilterDto filterDto)
+        public async Task<DataTableResponseCarrier<LocationViewModel>> GetList(DataTableFilterViewModel filterDto)
         {
             var db = new VKTrackerEntities();
 

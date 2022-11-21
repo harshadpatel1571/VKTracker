@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.Security;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository;
@@ -14,15 +15,23 @@ namespace VKTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel objModel)
+        public async Task<ActionResult> Login(LoginViewModel objModel)
         {
             using (var repository = new LoginRepository())
             {
-                bool isValid = repository.ValidateUser(objModel);
-                if (isValid)
+                var userModel = await repository.ValidateUser(objModel);
+                if (userModel != null)
                 {
                     FormsAuthentication.SetAuthCookie(objModel.UserName, false);
-                    return RedirectToAction("Dashboard", "Home");
+
+                    if(userModel.IsAdmin)
+                    {
+                        return RedirectToAction("Index", "Master");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {

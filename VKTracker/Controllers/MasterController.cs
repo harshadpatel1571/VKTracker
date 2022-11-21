@@ -14,14 +14,13 @@ namespace VKTracker.Controllers
 {
     public class MasterController : Controller
     {
-        #region Organization
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var repository = new OrganizationRepository();
-            ViewBag.Organization = new SelectList(await repository.BindOrganizationDDl(),"Id","Name");
+            ViewBag.Organization = new SelectList(new List<BindDropdownViewModel>(), "Id", "Name");
             return View();
         }
 
+        #region Organization
         public async Task<ActionResult> GetOrganizationList()
         {
             var filter = DataExtractor.Extract(Request);
@@ -83,6 +82,21 @@ namespace VKTracker.Controllers
             if (model != null)
             {
                 return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BindOrganizationDropdown()
+        {
+            var repository = new OrganizationRepository();
+            var dropdownData = new SelectList(await repository.BindOrganizationDDl(), "Id", "Name");
+            if(dropdownData != null)
+            {
+                return Json(new { status = true, data = dropdownData });
             }
             else
             {

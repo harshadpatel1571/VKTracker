@@ -2,7 +2,7 @@
 
 namespace VKTracker.Model.ViewModel
 {
-    public class DataTableFilterDto
+    public class DataTableFilterViewModel
     {
         public string Draw { get; set; }
 

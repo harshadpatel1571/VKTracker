@@ -7,6 +7,7 @@ namespace VKTracker.Model.ViewModel
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Location is required.")]
+        [RegularExpression(@"^\S+(?:\s+\S+)*$", ErrorMessage = "Location Name not valid.")]
         public string LocationName { get; set; }
     }
 }

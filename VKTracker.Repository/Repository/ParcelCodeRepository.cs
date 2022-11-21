@@ -10,7 +10,7 @@ namespace VKTracker.Repository.Repository
 {
     public class ParcelCodeRepository
     {
-        public async Task<DataTableResponseCarrier<ParcelCodeViewModel>> GetList(DataTableFilterDto filterDto)
+        public async Task<DataTableResponseCarrier<ParcelCodeViewModel>> GetList(DataTableFilterViewModel filterDto)
         {
             var db = new VKTrackerEntities();
 

@@ -11,7 +11,7 @@ namespace VKTracker.Repository.Repository
 {
     public class ItemRepository
     {
-        public async Task<DataTableResponseCarrier<ItemViewModel>> GetList(DataTableFilterDto filterDto)
+        public async Task<DataTableResponseCarrier<ItemViewModel>> GetList(DataTableFilterViewModel filterDto)
         {
             var db = new VKTrackerEntities();
 

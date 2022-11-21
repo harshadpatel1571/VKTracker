@@ -7,6 +7,7 @@ namespace VKTracker.Model.ViewModel
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Organization Name is required.")]
+        [RegularExpression(@"^\S+(?:\s+\S+)*$", ErrorMessage = "Organization Name not valid.")]
         public string Name { get; set; }
     }
 }

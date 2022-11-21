@@ -743,6 +743,8 @@
     <Content Include="Views\Master\_FebricPartial.cshtml" />
     <Content Include="Views\Master\_StockPartial.cshtml" />
     <Content Include="Views\Master\_UserPartial.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">

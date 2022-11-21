@@ -38,31 +38,31 @@
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">First Name</label>
                             @Html.HiddenFor(x => x.Id)
-                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeHolder = "First Name" })
+                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeHolder = "First Name", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Last Name</label>
-                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeHolder = "Last Name" })
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeHolder = "Last Name", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">User Name</label>
-                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeHolder = "User Name" })
+                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeHolder = "User Name", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Password</label>
-                            @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control", @placeHolder = "Password" })
+                            @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control", @placeHolder = "Password", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Email Id</label>
-                            @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control", @placeHolder = "Email Id" })
+                            @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control", @placeHolder = "Email Id", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.EmailId, "", new { @class = "text-danger" })
                         </div>
 

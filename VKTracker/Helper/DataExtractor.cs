@@ -9,11 +9,11 @@ namespace VKTracker.Helper
 {
     public class DataExtractor
     {
-        public static DataTableFilterDto Extract(HttpRequestBase request)
+        public static DataTableFilterViewModel Extract(HttpRequestBase request)
         {
             var sortColumn = request.Form["columns[" + request.Form["order[0][column]"][0] + "][name]"];
 
-            return new DataTableFilterDto
+            return new DataTableFilterViewModel
             {
                 Draw = request.Form["draw"],
                 Skip = Convert.ToInt32(request.Form["start"]),

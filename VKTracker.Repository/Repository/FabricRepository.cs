@@ -12,7 +12,7 @@ namespace VKTracker.Repository.Repository
 {
     public class FabricRepository
     {
-        public async Task<DataTableResponseCarrier<FabricViewModel>> GetList(DataTableFilterDto filterDto)
+        public async Task<DataTableResponseCarrier<FabricViewModel>> GetList(DataTableFilterViewModel filterDto)
         {
             var db = new VKTrackerEntities();
 
