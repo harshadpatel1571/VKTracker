@@ -78,13 +78,13 @@ namespace VKTracker.Repository.Repository
                 model.Password = objModel.Password;
                 model.EmailId = objModel.EmailId;
                 model.MobileNo = objModel.MobileNo;
-                model.CreatedBy = objModel.CreatedBy;
-                model.CreatedOn = DateTime.Now;
                 model.IsActive = true;
                 
                 if (objModel.Id > 0)
                 {
                     model.Id = objModel.Id;
+                    model.ModifiedBy = objModel.CreatedBy;
+                    model.ModifiedOn = DateTime.Now;
                     var old = db.UserOrganizations.Where(x=>x.UserId == objModel.Id).ToList();
                     db.UserOrganizations.RemoveRange(old);
 
@@ -103,6 +103,8 @@ namespace VKTracker.Repository.Repository
                     {
                         OrganizationId = x
                     }).ToArray();
+                    model.CreatedBy = objModel.CreatedBy;
+                    model.CreatedOn = DateTime.Now;
                     db.Users.Add(model);
                 }
 
@@ -120,13 +122,15 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, int userId)
         {
             var db = new VKTrackerEntities();
             try
             {
                 var model = await db.Users.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
+                model.ModifiedBy = userId;
+                model.ModifiedOn = DateTime.Now;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
@@ -157,6 +161,7 @@ namespace VKTracker.Repository.Repository
                     UserName = x.UserName,
                     Password = x.Password,
                     EmailId = x.EmailId,
+                    MobileNo = x.MobileNo,
                     OrganizationId = (IList<int>)x.UserOrganizations.Select(y=>y.OrganizationId)
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }

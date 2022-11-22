@@ -31,10 +31,10 @@
                     "                                </div>",
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
-                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editParcelRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-edit-2-line\"></i>\n" +
                         "                                    </a>\n" +
-                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteParcelRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
@@ -101,7 +101,7 @@ $(document).ready(function () {
         });
 });
 
-function deleteRecord(id) {
+function deleteParcelRecord(id) {
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -150,7 +150,7 @@ function deleteRecord(id) {
     });
 }
 
-function editRecourd(id) {
+function editParcelRecord(id) {
     $.ajax({
         url: "/Master/EditParcelCode/" + id,
         type: "GET",

@@ -12,5 +12,7 @@ namespace VKTracker.Model.ViewModel
         public DateTime? CreatedOn { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public string Action { get; set; }
+        public string LogUserName { get; set; }
     }
 }

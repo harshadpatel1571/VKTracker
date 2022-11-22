@@ -159,7 +159,7 @@ function editUserRecourd(id) {
         url: "/Master/EditUser/" + id,
         type: "GET",
         success: function (response) {
-            console.log(response.data.OrganizationId);
+            console.log(response.data);
             if (response.status) {
                 $("#userForm #Id").val(response.data.Id);
                 $("#userForm #FirstName").val(response.data.FirstName);
@@ -167,7 +167,7 @@ function editUserRecourd(id) {
                 $("#userForm #UserName").val(response.data.UserName);
                 $("#userForm #Password").val(response.data.Password);
                 $("#userForm #EmailId").val(response.data.EmailId);
-                console.log(response.data.OrganizationId);
+                $("#userForm #MobileNo").val(response.data.MobileNo);
                 $("#userForm #OrganizationId").val(response.data.OrganizationId);
                 $("#btnUserModal").click();
             }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Net;
@@ -12,6 +13,7 @@ using VKTracker.Repository.Repository;
 
 namespace VKTracker.Controllers
 {
+    [Authorize]
     public class MasterController : Controller
     {
         public ActionResult Index()
@@ -61,6 +63,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
             return Json(new { status = respose });
         }
@@ -69,7 +73,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteOrganization(int id)
         {
             var repository = new OrganizationRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }
@@ -94,7 +98,7 @@ namespace VKTracker.Controllers
         {
             var repository = new OrganizationRepository();
             var dropdownData = new SelectList(await repository.BindOrganizationDDl(), "Id", "Name");
-            if(dropdownData != null)
+            if (dropdownData != null)
             {
                 return Json(new { status = true, data = dropdownData });
             }
@@ -102,6 +106,30 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false });
             }
+        }
+
+        public async Task<ActionResult> GetOrganizationLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new OrganizationRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<OrganizationViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
         }
 
         #endregion
@@ -147,6 +175,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });
@@ -156,7 +186,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteLocation(int id)
         {
             var repository = new LocationRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }
@@ -220,6 +250,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });
@@ -245,7 +277,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteParcelCode(int id)
         {
             var repository = new ParcelCodeRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }
@@ -294,6 +326,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.Password = Encryption.Encrypt(objModel.Password);
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });
@@ -303,7 +336,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteUser(int id)
         {
             var repository = new UserRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }
@@ -368,6 +401,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
             return Json(new { status = respose });
         }
@@ -376,7 +411,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteFabric(int id)
         {
             var repository = new FabricRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }
@@ -440,6 +475,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
             return Json(new { status = respose });
         }
@@ -448,7 +485,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteItem(int id)
         {
             var repository = new ItemRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }
@@ -512,6 +549,8 @@ namespace VKTracker.Controllers
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
             }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel);
 
             return Json(new { status = respose });
@@ -537,7 +576,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> DeleteStockCode(int id)
         {
             var repository = new StockCodeRepository();
-            var respose = await repository.Delete(id);
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
         }

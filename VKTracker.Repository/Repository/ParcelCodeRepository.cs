@@ -68,17 +68,19 @@ namespace VKTracker.Repository.Repository
                 }
 
                 model.Code = objModel.Code;
-                model.CreatedBy = objModel.CreatedBy;
-                model.CreatedOn = DateTime.Now;
                 model.IsActive = true;
 
                 if (objModel.Id > 0)
                 {
                     model.Id = objModel.Id;
+                    model.ModifiedBy = objModel.CreatedBy;
+                    model.ModifiedOn = DateTime.Now;
                     db.Entry(model).State = EntityState.Modified;
                 }
                 else
                 {
+                    model.CreatedBy = objModel.CreatedBy;
+                    model.CreatedOn = DateTime.Now;
                     db.ParcelCodes.Add(model);
                 }
 
@@ -117,13 +119,15 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, int userId)
         {
             var db = new VKTrackerEntities();
             try
             {
                 var model = await db.ParcelCodes.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
+                model.ModifiedBy = userId;
+                model.ModifiedOn = DateTime.Now;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);

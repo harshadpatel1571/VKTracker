@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -70,17 +71,19 @@ namespace VKTracker.Repository.Repository
                 }
 
                 model.Name = objModel.Name;
-                model.CreatedBy = objModel.CreatedBy;
-                model.CreatedOn = DateTime.Now;
                 model.IsActive = true;
 
                 if (objModel.Id > 0)
                 {
                     model.Id = objModel.Id;
+                    model.ModifiedBy = objModel.CreatedBy;
+                    model.ModifiedOn = DateTime.Now;
                     db.Entry(model).State = EntityState.Modified;
                 }
                 else
                 {
+                    model.CreatedBy = objModel.CreatedBy;
+                    model.CreatedOn = DateTime.Now;
                     db.Organizations.Add(model);
                 }
 
@@ -98,13 +101,15 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, int userId)
         {
             var db = new VKTrackerEntities();
             try
             {
                 var model = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
+                model.ModifiedBy = userId;
+                model.ModifiedOn = DateTime.UtcNow;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
@@ -165,11 +170,59 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                return await db.Organizations.Where(x=>x.IsActive).Select(x=> new BindDropdownViewModel
+                return await db.Organizations.Where(x => x.IsActive).Select(x => new BindDropdownViewModel
                 {
                     Id = x.Id,
                     Name = x.Name
                 }).ToListAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public async Task<DataTableResponseCarrier<OrganizationViewModel>> GetLogList(DataTableFilterViewModel filterDto, int id)
+        {
+            var db = new VKTrackerEntities();
+
+            try
+            {
+                var result = db.OrganizationLogs.Where(x => x.OrganizationId == id).AsNoTracking().AsQueryable();
+
+                if (!string.IsNullOrEmpty(filterDto.SearchValue))
+                {
+                    result = result.Where(x => x.Name.Contains(filterDto.SearchValue));
+                }
+
+                var model = new DataTableResponseCarrier<OrganizationViewModel>
+                {
+                    TotalCount = result.Count()
+                };
+
+                result = DynamicQueryableExtensions.OrderBy(result, filterDto.SortColumn + " " + filterDto.SortOrder);
+
+                result = result.Skip(filterDto.Skip);
+
+                if (filterDto.Take != -1)
+                {
+                    result = result.Take(filterDto.Take);
+                }
+
+                model.Data = await result.Select(x => new OrganizationViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Action = (bool)x.IsActive ? x.Action : "delete",
+                    CreatedOn = x.CreatedOn,
+                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,
+                }).ToListAsync().ConfigureAwait(false);
+
+                return model;
             }
             catch (Exception ex)
             {

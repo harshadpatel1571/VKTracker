@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
+using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository;
 
@@ -23,8 +26,9 @@ namespace VKTracker.Controllers
                 if (userModel != null)
                 {
                     FormsAuthentication.SetAuthCookie(objModel.UserName, false);
+                    Session["userId"] = userModel.Id;
 
-                    if(userModel.IsAdmin)
+                    if (userModel.IsAdmin)
                     {
                         return RedirectToAction("Index", "Master");
                     }
@@ -44,6 +48,7 @@ namespace VKTracker.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session["userId"] = "";
             return RedirectToAction("Login", "Account");
         }
 
