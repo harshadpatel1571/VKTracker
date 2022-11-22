@@ -33,5 +33,6 @@ namespace VKTracker.Model.Context
         public virtual DbSet<StockCode> StockCodes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserOrganization> UserOrganizations { get; set; }
+        public virtual DbSet<OrganizationLog> OrganizationLogs { get; set; }
     }
 }

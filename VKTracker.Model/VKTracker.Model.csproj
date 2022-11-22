@@ -62,6 +62,9 @@
     <Compile Include="Context\Organization.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\OrganizationLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\ParcelCode.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
