@@ -191,5 +191,57 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<DataTableResponseCarrier<UserViewModel>> GetLogList(DataTableFilterViewModel filterDto, int id)
+        {
+            var db = new VKTrackerEntities();
+
+            try
+            {
+                var result = db.Userlogs.Where(x => x.UserId == id).AsNoTracking().AsQueryable();
+
+                if (!string.IsNullOrEmpty(filterDto.SearchValue))
+                {
+                    result = result.Where(x => x.UserName.Contains(filterDto.SearchValue));
+                }
+
+                var model = new DataTableResponseCarrier<UserViewModel>
+                {
+                    TotalCount = result.Count()
+                };
+
+                result = DynamicQueryableExtensions.OrderBy(result, filterDto.SortColumn + " " + filterDto.SortOrder);
+
+                result = result.Skip(filterDto.Skip);
+
+                if (filterDto.Take != -1)
+                {
+                    result = result.Take(filterDto.Take);
+                }
+
+                model.Data = await result.Select(x => new UserViewModel
+                {
+                    Id = x.Id,
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    EmailId = x.EmailId,
+                    MobileNo = x.MobileNo,
+                    Action = (bool)x.IsActive ? x.Action : "delete",
+                    CreatedOn = x.CreateOn,
+                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreateBy).UserName,
+                }).ToListAsync().ConfigureAwait(false);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

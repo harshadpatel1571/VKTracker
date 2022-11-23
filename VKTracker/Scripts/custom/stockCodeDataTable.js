@@ -257,7 +257,12 @@ function bindStockCodeLogGrid(id) {
             { data: "action", name: "Action", "autoWidth": true },
             { data: "code", name: "Code", "autoWidth": true },
             { data: "logUserName", name: "Name", "autoWidth": true },
-            { data: "createdOn", name: "Created On", "autoWidth": true }
+            {
+                data: "createdOn", name: "Created On", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            }
         ],
         dom: 'Blfrtip',
         buttons: [

@@ -406,6 +406,30 @@ namespace VKTracker.Controllers
             }
         }
 
+        public async Task<ActionResult> GetUserLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new UserRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<UserViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
         #endregion
 
         #region Fabric

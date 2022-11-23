@@ -251,7 +251,12 @@ function bindOrganizationLogGrid(id) {
             { data: "action", name: "Action", "autoWidth": true },
             { data: "name", name: "Name", "autoWidth": true },
             { data: "logUserName", name: "Name", "autoWidth": true },
-            { data: "createdOn", name: "Created On", "autoWidth": true }
+            {
+                data: "createdOn", name: "Created On", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            }
         ],
         dom: 'Blfrtip',
         buttons: [
@@ -260,7 +265,7 @@ function bindOrganizationLogGrid(id) {
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0,1,2,3]
+                    columns: [0, 1, 2, 3]
                 }
             },
             {
