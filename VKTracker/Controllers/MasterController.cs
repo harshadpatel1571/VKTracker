@@ -206,6 +206,30 @@ namespace VKTracker.Controllers
             }
         }
 
+        public async Task<ActionResult> GetLocationLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new LocationRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<LocationViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
         #endregion
 
         #region Parcel
@@ -281,6 +305,31 @@ namespace VKTracker.Controllers
 
             return Json(new { status = respose });
         }
+
+        public async Task<ActionResult> GetParcelCodeLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new ParcelCodeRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<ParcelCodeViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
         #endregion
 
         #region User
@@ -530,6 +579,29 @@ namespace VKTracker.Controllers
             }
         }
 
+        public async Task<ActionResult> GetItemLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new ItemRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<ItemViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
         #endregion
 
         #region Stock
@@ -604,6 +676,30 @@ namespace VKTracker.Controllers
             var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
 
             return Json(new { status = respose });
+        }
+
+        public async Task<ActionResult> GetStockCodeLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new StockCodeRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<StockCodeViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
         }
         #endregion
     }

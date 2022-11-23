@@ -160,5 +160,53 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<DataTableResponseCarrier<StockCodeViewModel>> GetLogList(DataTableFilterViewModel filterDto, int id)
+        {
+            var db = new VKTrackerEntities();
+
+            try
+            {
+                var result = db.StockCodeLogs.Where(x => x.StockCodeId == id).AsNoTracking().AsQueryable();
+
+                if (!string.IsNullOrEmpty(filterDto.SearchValue))
+                {
+                    result = result.Where(x => x.Code.Contains(filterDto.SearchValue));
+                }
+
+                var model = new DataTableResponseCarrier<StockCodeViewModel>
+                {
+                    TotalCount = result.Count()
+                };
+
+                result = DynamicQueryableExtensions.OrderBy(result, filterDto.SortColumn + " " + filterDto.SortOrder);
+
+                result = result.Skip(filterDto.Skip);
+
+                if (filterDto.Take != -1)
+                {
+                    result = result.Take(filterDto.Take);
+                }
+
+                model.Data = await result.Select(x => new StockCodeViewModel
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Action = (bool)x.IsActive ? x.Action : "delete",
+                    CreatedOn = x.CreateOn,
+                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreateBy).UserName,
+                }).ToListAsync().ConfigureAwait(false);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

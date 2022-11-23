@@ -37,6 +37,9 @@
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
+                        "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindStockCodeLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#stockCodeLogModal'>\n" +
+                        "                                        <i class=\"ri-database-2-line\"></i>\n" +
+                        "                                    </a>\n" +
                         "                                </div>";
                 }
             },
@@ -230,3 +233,74 @@ $('#stockCodeModal').on('hidden.bs.modal', function () {
     $("#stockCodeForm #Code-error").text("");
     $('form#stockCodeForm').trigger("reset");
 });
+
+function bindStockCodeLogGrid(id) {
+    $('#gridStockCodeLog').DataTable().destroy();
+    $('#gridStockCodeLog').DataTable({
+        paging: false,
+        lengthChange: false,
+        searching: false,
+        ordering: true,
+        lengthMenu: [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, 'All']],
+        info: true,
+        autoWidth: true,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        filter: true,
+        ajax: {
+            url: "/Master/GetStockCodeLogList/" + id,
+            type: "POST",
+            datatype: "json"
+        },
+        columns: [
+            { data: "action", name: "Action", "autoWidth": true },
+            { data: "code", name: "Code", "autoWidth": true },
+            { data: "logUserName", name: "Name", "autoWidth": true },
+            { data: "createdOn", name: "Created On", "autoWidth": true }
+        ],
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                titleAttr: 'Generate PDF',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                titleAttr: 'Generate Excel',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: 'CSV',
+                titleAttr: 'Generate CSV',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'copyHtml5',
+                text: 'Copy',
+                titleAttr: 'Copy to clipboard',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                titleAttr: 'Copy to clipboard',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            }
+        ]
+    }).buttons().container().appendTo('#gridStockCodeLog_wrapper .col-md-6:eq(0)');
+}
