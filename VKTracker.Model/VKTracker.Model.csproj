@@ -53,10 +53,19 @@
     <Compile Include="Context\Fabric.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\FabricLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\Item.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\ItemLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\Location.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\LocationLog.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Context\Organization.cs">
@@ -68,10 +77,19 @@
     <Compile Include="Context\ParcelCode.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\ParcelCodeLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\StockCode.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\StockCodeLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\User.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\Userlog.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Context\UserOrganization.cs">
