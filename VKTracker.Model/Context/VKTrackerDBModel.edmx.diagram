@@ -16,6 +16,12 @@
         <AssociationConnector Association="VKTrackerModel.FK_UserOrganization_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_UserOrganization_User" />
         <EntityTypeShape EntityType="VKTrackerModel.OrganizationLog" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.FabricLog" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.ItemLog" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.LocationLog" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelCodeLog" Width="1.5" PointX="9.375" PointY="6.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockCodeLog" Width="1.5" PointX="9.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.Userlog" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
