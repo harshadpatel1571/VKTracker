@@ -258,7 +258,12 @@ function bindItemLogGrid(id) {
             { data: "action", name: "Action", "autoWidth": true },
             { data: "itemName", name: "ItemName", "autoWidth": true },
             { data: "logUserName", name: "LogUserName", "autoWidth": true },
-            { data: "createdOn", name: "Created On", "autoWidth": true }
+            {
+                data: "createdOn", name: "Created On", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            }
         ],
         dom: 'Blfrtip',
         buttons: [

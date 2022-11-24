@@ -41,6 +41,9 @@
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteUserRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
+                        "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindUserLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#userLogModal'>\n" +
+                        "                                        <i class=\"ri-database-2-line\"></i>\n" +
+                        "                                    </a>\n" +
                         "                                </div>";
                 }
             },
@@ -265,4 +268,84 @@ function BindOrganization() {
         complete: function () {
         }
     })
+}
+
+function bindUserLogGrid(id) {
+    $('#gridUserLog').DataTable().destroy();
+    $('#gridUserLog').DataTable({
+        paging: false,
+        lengthChange: false,
+        searching: false,
+        ordering: true,
+        lengthMenu: [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, 'All']],
+        info: true,
+        autoWidth: true,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        filter: true,
+        ajax: {
+            url: "/Master/GetUserLogList/" + id,
+            type: "POST",
+            datatype: "json"
+        },
+        columns: [
+            { data: "action", name: "Action", "autoWidth": true },
+            { data: "userName", name: "User Name", "autoWidth": true },
+            { data: "firstName", name: "User Name", "autoWidth": true },
+            { data: "lastName", name: "User Name", "autoWidth": true },
+            { data: "emailId", name: "User Name", "autoWidth": true },
+            { data: "mobileNo", name: "User Name", "autoWidth": true },
+            { data: "logUserName", name: "Log User Name", "autoWidth": true },
+            {
+                data: "createdOn", name: "Created On", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            }
+        ],
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                titleAttr: 'Generate PDF',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                titleAttr: 'Generate Excel',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: 'CSV',
+                titleAttr: 'Generate CSV',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                }
+            },
+            {
+                extend: 'copyHtml5',
+                text: 'Copy',
+                titleAttr: 'Copy to clipboard',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                titleAttr: 'Copy to clipboard',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                }
+            }
+        ]
+    }).buttons().container().appendTo('#gridUserLog_wrapper .col-md-6:eq(0)');
 }
