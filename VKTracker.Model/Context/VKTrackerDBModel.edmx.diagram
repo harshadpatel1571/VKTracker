@@ -25,6 +25,7 @@
         <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="9" PointY="0.75" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Location" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_ParcelCode" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelReportLog" Width="1.5" PointX="11.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
