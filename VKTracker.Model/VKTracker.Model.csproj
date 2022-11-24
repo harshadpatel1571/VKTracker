@@ -80,6 +80,9 @@
     <Compile Include="Context\ParcelCodeLog.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\ParcelReport.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\StockCode.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>

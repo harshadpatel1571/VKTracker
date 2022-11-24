@@ -12,14 +12,21 @@ namespace VKTracker.Model.Context
     using System;
     using System.Collections.Generic;
     
-    public partial class ItemLog
+    public partial class ParcelReport
     {
         public int Id { get; set; }
-        public string Action { get; set; }
-        public Nullable<int> ItemId { get; set; }
-        public string ItemName { get; set; }
+        public int ParcelId { get; set; }
+        public Nullable<System.DateTime> DispachedDate { get; set; }
+        public string ChalanNo { get; set; }
+        public Nullable<System.DateTime> ArrivalDate { get; set; }
+        public int LocatoinId { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedOn { get; set; }
+    
+        public virtual Location Location { get; set; }
+        public virtual ParcelCode ParcelCode { get; set; }
     }
 }

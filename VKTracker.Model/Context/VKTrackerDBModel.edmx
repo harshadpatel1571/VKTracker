@@ -26,8 +26,8 @@
           <Property Name="FabricId" Type="int" />
           <Property Name="FabricName" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -50,8 +50,8 @@
           <Property Name="ItemId" Type="int" />
           <Property Name="ItemName" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -74,8 +74,8 @@
           <Property Name="LocationId" Type="int" />
           <Property Name="LocationName" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -122,8 +122,24 @@
           <Property Name="ParcelCodeId" Type="int" />
           <Property Name="Code" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ParcelReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParcelId" Type="int" Nullable="false" />
+          <Property Name="DispachedDate" Type="datetime" />
+          <Property Name="ChalanNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ArrivalDate" Type="datetime" />
+          <Property Name="LocatoinId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="StockCode">
           <Key>
@@ -146,8 +162,8 @@
           <Property Name="StockCodeId" Type="int" />
           <Property Name="Code" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -182,8 +198,8 @@
           <Property Name="Password" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsAdmin" Type="bit" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="UserOrganization">
           <Key>
@@ -195,6 +211,30 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
+        <Association Name="FK_ParcelReport_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="ParcelReport" Type="Self.ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="LocatoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelReport_ParcelCode">
+          <End Role="ParcelCode" Type="Self.ParcelCode" Multiplicity="1" />
+          <End Role="ParcelReport" Type="Self.ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParcelCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="ParcelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserOrganization_Organization">
           <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
           <End Role="UserOrganization" Type="Self.UserOrganization" Multiplicity="*" />
@@ -230,11 +270,20 @@
           <EntitySet Name="OrganizationLog" EntityType="Self.OrganizationLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParcelCode" EntityType="Self.ParcelCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParcelCodeLog" EntityType="Self.ParcelCodeLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParcelReport" EntityType="Self.ParcelReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCode" EntityType="Self.StockCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCodeLog" EntityType="Self.StockCodeLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Userlog" EntityType="Self.Userlog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOrganization" EntityType="Self.UserOrganization" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ParcelReport_Location" Association="Self.FK_ParcelReport_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="ParcelReport" EntitySet="ParcelReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelReport_ParcelCode" Association="Self.FK_ParcelReport_ParcelCode">
+            <End Role="ParcelCode" EntitySet="ParcelCode" />
+            <End Role="ParcelReport" EntitySet="ParcelReport" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserOrganization_Organization" Association="Self.FK_UserOrganization_Organization">
             <End Role="Organization" EntitySet="Organization" />
             <End Role="UserOrganization" EntitySet="UserOrganization" />
@@ -283,6 +332,7 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LocationName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="Location" ToRole="ParcelReport" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -308,6 +358,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelCode" ToRole="ParcelReport" />
         </EntityType>
         <EntityType Name="StockCode">
           <Key>
@@ -364,6 +415,15 @@
           <EntitySet Name="ParcelCodeLogs" EntityType="VKTrackerModel.ParcelCodeLog" />
           <EntitySet Name="StockCodeLogs" EntityType="VKTrackerModel.StockCodeLog" />
           <EntitySet Name="Userlogs" EntityType="VKTrackerModel.Userlog" />
+          <EntitySet Name="ParcelReports" EntityType="VKTrackerModel.ParcelReport" />
+          <AssociationSet Name="FK_ParcelReport_Location" Association="VKTrackerModel.FK_ParcelReport_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelReport_ParcelCode" Association="VKTrackerModel.FK_ParcelReport_ParcelCode">
+            <End Role="ParcelCode" EntitySet="ParcelCodes" />
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserOrganization">
           <Key>
@@ -422,8 +482,8 @@
           <Property Name="FabricId" Type="Int32" />
           <Property Name="FabricName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ItemLog">
           <Key>
@@ -434,8 +494,8 @@
           <Property Name="ItemId" Type="Int32" />
           <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="LocationLog">
           <Key>
@@ -446,8 +506,8 @@
           <Property Name="LocationId" Type="Int32" />
           <Property Name="LocationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ParcelCodeLog">
           <Key>
@@ -458,8 +518,8 @@
           <Property Name="ParcelCodeId" Type="Int32" />
           <Property Name="Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="StockCodeLog">
           <Key>
@@ -470,8 +530,8 @@
           <Property Name="StockCodeId" Type="Int32" />
           <Property Name="Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Userlog">
           <Key>
@@ -488,9 +548,51 @@
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsAdmin" Type="Boolean" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="ParcelReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParcelId" Type="Int32" Nullable="false" />
+          <Property Name="DispachedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChalanNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ArrivalDate" Type="DateTime" Precision="3" />
+          <Property Name="LocatoinId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="ParcelReport" ToRole="Location" />
+          <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelReport" ToRole="ParcelCode" />
+        </EntityType>
+        <Association Name="FK_ParcelReport_Location">
+          <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="LocatoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelReport_ParcelCode">
+          <End Type="VKTrackerModel.ParcelCode" Role="ParcelCode" Multiplicity="1" />
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParcelCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="ParcelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -621,8 +723,8 @@
           <EntitySetMapping Name="FabricLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.FabricLog">
               <MappingFragment StoreEntitySet="FabricLog">
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="FabricName" ColumnName="FabricName" />
                 <ScalarProperty Name="FabricId" ColumnName="FabricId" />
@@ -634,8 +736,8 @@
           <EntitySetMapping Name="ItemLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.ItemLog">
               <MappingFragment StoreEntitySet="ItemLog">
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
@@ -647,8 +749,8 @@
           <EntitySetMapping Name="LocationLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.LocationLog">
               <MappingFragment StoreEntitySet="LocationLog">
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="LocationName" ColumnName="LocationName" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -660,8 +762,8 @@
           <EntitySetMapping Name="ParcelCodeLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.ParcelCodeLog">
               <MappingFragment StoreEntitySet="ParcelCodeLog">
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="ParcelCodeId" ColumnName="ParcelCodeId" />
@@ -673,8 +775,8 @@
           <EntitySetMapping Name="StockCodeLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.StockCodeLog">
               <MappingFragment StoreEntitySet="StockCodeLog">
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="StockCodeId" ColumnName="StockCodeId" />
@@ -686,8 +788,8 @@
           <EntitySetMapping Name="Userlogs">
             <EntityTypeMapping TypeName="VKTrackerModel.Userlog">
               <MappingFragment StoreEntitySet="Userlog">
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -698,6 +800,23 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParcelReports">
+            <EntityTypeMapping TypeName="VKTrackerModel.ParcelReport">
+              <MappingFragment StoreEntitySet="ParcelReport">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LocatoinId" ColumnName="LocatoinId" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+                <ScalarProperty Name="ChalanNo" ColumnName="ChalanNo" />
+                <ScalarProperty Name="DispachedDate" ColumnName="DispachedDate" />
+                <ScalarProperty Name="ParcelId" ColumnName="ParcelId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

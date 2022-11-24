@@ -25,7 +25,7 @@ namespace VKTracker.Model.Context
         public string Password { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsAdmin { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> CreateOn { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
     }
 }

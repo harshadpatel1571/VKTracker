@@ -194,8 +194,8 @@ namespace VKTracker.Repository.Repository
                     Id = x.Id,
                     Code = x.Code,
                     Action = (bool)x.IsActive ? x.Action : "delete",
-                    CreatedOn = x.CreateOn,
-                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreateBy).UserName,
+                    CreatedOn = x.CreatedOn,
+                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,
                 }).ToListAsync().ConfigureAwait(false);
 
                 return model;

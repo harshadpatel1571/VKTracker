@@ -19,7 +19,7 @@ namespace VKTracker.Model.Context
         public Nullable<int> StockCodeId { get; set; }
         public string Code { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> CreateOn { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace VKTracker.Model.Context
     
     public partial class Location
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Location()
+        {
+            this.ParcelReports = new HashSet<ParcelReport>();
+        }
+    
         public int Id { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
@@ -21,5 +27,8 @@ namespace VKTracker.Model.Context
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LocationName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ParcelReport> ParcelReports { get; set; }
     }
 }
