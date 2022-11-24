@@ -1,0 +1,114 @@
+﻿@model VKTracker.Model.ViewModel.ParcelViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <h5 class="card-title mb-0 flex-grow-1">Parcel</h5>
+        <div>
+            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnParcelModal" data-bs-target="#parcelModal">
+                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Parcel
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="grid" class="display table caption-top table-nowrap" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th>Parcel Id</th>
+                    <th>Parcel Code</th>
+                    <th>Dishpached Date</th>
+                    <th>Challan No</th>
+                    <th>Arrival Date</th>
+                    <th>Receive Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade zoomIn" id="parcelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Parcel Add</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="organizationForm" name="organizationForm" method="post">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Parcel Code</label>
+                            @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.Organization, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Recive Location</label>
+                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.Organization, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Challan No</label>
+                            @Html.TextBoxFor(m => m.ChallanNo, new { @class = "form-control", @placeHolder = "Challan No" })
+                            @Html.ValidationMessageFor(x => x.ChallanNo, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Dishpatch Date</label>
+                            @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d M, Y" }, { "class", "form-control" }, {"placeholder","dd-mm-yyyy" } })
+                            @Html.ValidationMessageFor(x => x.DishpatchDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Arrival Date</label>
+                            @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d M, Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                            @Html.ValidationMessageFor(x => x.ArrivalDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="addParcel">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade zoomIn" id="parcelLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Parcel Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <div class="modal-body">
+                <table id="gridLog" class="display table caption-top table-nowrap" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Action</th>
+                            <th>Parcel Id</th>
+                            <th>Parcel Code</th>
+                            <th>Dishpached Date</th>
+                            <th>Challan No</th>
+                            <th>Arrival Date</th>
+                            <th>Receive Location</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="hstack gap-2 justify-content-end">
+                    <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -108,9 +108,25 @@
                     <div id="two-column-menu">
                     </div>
                     <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="@Url.Action("Index","Master")">
-                                <i class="mdi mdi-notebook-edit-outline"></i> <span data-key="t-order">Masters</span>
+                            <a class="nav-link menu-link" href="@Url.Action("Index","Parcel")" role="button" aria-expanded="false" aria-controls="parcel">
+                                <i class="ri ri-gift-fill"></i> <span data-key="t-dashboards">Parcel</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="@Url.Action("Index","Parcel")" role="button" aria-expanded="false" aria-controls="stock">
+                                <i class="ri ri-stock-fill"></i> <span data-key="t-apps">Stock</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="@Url.Action("Index","Parcel")" role="button" aria-expanded="false" aria-controls="distribution">
+                                <i class="ri ri-share-fill"></i> <span data-key="t-layouts">Distribution</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="@Url.Action("Index","Parcel")" role="button" aria-expanded="false" aria-controls="report">
+                                <i class="ri ri-booklet-fill"></i> <span data-key="t-layouts">Report</span>
                             </a>
                         </li>
                     </ul>
