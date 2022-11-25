@@ -20,7 +20,7 @@ namespace VKTracker.Model.Context
         public string ChalanNo { get; set; }
         public Nullable<System.DateTime> ArrivalDate { get; set; }
         public int LocatoinId { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

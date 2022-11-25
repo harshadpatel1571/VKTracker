@@ -12,12 +12,16 @@ namespace VKTracker.Model.ViewModel
 
         public int ParcelId { get; set; }
 
+        public string Code { get; set; }
+
         public int LocationId { get; set; }
+
+        public string LocationName { get; set; }
 
         public string ChallanNo { get; set; }
 
-        public DateTime DishpatchDate { get; set; }
+        public DateTime? DishpatchDate { get; set; }
 
-        public DateTime ArrivalDate { get; set; }
+        public DateTime? ArrivalDate { get; set; }
     }
 }

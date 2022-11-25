@@ -135,7 +135,7 @@
           <Property Name="ChalanNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ArrivalDate" Type="datetime" />
           <Property Name="LocatoinId" Type="int" Nullable="false" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="int" />
@@ -579,7 +579,7 @@
           <Property Name="ChalanNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ArrivalDate" Type="DateTime" Precision="3" />
           <Property Name="LocatoinId" Type="Int32" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />

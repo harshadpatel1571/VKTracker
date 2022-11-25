@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table id="grid" class="display table caption-top table-nowrap" style="width:100%">
+        <table id="gridParcel" class="display table caption-top table-nowrap" style="width:100%">
             <thead class="table-light">
                 <tr>
                     <th>Parcel Id</th>
@@ -90,7 +90,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <div class="modal-body">
-                <table id="gridLog" class="display table caption-top table-nowrap" style="width:100%">
+                <table id="gridParcelLog" class="display table caption-top table-nowrap" style="width:100%">
                     <thead class="table-light">
                         <tr>
                             <th>Action</th>
@@ -100,6 +100,8 @@
                             <th>Challan No</th>
                             <th>Arrival Date</th>
                             <th>Receive Location</th>
+                            <th>Created By</th>
+                            <th>Created Date</th>
                         </tr>
                     </thead>
                 </table>
@@ -112,3 +114,16 @@
         </div>
     </div>
 </div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/custom/parcelDatatable.js"></script>
+
+    <script>
+        $(function () {
+            $('#gridParcel').DataTable().destroy();
+            bindParcel();
+        });        
+    </script>
+}
