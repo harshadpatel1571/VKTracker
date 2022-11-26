@@ -140,6 +140,8 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="OrganizationId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="ParcelReportLog">
           <Key>
@@ -156,6 +158,8 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="OrganizationId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="StockCode">
           <Key>
@@ -586,6 +590,8 @@
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="ParcelReport" ToRole="Location" />
           <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelReport" ToRole="ParcelCode" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
         </EntityType>
         <Association Name="FK_ParcelReport_Location">
           <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="1" />
@@ -626,6 +632,8 @@
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -841,6 +849,8 @@
           <EntitySetMapping Name="ParcelReports">
             <EntityTypeMapping TypeName="VKTrackerModel.ParcelReport">
               <MappingFragment StoreEntitySet="ParcelReport">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -858,6 +868,8 @@
           <EntitySetMapping Name="ParcelReportLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.ParcelReportLog">
               <MappingFragment StoreEntitySet="ParcelReportLog">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />

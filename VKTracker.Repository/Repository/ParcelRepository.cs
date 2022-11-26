@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -12,13 +13,12 @@ namespace VKTracker.Repository.Repository
 {
     public class ParcelRepository
     {
-        public async Task<DataTableResponseCarrier<ParcelViewModel>> GetList(DataTableFilterViewModel filterDto)
+        public async Task<DataTableResponseCarrier<ParcelViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
-
             try
             {
-                var result = db.ParcelReports.Where(x => x.IsActive).AsNoTracking().AsQueryable();
+                var result = db.ParcelReports.Where(x => x.IsActive && x.UserId == userId && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -26,7 +26,8 @@ namespace VKTracker.Repository.Repository
                                                 x.ChalanNo.Contains(filterDto.SearchValue) || 
                                                 x.Location.LocationName.Contains(filterDto.SearchValue) ||
                                                 x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.ArrivalDate.Value.ToString().Contains(filterDto.SearchValue));
+                                                x.ArrivalDate.Value.ToString().Contains(filterDto.SearchValue) ||
+                                                x.DispachedDate.Value.ToString().Contains(filterDto.SearchValue));
                 }
 
                 var model = new DataTableResponseCarrier<ParcelViewModel>
@@ -123,7 +124,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Save(ParcelViewModel objModel)
+        public async Task<bool> Save(ParcelViewModel objModel, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -141,6 +142,9 @@ namespace VKTracker.Repository.Repository
                 model.ArrivalDate = objModel.ArrivalDate;
                 model.DispachedDate = objModel.DishpatchDate;
                 model.IsActive = true;
+
+                model.UserId = userId;
+                model.OrganizationId = organizationId;
 
                 if (objModel.Id > 0)
                 {

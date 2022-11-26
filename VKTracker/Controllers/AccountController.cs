@@ -40,7 +40,7 @@ namespace VKTracker.Controllers
                 else
                 {
                     ModelState.AddModelError("", "invalid Username or Password");
-                    return View();
+                    return View(objModel);
                 }
             }
         }
@@ -48,7 +48,8 @@ namespace VKTracker.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            Session["userId"] = "";
+            Session["userId"] = null;
+            Session["OrganizationId"] = null;
             return RedirectToAction("Login", "Account");
         }
 

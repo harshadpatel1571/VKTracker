@@ -243,5 +243,26 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<List<BindDropdownViewModel>> BindUserOrganizationDDl(int userId)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                return await db.UserOrganizations.Where(x => x.UserId == userId && x.Organization.IsActive).Select(x => new BindDropdownViewModel
+                {
+                    Id = x.Organization.Id,
+                    Name = x.Organization.Name
+                }).ToListAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

@@ -222,13 +222,6 @@ function bindParcelLogGrid(id) {
     }).buttons().container().appendTo('#gridParcelLog_wrapper .col-md-6:eq(0)');
 }
 
-//$("#btnParcelModal").click(function () {
-//    BindLocation();
-//    BindParcel();
-//    $("#DishpatchDate").val('');
-//    $("#ArrivalDate").val('');
-//});
-
 $("#addParcel").click(function () {
 
     if ($("#parcelForm").valid()) {
@@ -252,7 +245,7 @@ $("#addParcel").click(function () {
                         showConfirmButton: false,
                         buttonsStyling: !1
                     }).then(function () {
-                        const table = $("#parcelCodeGrid").DataTable();
+                        const table = $("#gridParcel").DataTable();
                         table.ajax.reload(null, false);
                         $("#parcelForm #close-modal").click();
                     });
@@ -295,8 +288,8 @@ function editParcelRecord(id) {
                 $("#parcelForm #LocationId").val(response.data.locationId);
                 $("#parcelForm #ChallanNo").val(response.data.challanNo);
                 
-                $("#parcelForm #DishpatchDate").val(formateDate(response.data.dishpatchDate));
-                $("#parcelForm #ArrivalDate").val(formateDate(response.data.arrivalDate));
+                $("#parcelForm #DishpatchDate").val(formateDateYMD(response.data.dishpatchDate));
+                $("#parcelForm #ArrivalDate").val(formateDateYMD(response.data.arrivalDate));
             }
         },
         error: function (response) {
@@ -307,52 +300,6 @@ function editParcelRecord(id) {
         }
     })
 }
-
-//function BindLocation() {
-//    $.ajax({
-//        url: "/Master/BindLocationDropdown/",
-//        type: "POST",
-//        dataType: "json",
-//        success: function (response) {
-//            if (response.status) {
-//                console.log(response.data)
-//                $("#LocationId").empty();
-//                $("#LocationId").append(`<option value=''> Recive Location </option>`);
-//                $.each(response.data, function (index, key) {
-//                    $("#LocationId").append(`<option value='${key.Value}'>${key.Text} </option>`);
-//                });
-//            }
-//        },
-//        error: function (response) {
-//            alert('Error!');
-//        },
-//        complete: function () {
-//        }
-//    })
-//}
-
-//function BindParcel() {
-//    $.ajax({
-//        url: "/Master/BindParcelDropdown/",
-//        type: "POST",
-//        dataType: "json",
-//        success: function (response) {
-//            if (response.status) {
-//                console.log(response.data)
-//                $("#ParcelId").empty();
-//                $("#ParcelId").append(`<option value=''> Select Parcel Code </option>`);
-//                $.each(response.data, function (index, key) {
-//                    $("#ParcelId").append(`<option value='${key.Value}'>${key.Text} </option>`);
-//                });
-//            }
-//        },
-//        error: function (response) {
-//            alert('Error!');
-//        },
-//        complete: function () {
-//        }
-//    })
-//}
 
 function deleteParcelRecord(id) {
     Swal.fire({
