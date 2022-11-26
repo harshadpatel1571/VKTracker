@@ -37,18 +37,19 @@
                 <h5 class="modal-title" id="exampleModalLabel">Parcel Add</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
-            <form id="organizationForm" name="organizationForm" method="post">
+            <form id="parcelForm" name="parcelForm" method="post">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Parcel Code</label>
-                            @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.Organization, new { @class = "form-select" })
+                            @Html.HiddenFor(x => x.Id);
+                            @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select" })
                             @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Recive Location</label>
-                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.Organization, new { @class = "form-select" })
+                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, new { @class = "form-select" })
                             @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                         </div>
 
@@ -60,13 +61,13 @@
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Dishpatch Date</label>
-                            @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d M, Y" }, { "class", "form-control" }, {"placeholder","dd-mm-yyyy" } })
+                            @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, {"placeholder","dd-mm-yyyy" } })
                             @Html.ValidationMessageFor(x => x.DishpatchDate, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Arrival Date</label>
-                            @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d M, Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                            @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
                             @Html.ValidationMessageFor(x => x.ArrivalDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -83,7 +84,7 @@
 </div>
 
 <div class="modal fade zoomIn" id="parcelLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-0">
             <div class="modal-header p-3 bg-soft-info">
                 <h5 class="modal-title" id="exampleModalLabel">Parcel Logs</h5>

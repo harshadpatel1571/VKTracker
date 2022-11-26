@@ -20,7 +20,7 @@
             {
                 data: "parcelId", name: "Parcel Id", "autoWidth": true,
                 render: function (data, type, row) {
-                    return row.code +"-"+ data;
+                    return row.code + "-" + data;
                 }
             },
             { data: "code", name: "Code", "autoWidth": true },
@@ -45,13 +45,13 @@
                     "                                    <a href=\"javascript:void(0);\" class=\"link-success fs-20\">\n" +
                     "                                        <i class=\"ri-edit-2-line\"></i>\n" +
                     "                                    </a>\n" +
-                    "                                    <a href=\"javascript:void(0);\" class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(0)'>\n" +
+                    "                                    <a href=\"javascript:void(0);\" class=\"link-danger fs-20 sa-warning\" onclick='deleteParcelRecord(0)'>\n" +
                     "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                     "                                    </a>\n" +
                     "                                </div>",
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
-                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editParcelRecourd(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editParcelRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-edit-2-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteParcelRecord(" + row.id + ")'>\n" +
@@ -71,7 +71,7 @@
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -79,7 +79,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -87,7 +87,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -95,7 +95,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -103,7 +103,7 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             }
         ]
@@ -221,3 +221,194 @@ function bindParcelLogGrid(id) {
         ]
     }).buttons().container().appendTo('#gridParcelLog_wrapper .col-md-6:eq(0)');
 }
+
+//$("#btnParcelModal").click(function () {
+//    BindLocation();
+//    BindParcel();
+//    $("#DishpatchDate").val('');
+//    $("#ArrivalDate").val('');
+//});
+
+$("#addParcel").click(function () {
+
+    if ($("#parcelForm").valid()) {
+
+        event.preventDefault();
+        var formData = $("#parcelForm").serialize();
+        $.ajax({
+            url: "/Parcel/SaveParcelCode/",
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+                if (response.status) {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Saved.",
+                        text: "Your record has been Saved.",
+                        icon: "success",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    }).then(function () {
+                        const table = $("#parcelCodeGrid").DataTable();
+                        table.ajax.reload(null, false);
+                        $("#parcelForm #close-modal").click();
+                    });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
+                }
+            },
+            error: function (response) {
+                alert('Error!');
+            },
+            complete: function () {
+            }
+        })
+    }
+    else {
+        return false;
+    }
+});
+
+function editParcelRecord(id) {
+    $.ajax({
+        url: "/Parcel/EditParcel/" + id,
+        type: "GET",
+        success: function (response) {
+            if (response.status) {
+                console.log(response.data);
+                $("#btnParcelModal").click();
+                $("#parcelForm #Id").val(response.data.id);
+                $("#parcelForm #ParcelId").val(response.data.parcelId);
+                $("#parcelForm #LocationId").val(response.data.locationId);
+                $("#parcelForm #ChallanNo").val(response.data.challanNo);
+                
+                $("#parcelForm #DishpatchDate").val(formateDate(response.data.dishpatchDate));
+                $("#parcelForm #ArrivalDate").val(formateDate(response.data.arrivalDate));
+            }
+        },
+        error: function (response) {
+            alert('Error!');
+        },
+        complete: function () {
+            $('#btnSubmit').removeAttr('disabled');
+        }
+    })
+}
+
+//function BindLocation() {
+//    $.ajax({
+//        url: "/Master/BindLocationDropdown/",
+//        type: "POST",
+//        dataType: "json",
+//        success: function (response) {
+//            if (response.status) {
+//                console.log(response.data)
+//                $("#LocationId").empty();
+//                $("#LocationId").append(`<option value=''> Recive Location </option>`);
+//                $.each(response.data, function (index, key) {
+//                    $("#LocationId").append(`<option value='${key.Value}'>${key.Text} </option>`);
+//                });
+//            }
+//        },
+//        error: function (response) {
+//            alert('Error!');
+//        },
+//        complete: function () {
+//        }
+//    })
+//}
+
+//function BindParcel() {
+//    $.ajax({
+//        url: "/Master/BindParcelDropdown/",
+//        type: "POST",
+//        dataType: "json",
+//        success: function (response) {
+//            if (response.status) {
+//                console.log(response.data)
+//                $("#ParcelId").empty();
+//                $("#ParcelId").append(`<option value=''> Select Parcel Code </option>`);
+//                $.each(response.data, function (index, key) {
+//                    $("#ParcelId").append(`<option value='${key.Value}'>${key.Text} </option>`);
+//                });
+//            }
+//        },
+//        error: function (response) {
+//            alert('Error!');
+//        },
+//        complete: function () {
+//        }
+//    })
+//}
+
+function deleteParcelRecord(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: !0,
+        confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+        cancelButtonClass: "btn btn-danger w-xs mt-2",
+        confirmButtonText: "Yes, delete it!",
+        buttonsStyling: !1,
+        showCloseButton: !0,
+    }).then(function (t) {
+        if (!t.isConfirmed) return;
+        $.ajax({
+            type: "POST",
+            url: "/Parcel/DeleteParcel/" + id,
+            success: function () {
+                t.value && Swal.fire({
+                    timer: 1500,
+                    title: "Deleted.",
+                    text: "Your record has been deleted.",
+                    icon: "success",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    buttonsStyling: !1
+                }).then(function () {
+                    const table = $("#gridParcel").DataTable();
+                    table.ajax.reload(null, false);
+                });
+            },
+            error: function (response) {
+                let message = "This entity is being referred somewhere else.";
+
+                if (response.status === 404) {
+                    message = "Entity can not be found.";
+                }
+
+                t.value && Swal.fire({
+                    title: "Unable to delete.",
+                    text: message,
+                    icon: "warning",
+                    confirmButtonClass: "btn btn-primary w-xs mt-2",
+                    buttonsStyling: !1
+                })
+            }
+        });
+    });
+}
+
+$('#parcelModal').on('hidden.bs.modal', function () {
+    $("#parcelForm #Id").val("");
+    $("#parcelForm #ParcelId-error").text("");
+    $("#parcelForm #LocationId-error").text("");
+    $("#parcelForm #ChallanNo-error").text("");
+    $("#parcelForm #DishpatchDate-error").text("");
+    $("#parcelForm #ArrivalDate-error").text("");
+    $('form#parcelForm').trigger("reset");
+});

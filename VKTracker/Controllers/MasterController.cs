@@ -230,6 +230,21 @@ namespace VKTracker.Controllers
             };
         }
 
+        [HttpPost]
+        public async Task<ActionResult> BindLocationDropdown()
+        {
+            var repository = new LocationRepository();
+            var dropdownData = new SelectList(await repository.BindLocationDDl(), "Id", "Name");
+            if (dropdownData != null)
+            {
+                return Json(new { status = true, data = dropdownData });
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
         #endregion
 
         #region Parcel
@@ -328,6 +343,21 @@ namespace VKTracker.Controllers
                 ContentEncoding = System.Text.Encoding.UTF8,
                 ContentType = "application/json"
             };
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BindParcelDropdown()
+        {
+            var repository = new ParcelCodeRepository();
+            var dropdownData = new SelectList(await repository.BindParcelDDl(), "Id", "Name");
+            if (dropdownData != null)
+            {
+                return Json(new { status = true, data = dropdownData });
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
         }
 
         #endregion
