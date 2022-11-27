@@ -7,7 +7,8 @@
         lengthMenu: [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, 'All']],
         info: true,
         autoWidth: true,
-        responsive: true,
+        responsive: false,
+        scrollX: true,
         processing: true,
         serverSide: true,
         filter: true,
@@ -45,17 +46,13 @@
             },
         ],
         dom: 'Bfrtip',
-        lengthMenu: [
-            [10, 25, 50,75,100, -1],
-            ['10', '25', '50','75','100', 'Show all']
-        ],
         buttons: [
             {
                 extend: 'pdfHtml5',
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -63,7 +60,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -71,7 +68,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -79,7 +76,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             {
@@ -87,12 +84,12 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [1]
+                    columns: [0]
                 }
             },
             'pageLength'
         ]
-    }).buttons().container().appendTo('#grid_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#organizationHeader');
 }
 
 $(document).ready(function () {
