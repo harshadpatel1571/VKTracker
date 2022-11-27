@@ -38,7 +38,7 @@
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindItemLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#itemLogModal'>\n" +
-                        "                                        <i class=\"ri-database-2-line\"></i>\n" +
+                        "                                        <i class=\"ri-history-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
                 }

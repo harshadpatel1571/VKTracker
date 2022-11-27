@@ -24,18 +24,28 @@ namespace VKTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult OrganizationSession(int? id)
+        public async Task<ActionResult> OrganizationSession(int? id)
         {
-            var session = Session["OrganizationId"];
-            if (session != null)
+            if (!Convert.ToBoolean(Session["isAdmin"]))
             {
-                return Json(new { status = false });
+                var session = Session["OrganizationId"];
+                if (session != null)
+                {
+                    return Json(new { status = false });
+                }
+                else
+                {
+                    var repository = new OrganizationRepository();
+                    var data = await repository.GetById(Convert.ToInt32(id));
+                    if (data != null)
+                    {
+                        Session["OrganizationId"] = data.Id;
+                        Session["OrganizationName"] = data.Name;
+                    }
+                    return Json(new { status = true });
+                }
             }
-            else
-            {
-                Session["OrganizationId"] = id;
-                return Json(new { status = true });
-            }
+            return Json(new { status = false });
         }
     }
 }
