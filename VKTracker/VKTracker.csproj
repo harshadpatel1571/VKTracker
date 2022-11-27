@@ -748,6 +748,7 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Parcel\Index.cshtml" />
+    <Content Include="Views\Shared\_BreadCrum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">
