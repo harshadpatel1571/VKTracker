@@ -24,7 +24,8 @@ namespace VKTracker.Repository
                     {
                         Id = x.Id,
                         UserName = x.UserName,
-                        IsAdmin = x.IsAdmin
+                        IsAdmin = x.IsAdmin,
+                        EmailId= x.EmailId
                     }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
         }

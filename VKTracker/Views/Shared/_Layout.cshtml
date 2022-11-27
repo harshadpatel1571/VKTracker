@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string userName = User != null ? User.Identity.Name : "";
+    //string emailId = User != null ? User.Identity.Name : "";
+    string emailId = "";
+}
+
+<!DOCTYPE html>
 <html lang="en" id="theme" data-layout="horizontal" data-topbar="dark" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="enable">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - VKTracker</title>
+    <title>Than Tracker</title>
     <link rel="shortcut icon" href="~/images/favicon.ico">
     <script src="~/Scripts/layout.js"></script>
     <link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
@@ -35,12 +41,15 @@
                             </a>
 
                             <a href="index.html" class="logo logo-light">
-                                <span class="logo-sm">
-                                    <img src="~/images/logo-sm.png" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="~/images/logo-light.png" alt="" height="17">
-                                </span>
+                                @*<span class="logo-sm">
+                                        <img src="~/images/logo-sm.png" alt="" height="22">
+                                    </span>
+                                    <span class="logo-lg">
+
+                                        <img src="~/images/logo-light.png" alt="" height="17">
+                                    </span>*@
+                               @* <p class="logo-lg"><h2 class="text-light">Than Tracker</h2></p>*@
+
                             </a>
                         </div>
 
@@ -58,13 +67,11 @@
                         <div class="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
-                                    <img class="rounded-circle header-profile-user" src="~/images/users/avatar-1.jpg" alt="Header Avatar">
+                                    <img class="rounded-circle header-profile-user" src="~/images/users/user-dummy-img.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        @{
-                                            string userName = User != null ? User.Identity.Name : "";
-                                        }
+
                                         <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">@userName</span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">@Session["emailId"]</span>
                                     </span>
                                 </span>
                             </button>
@@ -110,15 +117,15 @@
                     </div>
                     <ul class="navbar-nav" id="navbar-nav">
                         @*<li class="menu-title">
-                            <i class="ri-more-fill"></i> <span data-key="t-pages">Masters</span>
-                        </li>
+                                <i class="ri-more-fill"></i> <span data-key="t-pages">Masters</span>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="@Url.Action("Index","Master")">
-                                <i class="mdi mdi-notebook-edit-outline"></i> <span data-key="t-order">Masters</span>
-                            </a>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="@Url.Action("Index","Master")">
+                                    <i class="mdi mdi-notebook-edit-outline"></i> <span data-key="t-order">Masters</span>
+                                </a>
 
-                        </li>*@
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -137,13 +144,13 @@
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6">
+                        @*<div class="col-sm-6">
                             &copy;
                             @DateTime.Now.Year VKTracking
-                        </div>
-                        <div class="col-sm-6">
+                        </div>*@
+                        <div class="col-sm-12">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Shreeji Technolab
+                                @*Design & Develop by Shreeji Technolab*@
                             </div>
                         </div>
                     </div>

@@ -27,7 +27,8 @@ namespace VKTracker.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(objModel.UserName, false);
                     Session["userId"] = userModel.Id;
-
+                    Session["emailId"] = userModel.EmailId;
+                   
                     if (userModel.IsAdmin)
                     {
                         return RedirectToAction("Index", "Master");

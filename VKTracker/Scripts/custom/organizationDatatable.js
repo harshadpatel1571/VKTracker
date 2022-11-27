@@ -44,7 +44,11 @@
                 }
             },
         ],
-        dom: 'Blfrtip',
+        dom: 'Bfrtip',
+        lengthMenu: [
+            [10, 25, 50,75,100, -1],
+            ['10', '25', '50','75','100', 'Show all']
+        ],
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -85,7 +89,8 @@
                 exportOptions: {
                     columns: [1]
                 }
-            }
+            },
+            'pageLength'
         ]
     }).buttons().container().appendTo('#grid_wrapper .col-md-6:eq(0)');
 }
