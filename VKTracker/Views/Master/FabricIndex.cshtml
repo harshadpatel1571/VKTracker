@@ -1,19 +1,22 @@
-﻿@model VKTracker.Model.ViewModel.OrganizationViewModel
+﻿@model VKTracker.Model.ViewModel.FabricViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <h5 class="card-title mb-0 flex-grow-1">Organization</h5>
+        <h5 class="card-title mb-0 flex-grow-1">Fabric</h5>
         <div>
-            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnOrgganizationModal" data-bs-target="#organizationModal">
-                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Organization
+            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnFabricModal" data-bs-target="#fabricModal">
+                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Fabric
             </button>
         </div>
     </div>
     <div class="card-body">
-        <table id="grid" class="display table caption-top table-nowrap" style="width:100%">
+        <table id="gridFabric" class="display table caption-top table-nowrap" style="width:100%">
             <thead class="table-light">
                 <tr>
-                    <th class="col-10">Organization</th>
+                    <th class="col-10">Fabric</th>
                     <th class="col-2">Action</th>
                 </tr>
             </thead>
@@ -21,28 +24,28 @@
     </div>
 </div>
 
-<div class="modal fade zoomIn" id="organizationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade zoomIn" id="fabricModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-m">
         <div class="modal-content border-0">
             <div class="modal-header p-3 bg-soft-info">
-                <h5 class="modal-title" id="exampleModalLabel">Organization Add</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Fabric Add</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
-            <form id="organizationForm" name="organizationForm" method="post">
+            <form id="fabricForm" name="fabricForm" method="post">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-lg-12">
-                            <label for="projectName-field" class="form-label">Organization Name</label>
+                            <label for="projectName-field" class="form-label">Fabric Name</label>
                             @Html.HiddenFor(x => x.Id)
-                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeHolder = "Name", @maxLength = "100" })
-                            @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(x => x.FabricName, new { @class = "form-control", @placeHolder = "Fabric Name", @maxLength = "100" })
+                            @Html.ValidationMessageFor(x => x.FabricName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" id="addOrganization">Save</button>
+                        <button type="button" class="btn btn-success" id="addFabric">Save</button>
                     </div>
                 </div>
             </form>
@@ -50,19 +53,19 @@
     </div>
 </div>
 
-<div class="modal fade zoomIn" id="organizationLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade zoomIn" id="fabricLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0">
             <div class="modal-header p-3 bg-soft-info">
-                <h5 class="modal-title" id="exampleModalLabel">Organization History Logs</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Fabric History Logs</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <div class="modal-body">
-                <table id="gridLog" class="display table caption-top table-nowrap" style="width:100%">
+                <table id="gridFabricLog" class="display table caption-top table-nowrap" style="width:100%">
                     <thead class="table-light">
                         <tr>
                             <th class="col-2">Action</th>
-                            <th class="col-3">Name</th>
+                            <th class="col-3">Fabric Name</th>
                             <th class="col-3">User Name</th>
                             <th class="col-3">Log Date</th>
                         </tr>
@@ -77,3 +80,15 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script src="~/Scripts/custom/fabricDataTable.js"></script>
+
+    <script>
+        $(function () {
+            $('#gridFabric').DataTable().destroy();
+            bindFabric();
+        });
+    </script>
+}

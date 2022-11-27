@@ -68,7 +68,7 @@
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Mobile No</label>
-                            @Html.TextBoxFor(x => x.MobileNo, new {@type="number", @class = "form-control", @placeHolder = "Mobile No" })
+                            @Html.TextBoxFor(x => x.MobileNo, new { @type = "number", @class = "form-control", @placeHolder = "Mobile No" })
                             @Html.ValidationMessageFor(x => x.MobileNo, "", new { @class = "text-danger" })
                         </div>
 
@@ -121,3 +121,15 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script src="~/Scripts/custom/usersDataTable.js"></script>
+
+    <script>
+        $(function () {
+            $('#gridUser').DataTable().destroy();
+            bindUsers();
+        });
+    </script>
+}

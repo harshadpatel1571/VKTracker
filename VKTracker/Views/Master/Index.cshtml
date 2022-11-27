@@ -56,22 +56,27 @@
                     Parcel
                 </a>
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link waves-effect waves-light" data-bs-toggle="tab" id="btnUserMaster" href="#pill-Parcel" role="tab" aria-selected="false" tabindex="-1">
+                    User Master
+                </a>
+            </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content text-muted">
-            <div class="tab-pane active show" id="pill-Organization" role="tabpanel">
+            @*<div class="tab-pane active show" id="pill-Organization" role="tabpanel">
                 @Html.Partial("_OrganizationPartial", new OrganizationViewModel())
             </div>
             <div class="tab-pane" id="pill-User" role="tabpanel">
                 @Html.Partial("_UserPartial", new UserViewModel())
-            </div>
-            <div class="tab-pane" id="pill-Location" role="tabpanel">
+            </div>*@
+            @*<div class="tab-pane" id="pill-Location" role="tabpanel">
                 @Html.Partial("_LocationPartial", new LocationViewModel())
-            </div>
-            <div class="tab-pane" id="pill-Febric" role="tabpanel">
+            </div>*@
+            @*<div class="tab-pane" id="pill-Febric" role="tabpanel">
                 @Html.Partial("_FebricPartial", new FabricViewModel())
-            </div>
-            <div class="tab-pane" id="pill-Item" role="tabpanel">
+            </div>*@
+            @*<div class="tab-pane" id="pill-Item" role="tabpanel">
                 @Html.Partial("_ItemPartial", new ItemViewModel())
             </div>
             <div class="tab-pane" id="pill-Stock" role="tabpanel">
@@ -80,19 +85,16 @@
             <div class="tab-pane" id="pill-Parcel" role="tabpanel">
                 @Html.Partial("_ParcelPartial", new ParcelCodeViewModel())
             </div>
+            <div class="tab-pane" id="pill-Parcel" role="tabpanel">
+                @Html.Partial("_ParcelPartial", new ParcelCodeViewModel())
+            </div>*@
         </div>
     </div>
 </div>
 
 @section scripts
 {
-    <script src="~/Scripts/custom/organizationDatatable.js"></script>
-    <script src="~/Scripts/custom/locationDatatable.js"></script>
-    <script src="~/Scripts/custom/parcelCodeDataTable.js"></script>
-    <script src="~/Scripts/custom/usersDataTable.js"></script>
-    <script src="~/Scripts/custom/fabricDataTable.js"></script>
-    <script src="~/Scripts/custom/itemDataTable.js"></script>
-    <script src="~/Scripts/custom/stockCodeDataTable.js"></script>
+    
 
     <script>
         $(function () {

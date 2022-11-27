@@ -23,6 +23,12 @@ namespace VKTracker.Controllers
         }
 
         #region Organization
+
+        public ActionResult OrganizationIndex()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> GetOrganizationList()
         {
             var filter = DataExtractor.Extract(Request);
@@ -135,6 +141,11 @@ namespace VKTracker.Controllers
         #endregion
 
         #region Location Code
+        public ActionResult LocationIndex()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> GetLocationList()
         {
             var filter = DataExtractor.Extract(Request);
@@ -248,6 +259,11 @@ namespace VKTracker.Controllers
         #endregion
 
         #region Parcel
+
+        public ActionResult ParcelCodeIndex()
+        {
+            return View();
+        }
 
         public async Task<ActionResult> GetParcelCodeList()
         {
@@ -363,6 +379,12 @@ namespace VKTracker.Controllers
         #endregion
 
         #region User
+
+        public ActionResult UserIndex()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> GetUsersGrid()
         {
             var filter = DataExtractor.Extract(Request);
@@ -464,6 +486,11 @@ namespace VKTracker.Controllers
 
         #region Fabric
 
+        public ActionResult FabricIndex()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> GetFabricList()
         {
             var filter = DataExtractor.Extract(Request);
@@ -562,7 +589,10 @@ namespace VKTracker.Controllers
         #endregion
 
         #region Item
-
+        public ActionResult ItemIndex()
+        {
+            return View();
+        }
         public async Task<ActionResult> GetItemList()
         {
             var filter = DataExtractor.Extract(Request);
@@ -659,7 +689,10 @@ namespace VKTracker.Controllers
         #endregion
 
         #region Stock
-
+        public ActionResult StockCodeIndex()
+        {
+            return View();
+        }
         public async Task<ActionResult> GetStockCodeList()
         {
             var filter = DataExtractor.Extract(Request);
