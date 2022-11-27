@@ -382,6 +382,7 @@ namespace VKTracker.Controllers
 
         public ActionResult UserIndex()
         {
+            ViewBag.Organization = new SelectList(new List<BindDropdownViewModel>(), "Id", "Name");
             return View();
         }
 
