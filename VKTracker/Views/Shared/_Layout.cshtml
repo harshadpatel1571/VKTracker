@@ -226,6 +226,10 @@
             today = yyyy + '-' + mm + '-' + dd;
             return today;
         }
+
+        $(function () {
+            $('.removesearch').select2({ minimumResultsForSearch: -1 });
+        })
     </script>
 
     @RenderSection("scripts", required: false)
