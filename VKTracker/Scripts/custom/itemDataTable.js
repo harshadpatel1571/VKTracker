@@ -203,16 +203,8 @@ $("#addItem").click(function () {
                     });
                 }
                 else {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Duplicate.",
-                        text: response.msg,
-                        icon: "error",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    })
+                    $("#itemForm #errorName").text("Item alrady exist.");
+
                 }
             },
             error: function (response) {
@@ -232,6 +224,7 @@ $('#itemModal').on('hidden.bs.modal', function () {
     $("#itemForm #Id").val("");
     $("#itemForm #ItemName-error").text("");
     $('form#itemForm').trigger("reset");
+    $("#itemForm #errorName").text("");
 });
 
 

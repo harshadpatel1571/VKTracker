@@ -40,6 +40,7 @@
                             @Html.HiddenFor(x => x.Id)
                             @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeHolder = "First Name", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
+                            <span class="text-danger" id="errorName"></span>
                         </div>
 
                         <div class="col-lg-6">
@@ -130,6 +131,7 @@
         $(function () {
             $('#gridUser').DataTable().destroy();
             bindUsers();
+            BindOrganization()
         });
     </script>
 }

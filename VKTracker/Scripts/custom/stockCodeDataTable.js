@@ -203,16 +203,7 @@ $("#addStockCode").click(function () {
                     });
                 }
                 else {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Duplicate.",
-                        text: response.msg,
-                        icon: "error",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    })
+                    $("#stockCodeForm #errorName").text("Stock Code alrady exist.");
                 }
             },
             error: function (response) {
@@ -232,6 +223,7 @@ $('#stockCodeModal').on('hidden.bs.modal', function () {
     $("#stockCodeForm #Id").val("");
     $("#stockCodeForm #Code-error").text("");
     $('form#stockCodeForm').trigger("reset");
+    $("#stockCodeForm #errorName").text("");
 });
 
 function bindStockCodeLogGrid(id) {

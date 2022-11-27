@@ -36,6 +36,7 @@
                             @Html.HiddenFor(x => x.Id)
                             @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeHolder = "Name", @maxLength = "100" })
                             @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                            <span class="text-danger" id="errorName"></span>
                         </div>
                     </div>
                 </div>

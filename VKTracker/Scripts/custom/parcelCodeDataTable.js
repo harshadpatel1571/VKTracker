@@ -203,16 +203,7 @@ $("#addParcelCode").click(function () {
                     });
                 }
                 else {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Duplicate.",
-                        text: response.msg,
-                        icon: "error",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    })
+                    $("#parcelCodeForm #errorName").text("parcel Code alrady exist.");
                 }
             },
             error: function (response) {
@@ -232,6 +223,7 @@ $('#parcelCodeModal').on('hidden.bs.modal', function () {
     $("#parcelCodeForm #Id").val("");
     $("#parcelCodeForm #Code-error").text("");
     $('form#parcelCodeForm').trigger("reset");
+    $("#parcelCodeForm #errorName").text("");
 });
 
 function bindParcelCodeLogGrid(id) {

@@ -203,16 +203,7 @@ $("#addLocation").click(function () {
                     });
                 }
                 else {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Duplicate.",
-                        text: response.msg,
-                        icon: "error",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    })
+                    $("#locationForm #errorName").text("Location alrady exist.");
                 }
             },
             error: function (response) {
@@ -232,6 +223,7 @@ $('#locationModal').on('hidden.bs.modal', function () {
     $("#locationForm #Id").val("");
     $("#locationForm #LocationName-error").text("");
     $('form#locationForm').trigger("reset");
+    $("#locationForm #errorName").text("");
 });
 
 

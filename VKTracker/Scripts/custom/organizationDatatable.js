@@ -205,16 +205,7 @@ $("#addOrganization").click(function () {
                     });
                 }
                 else {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Duplicate.",
-                        text: response.msg,
-                        icon: "error",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    })
+                    $("#organizationForm #errorName").text("Organization alrady exist.");
                 }
             },
             error: function (response) {
@@ -310,4 +301,5 @@ $('#organizationModal').on('hidden.bs.modal', function () {
     $("#organizationForm #Id").val("");
     $("#organizationForm #Name-error").text("");
     $('form#organizationForm').trigger("reset");
+    $("#organizationForm #errorName").text("");
 });
