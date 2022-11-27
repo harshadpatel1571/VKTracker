@@ -44,7 +44,7 @@
                 }
             },
         ],
-        dom: 'Blfrtip',
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -85,9 +85,10 @@
                 exportOptions: {
                     columns: [0]
                 }
-            }
+            },
+            'pageLength'
         ]
-    }).buttons().container().appendTo('#gridStockCode_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#stockCodeHeader');
 }
 
 $(document).ready(function () {
@@ -168,7 +169,6 @@ function editRecourd(id) {
             alert('Error!');
         },
         complete: function () {
-            $('#btnSubmit').removeAttr('disabled');
         }
     })
 }
@@ -210,7 +210,6 @@ $("#addStockCode").click(function () {
                 alert('Error!');
             },
             complete: function () {
-                $('#btnSubmit').removeAttr('disabled');
             }
         })
     }

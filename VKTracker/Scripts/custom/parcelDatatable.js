@@ -64,7 +64,7 @@
                 }
             },
         ],
-        dom: 'Blfrtip',
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -105,7 +105,8 @@
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5]
                 }
-            }
+            },
+            'pageLength'
         ]
     }).buttons().container().appendTo('#gridParcel_wrapper .col-md-6:eq(0)');
 }
@@ -296,7 +297,6 @@ function editParcelRecord(id) {
             alert('Error!');
         },
         complete: function () {
-            $('#btnSubmit').removeAttr('disabled');
         }
     })
 }

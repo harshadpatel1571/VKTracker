@@ -44,7 +44,7 @@
                 }
             },
         ],
-        dom: 'Blfrtip',
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -85,9 +85,10 @@
                 exportOptions: {
                     columns: [0]
                 }
-            }
+            },
+            'pageLength'
         ]
-    }).buttons().container().appendTo('#gridItem_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#itemHeader');
 }
 
 $(document).ready(function () {
@@ -168,7 +169,6 @@ function editItemRecord(id) {
             alert('Error!');
         },
         complete: function () {
-            $('#btnSubmit').removeAttr('disabled');
         }
     })
 }
@@ -211,7 +211,6 @@ $("#addItem").click(function () {
                 alert('Error!');
             },
             complete: function () {
-                $('#btnSubmit').removeAttr('disabled');
             }
         })
     }

@@ -44,7 +44,7 @@
                 }
             },
         ],
-        dom: 'Blfrtip',
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -85,9 +85,10 @@
                 exportOptions: {
                     columns: [0]
                 }
-            }
+            },
+            'pageLength'
         ]
-    }).buttons().container().appendTo('#gridLocation_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#locationHeader');
 }
 
 $(document).ready(function () {
@@ -168,7 +169,6 @@ function editLocationRecourd(id) {
             alert('Error!');
         },
         complete: function () {
-            $('#btnSubmit').removeAttr('disabled');
         }
     })
 }
@@ -210,7 +210,6 @@ $("#addLocation").click(function () {
                 alert('Error!');
             },
             complete: function () {
-                $('#btnSubmit').removeAttr('disabled');
             }
         })
     }
