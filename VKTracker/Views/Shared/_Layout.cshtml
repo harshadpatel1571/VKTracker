@@ -30,31 +30,41 @@
                     <div class="d-flex">
                         <div class="dropdown ms-sm-3 header-item">
                             <a class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ri ri-gift-fill ri-2x text-white" tooltip="lol"></i>
-                                <span class="d-xl-inline-block ms-1 fw-medium text-white">Masters</span>
+                                <span class="d-flex align-items-center">
+                                    <i class="ri ri-dashboard-line ri-2x text-white"></i>
+                                    <span class="text-start ms-xl-2">
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium text-white" data-key="t-logout">Master</span>
+                                    </span>
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="@Url.Action("OrganizationIndex","Master")">
-                                    <span class="align-middle" data-key="t-logout">Organization</span>
-                                </a>
 
-                                <a class="dropdown-item" href="@Url.Action("UserIndex","Master")">
-                                    <span class="align-middle" data-key="t-logout">User</span>
-                                </a>
+                                @if (Convert.ToBoolean(Session["isAdmin"]))
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("OrganizationIndex", "Master")">
+                                        <span class="align-middle" data-key="t-logout">Organization</span>
+                                    </a>
 
-                                <a class="dropdown-item" href="@Url.Action("FabricIndex","Master")">
-                                    <span class="align-middle" data-key="t-logout">Fabric</span>
-                                </a>
+                                    <a class="dropdown-item" href="@Url.Action("UserIndex", "Master")">
+                                        <span class="align-middle" data-key="t-logout">User</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("FabricIndex", "Master")">
+                                        <span class="align-middle" data-key="t-logout">Fabric</span>
+                                    </a>
 
-                                <a class="dropdown-item" href="@Url.Action("ItemIndex","Master")">
-                                    <span class="align-middle" data-key="t-logout">Item Type</span>
-                                </a>
-                                <a class="dropdown-item" href="@Url.Action("StockCodeIndex","Master")">
-                                    <span class="align-middle" data-key="t-logout">Stock Code</span>
-                                </a>
-                                <a class="dropdown-item" href="@Url.Action("ParcelCodeIndex","Master")">
-                                    <span class="align-middle" data-key="t-logout">Parcel</span>
-                                </a>
+                                    <a class="dropdown-item" href="@Url.Action("ItemIndex", "Master")">
+                                        <span class="align-middle" data-key="t-logout">Item Type</span>
+                                    </a>
+                                    <a class="dropdown-item" href="@Url.Action("StockCodeIndex", "Master")">
+                                        <span class="align-middle" data-key="t-logout">Stock Code</span>
+                                    </a>
+                                    <a class="dropdown-item" href="@Url.Action("ParcelCodeIndex", "Master")">
+                                        <span class="align-middle" data-key="t-logout">Parcel</span>
+                                    </a>
+                                }
                             </div>
 
                             <a href="@Url.Action("Index","Parcel")" class="btn shadow-none" id="page-header-user-dropdown">
