@@ -18,8 +18,9 @@
         },
         columns: [
             { data: "name", name: "Name", "autoWidth": true },
-            { data: "mobile", name: "Mobile", "autoWidth": true },
             { data: "address", name: "Address", "autoWidth": true },
+            { data: "mobile", name: "Mobile", "autoWidth": true },
+
             {
                 bSortable: false,
                 autoWidth: true,
@@ -270,7 +271,7 @@ function bindCustomerLogGrid(id) {
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    columns: [0, 1, 2]
                 }
             },
             {
@@ -278,7 +279,7 @@ function bindCustomerLogGrid(id) {
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    columns: [0, 1, 2]
                 }
             },
             {
@@ -286,7 +287,7 @@ function bindCustomerLogGrid(id) {
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    columns: [0, 1, 2]
                 }
             },
             {
@@ -294,7 +295,7 @@ function bindCustomerLogGrid(id) {
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    columns: [0, 1, 2]
                 }
             },
             {
@@ -302,7 +303,7 @@ function bindCustomerLogGrid(id) {
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    columns: [0, 1, 2]
                 }
             }
         ]

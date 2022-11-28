@@ -21,12 +21,13 @@
         <EntityTypeShape EntityType="VKTrackerModel.LocationLog" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="VKTrackerModel.ParcelCodeLog" Width="1.5" PointX="9.375" PointY="6.75" />
         <EntityTypeShape EntityType="VKTrackerModel.StockCodeLog" Width="1.5" PointX="9.375" PointY="10.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.Userlog" Width="1.5" PointX="11.375" PointY="0.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="9" PointY="0.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.Userlog" Width="1.5" PointX="10.625" PointY="0.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="12.375" PointY="0.75" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Location" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_ParcelCode" />
         <EntityTypeShape EntityType="VKTrackerModel.ParcelReportLog" Width="1.5" PointX="11.375" PointY="5.75" />
         <EntityTypeShape EntityType="VKTrackerModel.Customer" Width="1.5" PointX="11.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.CustomerLog" Width="1.5" PointX="0.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

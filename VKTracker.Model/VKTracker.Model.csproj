@@ -53,6 +53,9 @@
     <Compile Include="Context\Customer.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\CustomerLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\Fabric.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
@@ -122,6 +125,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BaseModel.cs" />
     <Compile Include="ViewModel\BindDropdownViewModel.cs" />
+    <Compile Include="ViewModel\CustomerViewModel.cs" />
     <Compile Include="ViewModel\DataTableFilterViewModel.cs" />
     <Compile Include="ViewModel\FabricViewModel.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
