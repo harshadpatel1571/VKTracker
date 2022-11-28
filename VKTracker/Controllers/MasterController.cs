@@ -688,7 +688,7 @@ namespace VKTracker.Controllers
             };
         }
         #endregion
-         
+
         #region Stock
         public ActionResult StockCodeIndex()
         {
@@ -789,6 +789,112 @@ namespace VKTracker.Controllers
                 ContentType = "application/json"
             };
         }
+        #endregion
+
+        #region Customer
+
+        public ActionResult CustomerIndex()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> GetCustomerList()
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new CustomerRepository();
+
+            var data = await repository.GetList(filter).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<CustomerViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveCustomer(CustomerViewModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            var repository = new CustomerRepository();
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name);
+            if (isDuplicate)
+            {
+                return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            }
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
+            var respose = await repository.Save(objModel);
+
+            return Json(new { status = respose });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditCustomer(int id)
+        {
+            var repository = new CustomerRepository();
+            var model = await repository.GetById(id);
+
+            if (model != null)
+            {
+                return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteCustomer(int id)
+        {
+            var repository = new CustomerRepository();
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
+
+            return Json(new { status = respose });
+        }
+
+        public async Task<ActionResult> GetCustomerLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new CustomerRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<CustomerViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
+
+
         #endregion
     }
 }

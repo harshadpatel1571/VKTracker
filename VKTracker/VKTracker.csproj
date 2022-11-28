@@ -658,6 +658,7 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\choices.min.js" />
+    <Content Include="Scripts\custom\customerDataTable.js" />
     <Content Include="Scripts\custom\fabricDataTable.js" />
     <Content Include="Scripts\custom\itemDataTable.js" />
     <Content Include="Scripts\custom\locationDatatable.js" />
@@ -749,6 +750,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Parcel\Index.cshtml" />
     <Content Include="Views\Shared\_BreadCrum.cshtml" />
+    <Content Include="Views\Master\CustomerIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">

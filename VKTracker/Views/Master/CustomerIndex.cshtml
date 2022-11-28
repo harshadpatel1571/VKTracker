@@ -1,0 +1,110 @@
+﻿
+@model VKTracker.Model.ViewModel.CustomerViewModel
+
+@Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
+
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <div class="card-title mb-0 flex-grow-1" id="customerHeader"></div>
+        <div>
+            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnCustomerModal" data-bs-target="#customerModal">
+                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Customer
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="gridCustomer" class="display table caption-top table-nowrap" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="col-3">Name</th>
+                    <th class="col-3">Address</th>
+                    <th class="col-3">Mobile No</th>
+                    <th class="col-3">Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade zoomIn" id="customerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-m">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Customer Add</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="customerForm" name="customerForm" method="post">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Name</label>
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeHolder = "Name", @maxLength = "20" })
+                            @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                            <span class="text-danger" id="errorName"></span>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Mobile No</label>
+                            @Html.TextBoxFor(x => x.Mobile, new { @class = "form-control", @placeHolder = "Mobile no", @maxLength = "10" })
+                            @Html.ValidationMessageFor(x => x.Mobile, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-12">
+                            <label for="projectName-field" class="form-label">Address</label>
+                            @Html.TextAreaFor(x => x.Address, new { @class = "form-control", @placeHolder = "Address", @maxLength = "250" })
+                            @Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="addCustomer">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade zoomIn" id="customerLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Customer History Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <div class="modal-body">
+                <table id="gridCustomerLog" class="display table caption-top table-nowrap" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Action</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Log User Name</th>
+                            <th>Log Date</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="hstack gap-2 justify-content-end">
+                    <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/custom/customerDataTable.js"></script>
+    <script>
+        $(function () {
+            $('#gridCustomer').DataTable().destroy();
+            bindCustomer();
+        });
+    </script>
+}
