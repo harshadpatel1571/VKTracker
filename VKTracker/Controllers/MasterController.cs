@@ -688,7 +688,7 @@ namespace VKTracker.Controllers
             };
         }
         #endregion
-
+         
         #region Stock
         public ActionResult StockCodeIndex()
         {
