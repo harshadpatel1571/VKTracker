@@ -14,6 +14,12 @@ namespace VKTracker.Model.Context
     
     public partial class Fabric
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Fabric()
+        {
+            this.StockManagements = new HashSet<StockManagement>();
+        }
+    
         public int Id { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
@@ -21,5 +27,8 @@ namespace VKTracker.Model.Context
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public string FabricName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockManagement> StockManagements { get; set; }
     }
 }

@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\ParcelController.cs" />
+    <Compile Include="Controllers\StockManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -666,6 +667,7 @@
     <Content Include="Scripts\custom\parcelCodeDataTable.js" />
     <Content Include="Scripts\custom\parcelDatatable.js" />
     <Content Include="Scripts\custom\stockCodeDataTable.js" />
+    <Content Include="Scripts\custom\stockManagementDataTable.js" />
     <Content Include="Scripts\custom\usersDataTable.js" />
     <Content Include="Scripts\datatable\buttons.bootstrap4.js" />
     <Content Include="Scripts\datatable\buttons.colVis.js" />
@@ -751,6 +753,7 @@
     <Content Include="Views\Parcel\Index.cshtml" />
     <Content Include="Views\Shared\_BreadCrum.cshtml" />
     <Content Include="Views\Master\CustomerIndex.cshtml" />
+    <Content Include="Views\StockManagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">

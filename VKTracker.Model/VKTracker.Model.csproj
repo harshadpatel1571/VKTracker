@@ -98,6 +98,12 @@
     <Compile Include="Context\StockCodeLog.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\StockManagement.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\StockManagementLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\User.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
@@ -135,6 +141,7 @@
     <Compile Include="ViewModel\ParcelCodeViewModel.cs" />
     <Compile Include="ViewModel\ParcelViewModel.cs" />
     <Compile Include="ViewModel\StockCodeViewModel.cs" />
+    <Compile Include="ViewModel\StockManagementViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,12 @@ namespace VKTracker.Model.Context
     
     public partial class ParcelReport
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ParcelReport()
+        {
+            this.StockManagements = new HashSet<StockManagement>();
+        }
+    
         public int Id { get; set; }
         public int ParcelId { get; set; }
         public Nullable<System.DateTime> DispachedDate { get; set; }
@@ -30,5 +36,7 @@ namespace VKTracker.Model.Context
     
         public virtual Location Location { get; set; }
         public virtual ParcelCode ParcelCode { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockManagement> StockManagements { get; set; }
     }
 }

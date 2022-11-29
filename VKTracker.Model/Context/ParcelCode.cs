@@ -18,6 +18,7 @@ namespace VKTracker.Model.Context
         public ParcelCode()
         {
             this.ParcelReports = new HashSet<ParcelReport>();
+            this.StockManagements = new HashSet<StockManagement>();
         }
     
         public int Id { get; set; }
@@ -30,5 +31,7 @@ namespace VKTracker.Model.Context
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ParcelReport> ParcelReports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockManagement> StockManagements { get; set; }
     }
 }

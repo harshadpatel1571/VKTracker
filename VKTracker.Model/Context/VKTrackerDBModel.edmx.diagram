@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ffda10e08adc440d8741e6b6a7287bba" Name="Diagram1">
+      <Diagram DiagramId="ffda10e08adc440d8741e6b6a7287bba" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="VKTrackerModel.Fabric" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.Item" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.Location" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
@@ -28,6 +28,16 @@
         <EntityTypeShape EntityType="VKTrackerModel.ParcelReportLog" Width="1.5" PointX="11.375" PointY="5.75" />
         <EntityTypeShape EntityType="VKTrackerModel.Customer" Width="1.5" PointX="11.375" PointY="10.75" />
         <EntityTypeShape EntityType="VKTrackerModel.CustomerLog" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockManagement" Width="1.5" PointX="14.625" PointY="1.75" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Fabric" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Item" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Location" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_ParcelReport" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_StockCode" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_ParcelReport1" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Organization" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_User" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockManagementLog" Width="1.5" PointX="3.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

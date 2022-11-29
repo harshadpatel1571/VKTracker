@@ -64,6 +64,7 @@
     <Compile Include="Repository\ParcelCodeRepository.cs" />
     <Compile Include="Repository\ParcelRepository.cs" />
     <Compile Include="Repository\StockCodeRepository.cs" />
+    <Compile Include="Repository\StockManagementRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
