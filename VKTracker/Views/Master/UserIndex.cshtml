@@ -71,7 +71,7 @@
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Mobile No</label>
-                            @Html.TextBoxFor(x => x.MobileNo, new { @type = "number", @class = "form-control", @placeHolder = "Mobile No" })
+                            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control", @placeHolder = "Mobile No", @maxLength = "10" })
                             @Html.ValidationMessageFor(x => x.MobileNo, "", new { @class = "text-danger" })
                         </div>
 
