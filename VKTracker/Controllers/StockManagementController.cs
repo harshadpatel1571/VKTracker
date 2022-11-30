@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -97,5 +98,26 @@ namespace VKTracker.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SaveStockManagement(StockManagementViewModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            var repository = new StockManagementRepository();
+            //bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name);
+            //if (isDuplicate)
+            //{
+            //    return Json(new { status = false, msg = "Duplicate Data Found !!" });
+            //}
+
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
+            return Json(new { status = respose });
+        }
     }
 }
