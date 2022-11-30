@@ -163,7 +163,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<List<BindDropdownViewModel>> BindOrganizationDDl()
+        public async Task<List<BindDropdownViewModel>> BindItemDDl()
         {
             var db = new VKTrackerEntities();
             try

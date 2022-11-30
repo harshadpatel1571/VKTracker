@@ -164,7 +164,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<List<BindDropdownViewModel>> BindOrganizationDDl()
+        public async Task<List<BindDropdownViewModel>> BindFabricDDl()
         {
             var db = new VKTrackerEntities();
             try

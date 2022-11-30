@@ -22,7 +22,9 @@ namespace VKTracker.Repository.Repository
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
-                    result = result.Where(x => x.Name.Contains(filterDto.SearchValue));
+                    result = result.Where(x => x.Name.Contains(filterDto.SearchValue) ||
+                                          x.Mobile.Contains(filterDto.SearchValue) ||
+                                          x.Address.Contains(filterDto.SearchValue));
                 }
 
                 var model = new DataTableResponseCarrier<CustomerViewModel>
