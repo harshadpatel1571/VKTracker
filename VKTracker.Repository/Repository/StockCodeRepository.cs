@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -198,6 +199,27 @@ namespace VKTracker.Repository.Repository
                 }).ToListAsync().ConfigureAwait(false);
 
                 return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public async Task<List<BindDropdownViewModel>> BindStockCodeDDl()
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                return await db.StockCodes.Where(x => x.IsActive).Select(x => new BindDropdownViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Code
+                }).ToListAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
