@@ -76,5 +76,26 @@ namespace VKTracker.Controllers
                 ContentType = "application/json"
             };
         }
+
+        public async Task<ActionResult> EditStockManagement(int id)
+        {
+            var repository = new StockManagementRepository();
+            var model = await repository.GetById(id);
+
+            if (model != null)
+            {
+                return new ContentResult
+                {
+                    Content = JsonConvert.SerializeObject(new { status = true, data = model }, JsonSetting.Default),
+                    ContentEncoding = System.Text.Encoding.UTF8,
+                    ContentType = "application/json"
+                };
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
+
     }
 }

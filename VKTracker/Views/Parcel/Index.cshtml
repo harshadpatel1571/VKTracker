@@ -44,7 +44,7 @@
                     <div class="row g-3">
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Parcel Code</label>
-                            @Html.HiddenFor(x => x.Id);
+                            @Html.HiddenFor(x => x.Id)
                             @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select" })
                             @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
                         </div>

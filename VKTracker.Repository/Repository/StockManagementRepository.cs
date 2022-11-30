@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
@@ -73,9 +71,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-
-
-   /*     public async Task<bool> Save(StockManagementViewModel objModel, int userId, int organizationId)
+        public async Task<bool> Save(StockManagementViewModel objModel, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -87,11 +83,13 @@ namespace VKTracker.Repository.Repository
                     model = await db.StockManagements.FirstOrDefaultAsync(x => x.Id == objModel.Id).ConfigureAwait(false);
                 }
 
-                model.ChalanNo = objModel.ChallanNo;
-                model.LocatoinId = objModel.LocationId;
                 model.ParcelId = objModel.ParcelId;
-                model.ArrivalDate = objModel.ArrivalDate;
-                model.DispachedDate = objModel.DishpatchDate;
+                model.StockCodeId = objModel.StockCodeId;
+                model.FabricId = objModel.FabricId;
+                model.ItemId = objModel.ItemId;
+                model.LocationId = objModel.LocationId;
+                model.TotalQuantity = objModel.TotalQuantity;
+
                 model.IsActive = true;
 
                 model.UserId = userId;
@@ -132,11 +130,12 @@ namespace VKTracker.Repository.Repository
                 return await db.StockManagements.Where(x => x.Id == id).Select(x => new StockManagementViewModel
                 {
                     Id = x.Id,
-                    ChallanNo = x.ChalanNo,
-                    LocationId = x.LocatoinId,
-                    ParcelId = x.ParcelId,
-                    ArrivalDate = x.ArrivalDate,
-                    DishpatchDate = x.DispachedDate,
+                    ParcelId = (int)x.ParcelId,
+                    StockCodeId = (int)x.StockCodeId,
+                    FabricId = (int)x.FabricId,
+                    ItemId = (int)x.ItemId,
+                    LocationId = (int)x.LocationId,
+                    TotalQuantity = x.TotalQuantity,
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -147,7 +146,7 @@ namespace VKTracker.Repository.Repository
             {
                 db.Dispose();
             }
-        }*/
+        }
 
         public async Task<bool> Delete(int id, int userId)
         {
