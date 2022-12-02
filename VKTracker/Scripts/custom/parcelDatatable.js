@@ -1,4 +1,4 @@
-﻿function bindParcel() {
+﻿function bindParcel(data) {
     $('#gridParcel').DataTable({
         paging: true,
         lengthChange: true,
@@ -16,6 +16,7 @@
             type: "POST",
             datatype: "json"
         },
+        data: data,
         columns: [
             {
                 data: "parcelId", name: "Parcel Id", "autoWidth": true,
@@ -288,7 +289,7 @@ function editParcelRecord(id) {
                 $("#parcelForm #ParcelId").val(response.data.parcelId);
                 $("#parcelForm #LocationId").val(response.data.locationId);
                 $("#parcelForm #ChallanNo").val(response.data.challanNo);
-                
+
                 $("#parcelForm #DishpatchDate").val(formateDateYMD(response.data.dishpatchDate));
                 $("#parcelForm #ArrivalDate").val(formateDateYMD(response.data.arrivalDate));
             }
@@ -358,4 +359,31 @@ $('#parcelModal').on('hidden.bs.modal', function () {
     $("#parcelForm #DishpatchDate-error").text("");
     $("#parcelForm #ArrivalDate-error").text("");
     $('form#parcelForm').trigger("reset");
+});
+
+
+$("#btnSearch").click(function () {
+    event.preventDefault();
+    var searchDate = { fromDate: $('#DishpatchDate').val(), toDate: $('#ArrivalDate').val() };
+    console.log(searchDate);
+    $.ajax({
+        url: "/Parcel/SearchParcel/",
+        type: "POST",
+        data: searchDate,
+        dataType: "json",
+        success: function (response) {
+            if (response.status) {
+                $('#gridParcel').DataTable().destroy();
+                bindParcel(response.data);
+            }
+            else {
+                
+            }
+        },
+        error: function (response) {
+            alert('Error!');
+        },
+        complete: function () {
+        }
+    })
 });

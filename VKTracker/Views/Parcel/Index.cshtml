@@ -16,6 +16,25 @@
         </div>
     </div>
     <div class="card-body">
+        <form>
+            <div class="row  mb-4 ">
+                <div class="col-lg-6">
+                </div>
+                <div class="col-lg-2">
+                    <label for="projectName-field" class="form-label">From Date</label>
+                    @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.DishpatchDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2">
+                    <label for="projectName-field" class="form-label">To Date</label>
+                    @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.ArrivalDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2 mt-4 d-grid">
+                    <button type="button" class="btn btn-success" id="btnSearch">Search</button>
+                </div>
+            </div>
+        </form>
         <table id="gridParcel" class="display table caption-top table-nowrap" style="width:100%">
             <thead class="table-light">
                 <tr>

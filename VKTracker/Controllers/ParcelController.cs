@@ -123,5 +123,13 @@ namespace VKTracker.Controllers
 
             return Json(new { status = respose });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SearchParcel(DateTime fromDate, DateTime toDate)
+        {
+            var repository = new ParcelRepository();
+            var respose = await repository.Search(fromDate, toDate);
+            return Json(new { status = true, data = respose });
+        }
     }
 }

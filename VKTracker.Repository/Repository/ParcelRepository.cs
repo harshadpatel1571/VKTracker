@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Eventing.Reader;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
@@ -223,5 +225,33 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<List<ParcelViewModel>> Search(DateTime fromDate, DateTime toDate)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                var lst = await db.ParcelReports.Where(x => x.DispachedDate >= fromDate.Date)
+                    .Select(x => new ParcelViewModel
+                    {
+                        Id = x.Id,
+                        ChallanNo = x.ChalanNo,
+                        LocationId = x.LocatoinId,
+                        ParcelId = x.ParcelId,
+                        ArrivalDate = x.ArrivalDate,
+                        DishpatchDate = x.DispachedDate,
+                    }).ToListAsync().ConfigureAwait(false);
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
     }
 }
