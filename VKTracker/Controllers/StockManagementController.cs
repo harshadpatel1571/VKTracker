@@ -12,12 +12,25 @@ using VKTracker.Repository.Repository;
 
 namespace VKTracker.Controllers
 {
+    [Authorize]
     public class StockManagementController : Controller
     {
         // GET: StockManagement
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var model = new StockManagementViewModel();
+            var repoParcelCode = new ParcelCodeRepository();
+            var repoItem = new ItemRepository();
+            var repoFebric = new FabricRepository();
+            var repoStockCode = new StockCodeRepository();
+            var repoLocation = new LocationRepository();
+
+            ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(), "Id", "Name");
+            ViewBag.StockCodeDDL = new SelectList(await repoStockCode.BindStockCodeDDl(), "Id", "Name");
+            ViewBag.LocationDDl = new SelectList(await repoLocation.BindLocationDDl(), "Id", "Name");
+            ViewBag.FabricDDl = new SelectList(await repoFebric.BindFabricDDl(), "Id", "Name");
+            ViewBag.ItemDDl = new SelectList(await repoItem.BindItemDDl(), "Id", "Name");
+            return View(model);
         }
 
         public async Task<ActionResult> GetStockManagementList()
@@ -109,12 +122,6 @@ namespace VKTracker.Controllers
             }
 
             var repository = new StockManagementRepository();
-            //bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name);
-            //if (isDuplicate)
-            //{
-            //    return Json(new { status = false, msg = "Duplicate Data Found !!" });
-            //}
-
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });

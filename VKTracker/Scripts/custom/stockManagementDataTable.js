@@ -160,7 +160,7 @@ function bindStockManagementLogGrid(id) {
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 }
             },
             {
@@ -168,7 +168,7 @@ function bindStockManagementLogGrid(id) {
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 }
             },
             {
@@ -176,7 +176,7 @@ function bindStockManagementLogGrid(id) {
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 }
             },
             {
@@ -184,7 +184,7 @@ function bindStockManagementLogGrid(id) {
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 }
             },
             {
@@ -192,21 +192,19 @@ function bindStockManagementLogGrid(id) {
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 }
             }
         ]
     }).buttons().container().appendTo('#gridStockManagementLog_wrapper .col-md-6:eq(0)');
 }
 
-/*$("#addParcel").click(function () {
-
-    if ($("#parcelForm").valid()) {
-
+$("#editStockManage").click(function () {
+    if ($("#stockManageEditForm").valid()) {
         event.preventDefault();
-        var formData = $("#parcelForm").serialize();
+        var formData = $("#stockManageEditForm").serialize();
         $.ajax({
-            url: "/Parcel/SaveParcelCode/",
+            url: "/StockManagement/SaveStockManagement/",
             type: "POST",
             data: formData,
             dataType: "json",
@@ -224,7 +222,7 @@ function bindStockManagementLogGrid(id) {
                     }).then(function () {
                         const table = $("#gridStockManagement").DataTable();
                         table.ajax.reload(null, false);
-                        $("#parcelForm #close-modal").click();
+                        $("#stockManageEditForm #close-modal").click();
                     });
                 }
                 else {
@@ -250,23 +248,23 @@ function bindStockManagementLogGrid(id) {
     else {
         return false;
     }
-});*/
+});
 
-/*function editParcelRecord(id) {
+function editStockManagementRecord(id) {
     $.ajax({
-        url: "/Parcel/EditParcel/" + id,
+        url: "/StockManagement/EditStockManagement/" + id,
         type: "GET",
         success: function (response) {
             if (response.status) {
                 console.log(response.data);
-                $("#btnParcelModal").click();
-                $("#parcelForm #Id").val(response.data.id);
-                $("#parcelForm #ParcelId").val(response.data.parcelId);
-                $("#parcelForm #LocationId").val(response.data.locationId);
-                $("#parcelForm #ChallanNo").val(response.data.challanNo);
-
-                $("#parcelForm #DishpatchDate").val(formateDateYMD(response.data.dishpatchDate));
-                $("#parcelForm #ArrivalDate").val(formateDateYMD(response.data.arrivalDate));
+                $("#stockManageEditModal").modal('show');
+                $("#stockManageEditForm #Id").val(response.data.id);
+                $("#stockManageEditForm #ParcelId").val(response.data.parcelId);
+                $("#stockManageEditForm #StockCodeId").val(response.data.stockCodeId);
+                $("#stockManageEditForm #FabricId").val(response.data.fabricId);
+                $("#stockManageEditForm #ItemId").val(response.data.itemId);
+                $("#stockManageEditForm #LocationId").val(response.data.locationId);
+                $("#stockManageEditForm #TotalQuantity").val(response.data.totalQuantity);
             }
         },
         error: function (response) {
@@ -275,7 +273,7 @@ function bindStockManagementLogGrid(id) {
         complete: function () {
         }
     })
-}*/
+}
 
 function deleteStockManagementRecord(id) {
     Swal.fire({
@@ -325,6 +323,18 @@ function deleteStockManagementRecord(id) {
         });
     });
 }
+
+$("#ThanNo").focusout(function () {
+    var count = $("#ThanNo").val();
+    if (count > 0) {
+        for (var i = 1; i <= count; i++) {
+            var $el = $('#mainChild_1').clone();
+            $('#MainParent').append("<hr /><br>");
+            $('#MainParent').append($el);
+        }
+    }
+});
+
 
 /*$('#parcelModal').on('hidden.bs.modal', function () {
     $("#parcelForm #Id").val("");

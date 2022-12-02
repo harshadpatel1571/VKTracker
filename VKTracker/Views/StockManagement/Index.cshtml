@@ -1,6 +1,4 @@
-﻿
-
-@model VKTracker.Model.ViewModel.StockManagementViewModel
+﻿@model VKTracker.Model.ViewModel.StockManagementViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +10,7 @@
     <div class="card-header d-flex align-items-center">
         <h5 class="card-title mb-0 flex-grow-1">Stock Management</h5>
         <div>
-            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnStockManagement" data-bs-target="#parcelModal">
+            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnStockManageAddModal" data-bs-target="#stockManageAddModal">
                 <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Stock Management
             </button>
         </div>
@@ -36,58 +34,136 @@
     </div>
 </div>
 
-@*<div class="modal fade zoomIn" id="parcelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0">
-                <div class="modal-header p-3 bg-soft-info">
-                    <h5 class="modal-title" id="exampleModalLabel">Parcel Add</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                </div>
-                <form id="parcelForm" name="parcelForm" method="post">
-                    <div class="modal-body">
+<div class="modal fade zoomIn" id="stockManageAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Stock Add</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="stockManageAddForm" name="stockManageAddForm" method="post">
+                <div class="modal-body">
+                    <div id="mainChild_1">
                         <div class="row g-3">
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Parcel Code</label>
                                 @Html.HiddenFor(x => x.Id);
                                 @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select" })
                                 @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="col-lg-6">
-                                <label for="projectName-field" class="form-label">Recive Location</label>
-                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, new { @class = "form-select" })
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Stock Code</label>
+                                @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => x.StockCodeId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Fabric</label>
+                                @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDl, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => x.FabricId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Item</label>
+                                @Html.DropDownListFor(m => m.ItemId, (SelectList)ViewBag.ItemDDl, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => x.ItemId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Location</label>
+                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select" })
                                 @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="col-lg-6">
-                                <label for="projectName-field" class="form-label">Challan No</label>
-                                @Html.TextBoxFor(m => m.ChallanNo, new { @class = "form-control", @placeHolder = "Challan No" })
-                                @Html.ValidationMessageFor(x => x.ChallanNo, "", new { @class = "text-danger" })
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Total Quantity</label>
+                                @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100" })
+                                @Html.ValidationMessageFor(x => x.TotalQuantity, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="col-lg-6">
-                                <label for="projectName-field" class="form-label">Dishpatch Date</label>
-                                @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
-                                @Html.ValidationMessageFor(x => x.DishpatchDate, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="col-lg-6">
-                                <label for="projectName-field" class="form-label">Arrival Date</label>
-                                @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
-                                @Html.ValidationMessageFor(x => x.ArrivalDate, "", new { @class = "text-danger" })
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Total Than</label>
+                                @Html.TextBoxFor(x => x.ThanNo, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100" })
+                                @Html.ValidationMessageFor(x => x.ThanNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" id="addParcel">Save</button>
-                        </div>
+                    <div id="MainParent">
+
                     </div>
-                </form>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="addStockManage">Save</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>*@
+    </div>
+</div>
+
+<div class="modal fade zoomIn" id="stockManageEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Stock Add</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="stockManageEditForm" name="stockManageEditForm" method="post">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Parcel Code</label>
+                            @Html.HiddenFor(x => x.Id);
+                            @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Stock Code</label>
+                            @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.StockCodeId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Fabric</label>
+                            @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDl, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.FabricId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Item</label>
+                            @Html.DropDownListFor(m => m.ItemId, (SelectList)ViewBag.ItemDDl, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.ItemId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Location</label>
+                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Total Quantity</label>
+                            @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100" })
+                            @Html.ValidationMessageFor(x => x.TotalQuantity, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="editStockManage">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade zoomIn" id="stockManagementLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
