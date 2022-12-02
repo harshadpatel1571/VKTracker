@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -227,6 +228,41 @@ namespace VKTracker.Repository.Repository
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public async Task<bool> SaveList(List<StockManagementViewModel> objModel)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                var model = objModel.Select(x => new StockManagement
+                {
+                    ParcelId = x.ParcelId,
+                    StockCodeId = x.StockCodeId,
+                    FabricId = x.FabricId,
+                    ItemId = x.ItemId,
+                    LocationId = x.LocationId,
+                    TotalQuantity = x.TotalQuantity,
+                    IsActive = true,                    
+                    CreatedBy = x.CreatedBy,
+                    CreatedOn = x.CreatedOn,
+                    UserId= x.UserId,
+                    OrganizationId=x.OrganizationId
+                }).ToList();
+
+                db.StockManagements.AddRange(model);
+
+                var status = await db.SaveChangesAsync().ConfigureAwait(false);
+                return status > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+                throw;
             }
             finally
             {

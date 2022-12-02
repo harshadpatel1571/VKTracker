@@ -324,24 +324,109 @@ function deleteStockManagementRecord(id) {
     });
 }
 
-$("#ThanNo").focusout(function () {
-    var count = $("#ThanNo").val();
+let rowlist = [0];
+$("#ThanNo_0").focusout(function () {
+    var count = $("#ThanNo_0").val();
+        
+        const data = '<div id="mainChild_1">' + $("#mainChild_1").html() + '</div>';
     if (count > 0) {
         for (var i = 1; i <= count; i++) {
             var $el = $('#mainChild_1').clone();
             $('#MainParent').append("<hr /><br>");
-            $('#MainParent').append($el);
+            //$('#MainParent').append($el);
+
+            $('#MainParent').append(data.replace("Id_0", "Id_" + (i))
+                .replace('ParcelId_0', 'ParcelId_' + (i))
+                .replace('StockCodeId_0', 'StockCodeId_' + (i))
+                .replace('FabricId_0', 'FabricId_' + (i))
+                .replace('ItemId_0', 'ItemId_' + (i))
+                .replace('LocationId_0', 'LocationId_' + (i))
+                .replace('TotalQuantity_0', 'TotalQuantity_' + (i))
+                .replace('ThanNo_0', 'ThanNo_' + (i))
+                .replace('Thandiv_0', 'Thandiv_' + (i))
+            );
+            $('#Thandiv_' + i).remove();
+            rowlist.push(i);
         }
     }
 });
 
 
-/*$('#parcelModal').on('hidden.bs.modal', function () {
-    $("#parcelForm #Id").val("");
-    $("#parcelForm #ParcelId-error").text("");
-    $("#parcelForm #LocationId-error").text("");
-    $("#parcelForm #ChallanNo-error").text("");
-    $("#parcelForm #DishpatchDate-error").text("");
-    $("#parcelForm #ArrivalDate-error").text("");
-    $('form#parcelForm').trigger("reset");
-});*/
+$(document).on('click', '#addStockManage', function (e) {
+    if ($("#stockManageAddForm").valid()) {
+        var objModelList = [];
+        rowlist.forEach(i => {
+            var data = {
+                Id: $("#Id_" + i).val(),
+                ParcelId: $("#ParcelId_" + i).val(),
+                StockCodeId: $("#StockCodeId_" + i).val(),
+                FabricId: $("#FabricId_" + i).val(),
+                ItemId: $("#ItemId_" + i).val(),
+                LocationId: $("#LocationId_" + i).val(),
+                TotalQuantity: $("#TotalQuantity_" + i).val()
+            };
+            objModelList.push(data);
+        });
+
+        var objModel = {
+            StockManagementList: objModelList
+        };
+
+        $.ajax({
+            url: "/StockManagement/SaveStockManagementList",
+            type: "POST",
+            data: objModel,
+            success: function (response) {
+                if (response.status) {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Saved.",
+                        text: "Your record has been Saved.",
+                        icon: "success",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    }).then(function () {
+                        const table = $("#gridStockManagement").DataTable();
+                        table.ajax.reload(null, false);
+                        $("#stockManageAddForm #close-modal").click();
+                    });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
+                }
+            },
+            error: function (response) {
+                alert('Error!');
+            },
+            complete: function () {
+            }
+        })
+    } else {
+        return false;
+    }
+});
+
+
+$('#stockManageAddModal').on('hidden.bs.modal', function () {
+
+    $("#stockManageAddForm #Id").val("");
+    $("#stockManageAddForm #ParcelId-error").text("");
+    $('form#stockManageAddForm').trigger("reset");
+
+
+    rowlist.forEach(i => {
+        $('#MainParent').empty();
+    });
+    rowlist = [0];
+});

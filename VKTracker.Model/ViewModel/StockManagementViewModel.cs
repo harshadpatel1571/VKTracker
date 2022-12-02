@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace VKTracker.Model.ViewModel
 {
@@ -26,6 +28,7 @@ namespace VKTracker.Model.ViewModel
 
         public string LocationName { get; set; }
 
+        [Required(ErrorMessage = "TotalQuantity is required!")]
         public decimal TotalQuantity { get; set; }
 
         public int OrganizationId { get; set; }
@@ -37,5 +40,11 @@ namespace VKTracker.Model.ViewModel
         public DateTime ModifiedDate { get; set; }
 
         public int? ThanNo { get; set; }
+    }
+
+    public class StockManagementListModel
+    {
+        public List<StockManagementViewModel> StockManagementList { get; set; }
+        
     }
 }

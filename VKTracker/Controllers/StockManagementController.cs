@@ -126,5 +126,36 @@ namespace VKTracker.Controllers
             var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveStockManagementList(StockManagementListModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            objModel.StockManagementList = objModel.StockManagementList.Select(x=> new StockManagementViewModel
+            {
+                ParcelId = x.ParcelId,
+                StockCodeId = x.StockCodeId,
+                FabricId = x.FabricId,
+                ItemId = x.ItemId,
+                LocationId = x.LocationId,
+                TotalQuantity = x.TotalQuantity,
+                CreatedBy = Convert.ToInt32(Session["userId"]),
+                CreatedOn = DateTime.Now,
+                UserId = Convert.ToInt32(Session["userId"]),
+                OrganizationId = Convert.ToInt32(Session["OrganizationId"])
+
+            }).ToList();
+
+            var repository = new StockManagementRepository();
+            var respose = await repository.SaveList(objModel.StockManagementList);
+            return Json(new { status = respose });
+        }
+
     }
 }
