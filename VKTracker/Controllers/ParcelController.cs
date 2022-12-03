@@ -25,13 +25,14 @@ namespace VKTracker.Controllers
             return View(parcelModel);
         }
 
-        public async Task<ActionResult> GetParcelList()
+        [HttpPost]
+        public async Task<ActionResult> GetParcelList(DateTime? fromDate, DateTime? toDate)
         {
             var filter = DataExtractor.Extract(Request);
 
             var repository = new ParcelRepository();
 
-            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]), fromDate, toDate).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<ParcelViewModel>
             {
@@ -55,7 +56,7 @@ namespace VKTracker.Controllers
 
             var repository = new ParcelRepository();
 
-            var data = await repository.GetLogList(filter,id).ConfigureAwait(false);
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<ParcelViewModel>
             {

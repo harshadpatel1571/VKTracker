@@ -27,5 +27,8 @@ namespace VKTracker.Model.ViewModel
         public DateTime? DishpatchDate { get; set; }
 
         public DateTime? ArrivalDate { get; set; }
+
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

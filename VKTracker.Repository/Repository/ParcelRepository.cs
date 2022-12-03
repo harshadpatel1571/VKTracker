@@ -15,21 +15,22 @@ namespace VKTracker.Repository.Repository
 {
     public class ParcelRepository
     {
-        public async Task<DataTableResponseCarrier<ParcelViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
+        public async Task<DataTableResponseCarrier<ParcelViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, DateTime? fromDate, DateTime? toDate)
         {
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.ParcelReports.Where(x => x.IsActive && x.UserId == userId && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
+                var result = db.ParcelReports.Where(x => x.IsActive && x.UserId == userId && x.OrganizationId == organizationId &&
+                ((fromDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
+                (toDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) <= DbFunctions.TruncateTime(toDate) : true))
+                ).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
                     result = result.Where(x => x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.ChalanNo.Contains(filterDto.SearchValue) || 
+                                                x.ChalanNo.Contains(filterDto.SearchValue) ||
                                                 x.Location.LocationName.Contains(filterDto.SearchValue) ||
-                                                x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.ArrivalDate.Value.ToString().Contains(filterDto.SearchValue) ||
-                                                x.DispachedDate.Value.ToString().Contains(filterDto.SearchValue));
+                                                x.ParcelCode.Code.Contains(filterDto.SearchValue));
                 }
 
                 var model = new DataTableResponseCarrier<ParcelViewModel>

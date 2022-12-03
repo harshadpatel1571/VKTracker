@@ -16,19 +16,19 @@
         </div>
     </div>
     <div class="card-body">
-        <form>
+        <form id="frmSearch" name="frmSearch">
             <div class="row mb-4">
                 <div class="col-7">
                 </div>
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">From Date</label>
-                    @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
-                    @Html.ValidationMessageFor(x => x.DishpatchDate, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.FromDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.FromDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">To Date</label>
-                    @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
-                    @Html.ValidationMessageFor(x => x.ArrivalDate, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.ToDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.ToDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-1 mt-4">
                     <button type="button" class="btn btn-success btn-label waves-effect waves-light" id="btnSearch">
@@ -146,6 +146,10 @@
 
     <script>
         $(function () {
+            let currentDate = new Date().toJSON().slice(0, 10);
+            console.log(formateDateYMD(currentDate));
+            //$("#frmSearch #FromDate").val(formateDateYMD(currentDate));
+            //$("#frmSearch #ToDate").val(formateDateYMD(currentDate));
             $('#gridParcel').DataTable().destroy();
             bindParcel();
         });

@@ -14,7 +14,11 @@
         ajax: {
             url: "/Parcel/GetParcelList/",
             type: "POST",
-            datatype: "json"
+            datatype: "json",
+            data: function (data) {
+                data.fromDate = $('#FromDate').val();
+                data.toDate = $('#ToDate').val();
+            }
         },
         data: data,
         columns: [
@@ -363,27 +367,6 @@ $('#parcelModal').on('hidden.bs.modal', function () {
 
 
 $("#btnSearch").click(function () {
-    event.preventDefault();
-    var searchDate = { fromDate: $('#DishpatchDate').val(), toDate: $('#ArrivalDate').val() };
-    console.log(searchDate);
-    $.ajax({
-        url: "/Parcel/SearchParcel/",
-        type: "POST",
-        data: searchDate,
-        dataType: "json",
-        success: function (response) {
-            if (response.status) {
-                $('#gridParcel').DataTable().destroy();
-                bindParcel(response.data);
-            }
-            else {
-                
-            }
-        },
-        error: function (response) {
-            alert('Error!');
-        },
-        complete: function () {
-        }
-    })
+    const table = $("#gridParcel").DataTable();
+    table.ajax.reload(null, false);
 });
