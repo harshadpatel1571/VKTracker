@@ -17,6 +17,14 @@
             datatype: "json"
         },
         columns: [
+            {
+                data: "id", name: "Id", "autoWidth": true,
+                render: function (data, type, row) {
+                    return '<div class="form-check ms-3"> ' +
+                        '<input class="form-check-input text-center" name="stock" type="checkbox" value=' + data + '>' +
+                        '</div>';
+                }
+            },
             { data: "parcelCode", name: "Parcel Code", "autoWidth": true },
             { data: "stockCode", name: "Stock Code", "autoWidth": true },
             { data: "fabricName", name: "Fabric Name", "autoWidth": true },
@@ -98,10 +106,32 @@
                     columns: [0, 1, 2, 3, 4, 5]
                 }
             },
+            DeleteButton,
+            TransferLocationButton,
+            DistributeButton,
             'pageLength'
         ]
     }).buttons().container().appendTo('#gridStockManagement_wrapper .col-md-6:eq(0)');
 }
+
+var DeleteButton = {
+    text: 'Delete',
+    action: function (e, dt, node, config) {
+        DeleteStockList();
+    }
+};
+var TransferLocationButton = {
+    text: 'Transfer Location',
+    action: function (e, dt, node, config) {
+        alert('Transfer Location');
+    }
+};
+var DistributeButton = {
+    text: 'Distribute',
+    action: function (e, dt, node, config) {
+        alert('Distribute');
+    }
+};
 
 $(document).ready(function () {
     const table = $('#gridStockManagement').DataTable();
@@ -327,8 +357,12 @@ function deleteStockManagementRecord(id) {
 let rowlist = [0];
 $("#ThanNo_0").focusout(function () {
     var count = $("#ThanNo_0").val();
-        
-        const data = '<div id="mainChild_1">' + $("#mainChild_1").html() + '</div>';
+    rowlist.forEach(i => {
+        $('#MainParent').empty();
+    });
+    rowlist = [0];
+    console.log(rowlist);
+    const data = '<div id="mainChild_1">' + $("#mainChild_1").html() + '</div>';
     if (count > 0) {
         for (var i = 1; i <= count; i++) {
             var $el = $('#mainChild_1').clone();
@@ -350,7 +384,6 @@ $("#ThanNo_0").focusout(function () {
         }
     }
 });
-
 
 $(document).on('click', '#addStockManage', function (e) {
     if ($("#stockManageAddForm").valid()) {
@@ -417,7 +450,6 @@ $(document).on('click', '#addStockManage', function (e) {
     }
 });
 
-
 $('#stockManageAddModal').on('hidden.bs.modal', function () {
 
     $("#stockManageAddForm #Id").val("");
@@ -430,3 +462,83 @@ $('#stockManageAddModal').on('hidden.bs.modal', function () {
     });
     rowlist = [0];
 });
+
+function DeleteStockList() {
+    //$('input:checkbox[name=stock]').each(function () {
+    //    if ($(this).is(':checked'))
+    //        alert($(this).id);
+    //});
+
+    var checkboxValues = [];
+
+    $('input[name=stock]:checked').map(function () {
+
+        var data = {
+            Id: $(this).val(),
+        };
+        checkboxValues.push(data);
+
+    });
+
+    var objModel = {
+        StockManagementList: checkboxValues
+    };
+
+    if (checkboxValues.length > 0) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            cancelButtonClass: "btn btn-danger w-xs mt-2",
+            confirmButtonText: "Yes, delete it!",
+            buttonsStyling: !1,
+            showCloseButton: !0,
+        }).then(function (t) {
+            if (!t.isConfirmed) return;
+            $.ajax({
+                url: "/StockManagement/DeleteStockManagementList",
+                type: "POST",
+                data: objModel,
+                success: function (response) {
+                    if (response.status) {
+                        t.value && Swal.fire({
+                            timer: 1500,
+                            title: "Deleted.",
+                            text: "Your record has been deleted.",
+                            icon: "success",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            buttonsStyling: !1
+                        }).then(function () {
+                            const table = $("#gridStockManagement").DataTable();
+                            table.ajax.reload(null, false);
+                        });
+                    }                    
+                },
+                error: function (response) {
+                    let message = "This entity is being referred somewhere else.";
+
+                    if (response.status === 404) {
+                        message = "Entity can not be found.";
+                    }
+
+                    t.value && Swal.fire({
+                        title: "Unable to delete.",
+                        text: message,
+                        icon: "warning",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        buttonsStyling: !1
+                    })
+                },
+                complete: function () {
+                }
+            });
+        });
+    }
+    else {
+        return false;
+    }
+
+}

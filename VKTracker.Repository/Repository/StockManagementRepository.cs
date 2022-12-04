@@ -248,14 +248,40 @@ namespace VKTracker.Repository.Repository
                     ItemId = x.ItemId,
                     LocationId = x.LocationId,
                     TotalQuantity = x.TotalQuantity,
-                    IsActive = true,                    
+                    IsActive = true,
                     CreatedBy = x.CreatedBy,
                     CreatedOn = x.CreatedOn,
-                    UserId= x.UserId,
-                    OrganizationId=x.OrganizationId
+                    UserId = x.UserId,
+                    OrganizationId = x.OrganizationId
                 }).ToList();
 
                 db.StockManagements.AddRange(model);
+
+                var status = await db.SaveChangesAsync().ConfigureAwait(false);
+                return status > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+        public async Task<bool> DeleteList(List<StockManagementViewModel> objModel)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                foreach (var item in objModel)
+                {
+                    var model = await db.StockManagements.FirstOrDefaultAsync(x => x.Id == item.Id).ConfigureAwait(false);
+                    model.IsActive = false;
+                    model.CreatedBy = item.CreatedBy;
+                    model.CreatedOn = item.CreatedOn;
+                    db.Entry(model).State = EntityState.Modified;
+                }
 
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
                 return status > 0 ? true : false;
