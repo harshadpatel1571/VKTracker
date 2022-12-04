@@ -367,6 +367,11 @@ $('#parcelModal').on('hidden.bs.modal', function () {
 
 
 $("#btnSearch").click(function () {
-    const table = $("#gridParcel").DataTable();
-    table.ajax.reload(null, false);
+    if ($("#frmSearch").valid()) {
+        const table = $("#gridParcel").DataTable();
+        table.ajax.reload(null, false);
+    }
+    else {
+        return false;
+    }
 });

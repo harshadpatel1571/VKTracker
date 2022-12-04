@@ -23,12 +23,13 @@ namespace VKTracker.Model.ViewModel
 
         [Required(ErrorMessage = "Challan No is required.")]
         public string ChallanNo { get; set; }
-
+      
         public DateTime? DishpatchDate { get; set; }
-
+        
         public DateTime? ArrivalDate { get; set; }
-
+        [Required(ErrorMessage = "From Date is required.")]
         public DateTime? FromDate { get; set; }
+        [Required(ErrorMessage = "To Date is required.")]
         public DateTime? ToDate { get; set; }
     }
 }

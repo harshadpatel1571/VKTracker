@@ -1,6 +1,6 @@
 ﻿@model VKTracker.Model.ViewModel.StockManagementViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Stock Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <h5 class="card-title mb-0 flex-grow-1">Stock Management</h5>
+        <div class="card-title mb-0 flex-grow-1" id="stockManagementHeader"></div>
         <div>
             <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnStockManageAddModal" data-bs-target="#stockManageAddModal">
                 <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Stock Management

@@ -111,7 +111,7 @@
             DistributeButton,
             'pageLength'
         ]
-    }).buttons().container().appendTo('#gridStockManagement_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#stockManagementHeader');
 }
 
 var DeleteButton = {
