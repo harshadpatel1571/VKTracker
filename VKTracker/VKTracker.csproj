@@ -128,6 +128,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DistributionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\ParcelController.cs" />
@@ -754,6 +755,7 @@
     <Content Include="Views\Shared\_BreadCrum.cshtml" />
     <Content Include="Views\Master\CustomerIndex.cshtml" />
     <Content Include="Views\StockManagement\Index.cshtml" />
+    <Content Include="Views\Distribution\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">
