@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
             <h4 class="mb-sm-0">@ViewBag.Title</h4>
-            @if (!Convert.ToBoolean(Session["isAdmin"]))
+            @if (!Convert.ToBoolean(Session["isAdmin"]) && Session["OrganizationName"] != null)
             {
                 <h5 class="mb-sm-0 text-primary"><b>Selected Organization : </b>@Session["OrganizationName"].ToString()</h5>
             }
