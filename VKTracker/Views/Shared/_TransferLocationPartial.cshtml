@@ -1,0 +1,31 @@
+﻿@model VKTracker.Model.ViewModel.StockManagementViewModel
+
+<div class="modal fade zoomIn" id="transferLocationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Transfer Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="transferLocationModalForm" name="transferLocationModalForm" method="post">
+                <div class="modal-body">
+                    <div id="mainChild_1">
+                        <div class="row g-3">
+                            <div class="col-lg-3">
+                                <label for="projectName-field" class="form-label">Location</label>
+                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select", @id = "LocationId_0" })
+                                @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="addTransferLocation">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

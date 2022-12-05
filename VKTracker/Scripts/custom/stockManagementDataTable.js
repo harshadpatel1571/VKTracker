@@ -123,7 +123,7 @@ var DeleteButton = {
 var TransferLocationButton = {
     text: 'Transfer Location',
     action: function (e, dt, node, config) {
-        alert('Transfer Location');
+        TransferLocation();
     }
 };
 var DistributeButton = {
@@ -542,3 +542,91 @@ function DeleteStockList() {
     }
 
 }
+
+var checkboxValues = [];
+function TransferLocation() {
+
+    $('input[name=stock]:checked').map(function () {
+
+        var data = {
+            Id: $(this).val(),
+        };
+        checkboxValues.push(data);
+
+    });
+    if (checkboxValues.length > 0) {
+
+        $('#transferLocationModal').modal('show');
+
+    }
+    else {
+        return false;
+    }
+}
+
+$("#addTransferLocation").click(function () {
+    if ($("#transferLocationModalForm").valid()) {
+        event.preventDefault
+        var objModel = {
+            StockManagementList: checkboxValues
+        };
+        var location = $("#transferLocationModalForm #LocationId").val();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            cancelButtonClass: "btn btn-danger w-xs mt-2",
+            confirmButtonText: "Yes, Transfer it!",
+            buttonsStyling: !1,
+            showCloseButton: !0,
+        }).then(function (t) {
+            if (!t.isConfirmed) return;
+            $.ajax({
+                url: "/StockManagement/TransferLocation",
+                type: "POST",
+                data: { objModel: objModel, locationId: location },
+                success: function (response) {
+                    if (response.status) {
+                        t.value && Swal.fire({
+                            timer: 1500,
+                            title: "Transfered.",
+                            text: "Your loaction has been transfered.",
+                            icon: "success",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            buttonsStyling: !1
+                        }).then(function () {
+                            const table = $("#gridStockManagement").DataTable();
+                            table.ajax.reload(null, false);
+                            $("#transferLocationModalForm #close-modal").click();
+                            checkboxValues = [];
+                        });
+                    }
+                },
+                error: function (response) {
+                    let message = "This entity is being referred somewhere else.";
+
+                    if (response.status === 404) {
+                        message = "Entity can not be found.";
+                    }
+
+                    t.value && Swal.fire({
+                        title: "Unable to delete.",
+                        text: message,
+                        icon: "warning",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        buttonsStyling: !1
+                    })
+                },
+                complete: function () {
+                }
+            });
+        });
+    }
+    else {
+        return false;
+    }
+});

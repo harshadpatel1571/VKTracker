@@ -295,5 +295,31 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+        public async Task<bool> TransferLocation(List<StockManagementViewModel> objModel,int locationId)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                foreach (var item in objModel)
+                {
+                    var model = await db.StockManagements.FirstOrDefaultAsync(x => x.Id == item.Id).ConfigureAwait(false);
+                    model.LocationId= locationId;
+                    model.ModifiedBy = item.CreatedBy;
+                    model.ModifiedOn = item.CreatedOn;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+
+                var status = await db.SaveChangesAsync().ConfigureAwait(false);
+                return status > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

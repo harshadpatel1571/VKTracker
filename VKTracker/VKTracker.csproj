@@ -756,6 +756,7 @@
     <Content Include="Views\Master\CustomerIndex.cshtml" />
     <Content Include="Views\StockManagement\Index.cshtml" />
     <Content Include="Views\Distribution\Index.cshtml" />
+    <Content Include="Views\Shared\_TransferLocationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKTracker.Common\VKTracker.Common.csproj">

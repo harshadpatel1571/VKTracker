@@ -48,20 +48,20 @@
                         <div class="row g-3">
                             <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Parcel Code</label>
-                                @Html.HiddenFor(x => x.Id , new { @id = "Id_0" })
-                                @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select" ,@id= "ParcelId_0" })
+                                @Html.HiddenFor(x => x.Id, new { @id = "Id_0" })
+                                @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select", @id = "ParcelId_0" })
                                 @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Stock Code</label>
-                                @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, new { @class = "form-select" , @id = "StockCodeId_0" })
+                                @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, new { @class = "form-select", @id = "StockCodeId_0" })
                                 @Html.ValidationMessageFor(x => x.StockCodeId, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Fabric</label>
-                                @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDl, new { @class = "form-select" ,@id= "FabricId_0" })
+                                @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDl, new { @class = "form-select", @id = "FabricId_0" })
                                 @Html.ValidationMessageFor(x => x.FabricId, "", new { @class = "text-danger" })
                             </div>
 
@@ -73,19 +73,19 @@
 
                             <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Location</label>
-                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select",@id= "LocationId_0" })
+                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select", @id = "LocationId_0" })
                                 @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Total Quantity</label>
-                                @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100", @id="TotalQuantity_0" })
+                                @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100", @id = "TotalQuantity_0" })
                                 @Html.ValidationMessageFor(x => x.TotalQuantity, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-lg-3" id="Thandiv_0">
                                 <label for="projectName-field" class="form-label">Total Than</label>
-                                @Html.TextBoxFor(x => x.ThanNo, new { @class = "form-control",@type="number", @placeHolder = "Total Quantity", @maxLength = "100", @id="ThanNo_0" })
+                                @Html.TextBoxFor(x => x.ThanNo, new { @class = "form-control", @type = "number", @placeHolder = "Total Quantity", @maxLength = "100", @id = "ThanNo_0" })
                                 @Html.ValidationMessageFor(x => x.ThanNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -199,6 +199,35 @@
     </div>
 </div>
 
+<div class="modal fade zoomIn" id="transferLocationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-m">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Transfer Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="transferLocationModalForm" name="transferLocationModalForm" method="post">
+                <div class="modal-body">
+                    <div id="mainChild_1">
+                        <div class="row g-3">
+                            <div class="col-lg-12">
+                                <label for="projectName-field" class="form-label">Location</label>
+                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="addTransferLocation">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section scripts
 {

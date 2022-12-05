@@ -179,5 +179,28 @@ namespace VKTracker.Controllers
             var respose = await repository.DeleteList(objModel.StockManagementList);
             return Json(new { status = respose });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> TransferLocation(StockManagementListModel objModel, int locationId)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            objModel.StockManagementList = objModel.StockManagementList.Select(x => new StockManagementViewModel
+            {
+                Id = x.Id,
+                CreatedBy = Convert.ToInt32(Session["userId"]),
+                CreatedOn = DateTime.Now,
+
+            }).ToList();
+
+            var repository = new StockManagementRepository();
+            var respose = await repository.TransferLocation(objModel.StockManagementList,locationId);
+            return Json(new { status = respose });
+        }
     }
 }
