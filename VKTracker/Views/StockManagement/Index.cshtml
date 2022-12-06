@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Stock Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var distributionModel = new VKTracker.Model.ViewModel.DistributionViewModel();
 }
 
 @Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
@@ -12,6 +13,10 @@
         <div>
             <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnStockManageAddModal" data-bs-target="#stockManageAddModal">
                 <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Stock Management
+            </button>
+
+            <button class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" id="btnDistributionModal" data-bs-target="#distributionModal">
+                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Distributions
             </button>
         </div>
     </div>
@@ -228,6 +233,8 @@
         </div>
     </div>
 </div>
+
+@Html.Partial("~/Views/Distribution/_DistributionPartial.cshtml", distributionModel)
 
 @section scripts
 {
