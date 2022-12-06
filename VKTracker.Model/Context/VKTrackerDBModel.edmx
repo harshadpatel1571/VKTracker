@@ -33,6 +33,19 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="Distribution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="DistributionDate" Type="datetime" />
+          <Property Name="StockManagementId" Type="int" />
+          <Property Name="TypeId" Type="int" />
+          <Property Name="BillNo" Type="varchar" MaxLength="100" />
+          <Property Name="Note" Type="varchar" MaxLength="250" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
         <EntityType Name="Fabric">
           <Key>
             <PropertyRef Name="Id" />
@@ -297,6 +310,30 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
+        <Association Name="FK_Distribution_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Distribution" Type="Self.Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Distribution_StockManagement">
+          <End Role="StockManagement" Type="Self.StockManagement" Multiplicity="0..1" />
+          <End Role="Distribution" Type="Self.Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockManagement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="StockManagementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ParcelReport_Location">
           <End Role="Location" Type="Self.Location" Multiplicity="1" />
           <End Role="ParcelReport" Type="Self.ParcelReport" Multiplicity="*" />
@@ -432,6 +469,7 @@
         <EntityContainer Name="VKTrackerModelStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerLog" EntityType="Self.CustomerLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Distribution" EntityType="Self.Distribution" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fabric" EntityType="Self.Fabric" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FabricLog" EntityType="Self.FabricLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
@@ -451,6 +489,14 @@
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Userlog" EntityType="Self.Userlog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOrganization" EntityType="Self.UserOrganization" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Distribution_Customer" Association="Self.FK_Distribution_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Distribution" EntitySet="Distribution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Distribution_StockManagement" Association="Self.FK_Distribution_StockManagement">
+            <End Role="StockManagement" EntitySet="StockManagement" />
+            <End Role="Distribution" EntitySet="Distribution" />
+          </AssociationSet>
           <AssociationSet Name="FK_ParcelReport_Location" Association="Self.FK_ParcelReport_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="ParcelReport" EntitySet="ParcelReport" />
@@ -671,6 +717,15 @@
             <End Role="StockManagement" EntitySet="StockManagements" />
           </AssociationSet>
           <EntitySet Name="StockManagementLogs" EntityType="VKTrackerModel.StockManagementLog" />
+          <EntitySet Name="Distributions" EntityType="VKTrackerModel.Distribution" />
+          <AssociationSet Name="FK_Distribution_Customer" Association="VKTrackerModel.FK_Distribution_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Distribution" EntitySet="Distributions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Distribution_StockManagement" Association="VKTrackerModel.FK_Distribution_StockManagement">
+            <End Role="StockManagement" EntitySet="StockManagements" />
+            <End Role="Distribution" EntitySet="Distributions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserOrganization">
           <Key>
@@ -874,6 +929,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Customer" ToRole="Distribution" />
         </EntityType>
         <EntityType Name="CustomerLog">
           <Key>
@@ -914,6 +970,7 @@
           <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport1" FromRole="StockManagement" ToRole="ParcelCode" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="StockManagement" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="StockManagement" ToRole="User" />
+          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="StockManagement" ToRole="Distribution" />
         </EntityType>
         <Association Name="FK_StockManagement_Fabric">
           <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="0..1" />
@@ -1030,6 +1087,45 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="Distribution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="DistributionDate" Type="DateTime" Precision="3" />
+          <Property Name="StockManagementId" Type="Int32" />
+          <Property Name="TypeId" Type="Int32" />
+          <Property Name="BillNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
+          <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
+        </EntityType>
+        <Association Name="FK_Distribution_Customer">
+          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Distribution_StockManagement">
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockManagement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="StockManagementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1345,6 +1441,20 @@
                 <ScalarProperty Name="ParcelId" ColumnName="ParcelId" />
                 <ScalarProperty Name="StockManagementId" ColumnName="StockManagementId" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Distributions">
+            <EntityTypeMapping TypeName="VKTrackerModel.Distribution">
+              <MappingFragment StoreEntitySet="Distribution">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="BillNo" ColumnName="BillNo" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="StockManagementId" ColumnName="StockManagementId" />
+                <ScalarProperty Name="DistributionDate" ColumnName="DistributionDate" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

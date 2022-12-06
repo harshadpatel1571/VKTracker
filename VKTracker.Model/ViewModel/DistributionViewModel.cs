@@ -21,4 +21,10 @@ namespace VKTracker.Model.ViewModel
         public bool IsFull { get; set; }
         public DateTime? DistributionDate { get; set; }
     }
+
+    //public class DistributionListModel
+    //{
+    //    public DistributionViewModel DistributionModel { get; set; }
+    //    public List<int> StockIds { get; set; }
+    //}
 }

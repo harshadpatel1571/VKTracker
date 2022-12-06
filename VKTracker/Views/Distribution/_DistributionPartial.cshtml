@@ -7,12 +7,12 @@
                 <h5 class="modal-title" id="exampleModalLabel">Distribution Add</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
-            <form id="parcelForm" name="parcelForm" method="post">
+            <form id="distributeForm" name="distributeForm" method="post">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="projectName-field" class="form-label">Stock Code</label>
-                            @Html.LabelFor(m => m.StockCodeId, new { @class = "form-control" })
+                            @Html.LabelFor(m => m.StockCodeId, new { @class = "form-control",@id= "StockCodeId" })
                         </div>
                         <div class="col-6">
                             <label for="projectName-field" class="form-label">Distribution Date</label>
@@ -54,7 +54,7 @@
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" id="addParcel">Save</button>
+                        <button type="button" class="btn btn-success" id="addDistribute">Save</button>
                     </div>
                 </div>
             </form>

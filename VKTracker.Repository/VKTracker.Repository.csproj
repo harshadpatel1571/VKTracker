@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\DistributionRepository.cs" />
     <Compile Include="Repository\FabricRepository.cs" />
     <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Repository\LocationRepository.cs" />

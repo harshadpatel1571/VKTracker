@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -25,6 +26,20 @@ namespace VKTracker.Controllers
             ViewBag.ItemTypeDDL = new SelectList(await repoItem.BindItemDDl(), "Id", "Name");
             ViewBag.LocationDDL = new SelectList(await repoLocation.BindLocationDDl(), "Id", "Name");
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveDistributionList(DistributionViewModel objModel, List<int> StockIds)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+            var repository = new DistributionRepository();
+            var respose = await repository.SaveList(objModel, StockIds, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
+            return Json(new { status = true });
         }
     }
 }

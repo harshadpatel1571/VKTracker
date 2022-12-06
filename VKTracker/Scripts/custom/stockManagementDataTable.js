@@ -464,11 +464,6 @@ $('#stockManageAddModal').on('hidden.bs.modal', function () {
 });
 
 function DeleteStockList() {
-    //$('input:checkbox[name=stock]').each(function () {
-    //    if ($(this).is(':checked'))
-    //        alert($(this).id);
-    //});
-
     var checkboxValues = [];
 
     $('input[name=stock]:checked').map(function () {
@@ -515,7 +510,7 @@ function DeleteStockList() {
                             const table = $("#gridStockManagement").DataTable();
                             table.ajax.reload(null, false);
                         });
-                    }                    
+                    }
                 },
                 error: function (response) {
                     let message = "This entity is being referred somewhere else.";
@@ -629,4 +624,93 @@ $("#addTransferLocation").click(function () {
     else {
         return false;
     }
+});
+
+$("#btnDistributionModal").click(function () {
+    var stockIds = '';
+    $('input[name=stock]:checked').map(function () {
+              
+        checkboxValues.push($(this).val());
+        stockIds = stockIds + $(this).val() + ",";
+    });
+    if (checkboxValues.length > 0) {
+        console.log(stockIds);
+        $('#distributeForm #StockCodeId').text(stockIds);
+        $('#distributionModal').modal('show');
+    }
+    else {
+        Swal.fire({
+            title: "Unable to Add Distribution.",
+            text: "Please select atlist one record",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+            buttonsStyling: !1
+        })
+    }
+
+});
+
+$("#addDistribute").click(function () {
+
+    if ($("#distributeForm").valid()) {
+        var data = {
+            DistributionDate: $("#DistributionDate").val(),
+            PartyId: $("#PartyId").val(),
+            IsFull: $("#IsFull").val(),
+            Quantity: $("#Quantity").val(),
+            BillNo: $("#BillNo").val(),
+            Note: $("#Note").val(),
+        };
+        console.log(checkboxValues);
+        var objModel = {
+            objModel: data,
+            StockIds: checkboxValues
+        };
+
+        $.ajax({
+            url: "/Distribution/SaveDistributionList",
+            type: "POST",
+            data: objModel,
+            success: function (response) {
+                if (response.status) {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Saved.",
+                        text: "Your record has been Saved.",
+                        icon: "success",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    }).then(function () {
+                        const table = $("#gridStockManagement").DataTable();
+                        table.ajax.reload(null, false);
+                        $("#distributeForm #close-modal").click();
+                        checkboxValues = [];
+                    });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
+                }
+            },
+            error: function (response) {
+                alert('Error!');
+            },
+            complete: function () {
+            }
+        })
+    } else {
+        return false;
+    }
+
 });

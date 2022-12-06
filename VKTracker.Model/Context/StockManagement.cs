@@ -14,6 +14,12 @@ namespace VKTracker.Model.Context
     
     public partial class StockManagement
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public StockManagement()
+        {
+            this.Distributions = new HashSet<Distribution>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> ParcelId { get; set; }
         public Nullable<int> StockCodeId { get; set; }
@@ -36,5 +42,7 @@ namespace VKTracker.Model.Context
         public virtual ParcelCode ParcelCode { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Distribution> Distributions { get; set; }
     }
 }
