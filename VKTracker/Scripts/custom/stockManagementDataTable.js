@@ -714,3 +714,7 @@ $("#addDistribute").click(function () {
     }
 
 });
+
+$('#distributionModal').on('hidden.bs.modal', function () {
+    checkboxValues = [];
+});

@@ -224,5 +224,26 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<List<BindDropdownViewModel>> BindCustomerDDl()
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                return await db.Customers.Where(x => x.IsActive).Select(x => new BindDropdownViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToListAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

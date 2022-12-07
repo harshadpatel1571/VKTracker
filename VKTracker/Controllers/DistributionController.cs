@@ -20,11 +20,13 @@ namespace VKTracker.Controllers
             var repoFebric = new FabricRepository();
             var repoStockCode = new StockCodeRepository();
             var repoLocation = new LocationRepository();
+            var repoCustomer = new CustomerRepository();
 
             ViewBag.StockCodeDDL = new SelectList(await repoStockCode.BindStockCodeDDl(), "Id", "Name");
             ViewBag.FabricDDL = new SelectList(await repoFebric.BindFabricDDl(), "Id", "Name");
             ViewBag.ItemTypeDDL = new SelectList(await repoItem.BindItemDDl(), "Id", "Name");
             ViewBag.LocationDDL = new SelectList(await repoLocation.BindLocationDDl(), "Id", "Name");
+            ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(), "Id", "Name");
             return View(model);
         }
 

@@ -13,23 +13,20 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                //var model = objModel.Select(x => new StockManagement
-                //{
-                //    ParcelId = x.ParcelId,
-                //    StockCodeId = x.StockCodeId,
-                //    FabricId = x.FabricId,
-                //    ItemId = x.ItemId,
-                //    LocationId = x.LocationId,
-                //    TotalQuantity = x.TotalQuantity,
-                //    IsActive = true,
-                //    CreatedBy = x.CreatedBy,
-                //    CreatedOn = x.CreatedOn,
-                //    UserId = x.UserId,
-                //    OrganizationId = x.OrganizationId
-                //}).ToList();
+                var listModel = new List<Distribution>();
+                foreach (var item in StockIds)
+                {
+                    var model = new Distribution();
+                    model.CustomerId = objModel.PartyId;
+                    model.Quantity = objModel.Quantity;
+                    model.StockManagementId = item;
+                    model.BillNo = objModel.BillNo;
+                    model.DistributionDate = objModel.DistributionDate;
+                    model.Note = objModel.Note;
 
-                //db.StockManagements.AddRange(model);
-
+                    listModel.Add(model);
+                }
+                db.Distributions.AddRange(listModel);
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
                 return status > 0 ? true : false;
             }
