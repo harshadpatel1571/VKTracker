@@ -129,7 +129,7 @@ var TransferLocationButton = {
 var DistributeButton = {
     text: 'Distribute',
     action: function (e, dt, node, config) {
-        alert('Distribute');
+        AddDistribution();
     }
 };
 
@@ -533,7 +533,14 @@ function DeleteStockList() {
         });
     }
     else {
-        return false;
+        Swal.fire({
+            title: "Unable to delete record.",
+            text: "Please select atlist one record",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+            buttonsStyling: !1
+        })
     }
 
 }
@@ -555,7 +562,14 @@ function TransferLocation() {
 
     }
     else {
-        return false;
+        Swal.fire({
+            title: "Unable to Transfer location.",
+            text: "Please select atlist one record",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+            buttonsStyling: !1
+        })
     }
 }
 
@@ -626,7 +640,7 @@ $("#addTransferLocation").click(function () {
     }
 });
 
-$("#btnDistributionModal").click(function () {
+function AddDistribution() {
     var stockIds = '';
     $('input[name=stock]:checked').map(function () {
               
@@ -649,7 +663,7 @@ $("#btnDistributionModal").click(function () {
         })
     }
 
-});
+};
 
 $("#addDistribute").click(function () {
 

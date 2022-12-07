@@ -45,6 +45,11 @@
           <Property Name="BillNo" Type="varchar" MaxLength="100" />
           <Property Name="Note" Type="varchar" MaxLength="250" />
           <Property Name="Quantity" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Fabric">
           <Key>
@@ -236,6 +241,7 @@
           <Property Name="FabricId" Type="int" />
           <Property Name="ItemId" Type="int" />
           <Property Name="LocationId" Type="int" />
+          <Property Name="ActualQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="OrganizationId" Type="int" />
           <Property Name="UserId" Type="int" />
@@ -322,18 +328,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Distribution_StockManagement">
-          <End Role="StockManagement" Type="Self.StockManagement" Multiplicity="0..1" />
-          <End Role="Distribution" Type="Self.Distribution" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockManagement">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Distribution">
-              <PropertyRef Name="StockManagementId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ParcelReport_Location">
           <End Role="Location" Type="Self.Location" Multiplicity="1" />
           <End Role="ParcelReport" Type="Self.ParcelReport" Multiplicity="*" />
@@ -406,7 +400,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StockManagement_ParcelReport">
+        <Association Name="FK_StockManagement_ParcelCode">
           <End Role="ParcelCode" Type="Self.ParcelCode" Multiplicity="0..1" />
           <End Role="StockManagement" Type="Self.StockManagement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -493,10 +487,6 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Distribution" EntitySet="Distribution" />
           </AssociationSet>
-          <AssociationSet Name="FK_Distribution_StockManagement" Association="Self.FK_Distribution_StockManagement">
-            <End Role="StockManagement" EntitySet="StockManagement" />
-            <End Role="Distribution" EntitySet="Distribution" />
-          </AssociationSet>
           <AssociationSet Name="FK_ParcelReport_Location" Association="Self.FK_ParcelReport_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="ParcelReport" EntitySet="ParcelReport" />
@@ -521,7 +511,7 @@
             <End Role="Organization" EntitySet="Organization" />
             <End Role="StockManagement" EntitySet="StockManagement" />
           </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_ParcelReport" Association="Self.FK_StockManagement_ParcelReport">
+          <AssociationSet Name="FK_StockManagement_ParcelCode" Association="Self.FK_StockManagement_ParcelCode">
             <End Role="ParcelCode" EntitySet="ParcelCode" />
             <End Role="StockManagement" EntitySet="StockManagement" />
           </AssociationSet>
@@ -971,6 +961,7 @@
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="StockManagement" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="StockManagement" ToRole="User" />
           <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="StockManagement" ToRole="Distribution" />
+          <Property Name="ActualQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_StockManagement_Fabric">
           <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="0..1" />
@@ -1101,6 +1092,11 @@
           <Property Name="Quantity" Type="Int32" />
           <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
           <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Distribution_Customer">
           <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -1408,6 +1404,7 @@
           <EntitySetMapping Name="StockManagements">
             <EntityTypeMapping TypeName="VKTrackerModel.StockManagement">
               <MappingFragment StoreEntitySet="StockManagement">
+                <ScalarProperty Name="ActualQuantity" ColumnName="ActualQuantity" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -1448,6 +1445,11 @@
           <EntitySetMapping Name="Distributions">
             <EntityTypeMapping TypeName="VKTrackerModel.Distribution">
               <MappingFragment StoreEntitySet="Distribution">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="BillNo" ColumnName="BillNo" />

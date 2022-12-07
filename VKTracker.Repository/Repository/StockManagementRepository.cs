@@ -89,6 +89,7 @@ namespace VKTracker.Repository.Repository
                 model.FabricId = objModel.FabricId;
                 model.ItemId = objModel.ItemId;
                 model.LocationId = objModel.LocationId;
+                model.ActualQuantity = objModel.TotalQuantity;
                 model.TotalQuantity = objModel.TotalQuantity;
 
                 model.IsActive = true;
@@ -247,6 +248,7 @@ namespace VKTracker.Repository.Repository
                     FabricId = x.FabricId,
                     ItemId = x.ItemId,
                     LocationId = x.LocationId,
+                    ActualQuantity= x.TotalQuantity,
                     TotalQuantity = x.TotalQuantity,
                     IsActive = true,
                     CreatedBy = x.CreatedBy,

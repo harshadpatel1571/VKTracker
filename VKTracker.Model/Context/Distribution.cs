@@ -22,6 +22,11 @@ namespace VKTracker.Model.Context
         public string BillNo { get; set; }
         public string Note { get; set; }
         public Nullable<int> Quantity { get; set; }
+        public bool IsActive { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedOn { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual StockManagement StockManagement { get; set; }

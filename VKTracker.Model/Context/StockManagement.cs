@@ -34,6 +34,7 @@ namespace VKTracker.Model.Context
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public decimal ActualQuantity { get; set; }
     
         public virtual Fabric Fabric { get; set; }
         public virtual Item Item { get; set; }

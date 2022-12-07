@@ -30,6 +30,7 @@ namespace VKTracker.Model.ViewModel
 
         [Required(ErrorMessage = "TotalQuantity is required!")]
         public decimal TotalQuantity { get; set; }
+        public decimal ActualQuantity { get; set; }
 
         public int OrganizationId { get; set; }
 
