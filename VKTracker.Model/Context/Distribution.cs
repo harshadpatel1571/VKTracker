@@ -21,7 +21,7 @@ namespace VKTracker.Model.Context
         public Nullable<int> TypeId { get; set; }
         public string BillNo { get; set; }
         public string Note { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public Nullable<decimal> Quantity { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
@@ -31,8 +31,8 @@ namespace VKTracker.Model.Context
         public Nullable<int> OrganizationId { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual StockManagement StockManagement { get; set; }
         public virtual Organization Organization { get; set; }
+        public virtual StockManagement StockManagement { get; set; }
         public virtual User User { get; set; }
     }
 }

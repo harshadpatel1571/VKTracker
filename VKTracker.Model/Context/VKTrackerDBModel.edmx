@@ -44,7 +44,7 @@
           <Property Name="TypeId" Type="int" />
           <Property Name="BillNo" Type="varchar" MaxLength="100" />
           <Property Name="Note" Type="varchar" MaxLength="250" />
-          <Property Name="Quantity" Type="int" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -764,12 +764,12 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Distribution" EntitySet="Distributions" />
           </AssociationSet>
-          <AssociationSet Name="FK_Distribution_StockManagement" Association="VKTrackerModel.FK_Distribution_StockManagement">
-            <End Role="StockManagement" EntitySet="StockManagements" />
-            <End Role="Distribution" EntitySet="Distributions" />
-          </AssociationSet>
           <AssociationSet Name="FK_Distribution_Organization" Association="VKTrackerModel.FK_Distribution_Organization">
             <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Distribution" EntitySet="Distributions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Distribution_StockManagement" Association="VKTrackerModel.FK_Distribution_StockManagement">
+            <End Role="StockManagement" EntitySet="StockManagements" />
             <End Role="Distribution" EntitySet="Distributions" />
           </AssociationSet>
           <AssociationSet Name="FK_Distribution_User" Association="VKTrackerModel.FK_Distribution_User">
@@ -1020,8 +1020,8 @@
           <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport1" FromRole="StockManagement" ToRole="ParcelCode" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="StockManagement" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="StockManagement" ToRole="User" />
-          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="StockManagement" ToRole="Distribution" />
           <Property Name="ActualQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="StockManagement" ToRole="Distribution" />
         </EntityType>
         <Association Name="FK_StockManagement_Fabric">
           <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="0..1" />
@@ -1149,9 +1149,7 @@
           <Property Name="TypeId" Type="Int32" />
           <Property Name="BillNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Quantity" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
-          <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
@@ -1159,7 +1157,9 @@
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Distribution_Organization" FromRole="Distribution" ToRole="Organization" />
+          <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Distribution_User" FromRole="Distribution" ToRole="User" />
         </EntityType>
         <Association Name="FK_Distribution_Customer">
@@ -1174,18 +1174,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Distribution_StockManagement">
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockManagement">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Distribution">
-              <PropertyRef Name="StockManagementId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Distribution_Organization">
           <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
           <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
@@ -1195,6 +1183,18 @@
             </Principal>
             <Dependent Role="Distribution">
               <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Distribution_StockManagement">
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockManagement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="StockManagementId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

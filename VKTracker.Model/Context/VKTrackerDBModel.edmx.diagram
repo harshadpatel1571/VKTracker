@@ -38,12 +38,12 @@
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_User" />
         <EntityTypeShape EntityType="VKTrackerModel.StockManagementLog" Width="1.5" PointX="3.375" PointY="12.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.Distribution" Width="1.5" PointX="16.875" PointY="6.25" />
+        <EntityTypeShape EntityType="VKTrackerModel.Distribution" Width="1.5" PointX="16.875" PointY="4.875" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Customer" />
-        <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Organization" />
+        <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_User" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
