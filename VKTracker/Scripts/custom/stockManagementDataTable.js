@@ -25,11 +25,13 @@
                         '</div>';
                 }
             },
+            { data: "id", name: "Id", "autoWidth": true },
             { data: "parcelCode", name: "Parcel Code", "autoWidth": true },
             { data: "stockCode", name: "Stock Code", "autoWidth": true },
             { data: "fabricName", name: "Fabric Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },
             { data: "locationName", name: "Location Name", "autoWidth": true },
+            { data: "actualQuantity", name: "Actual Quantity", "autoWidth": true },
             { data: "totalQuantity", name: "Total Quantity", "autoWidth": true },
             { data: "logUserName", name: "Log User Name", "autoWidth": true },
             {

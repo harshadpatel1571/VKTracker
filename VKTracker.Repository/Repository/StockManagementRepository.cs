@@ -25,6 +25,7 @@ namespace VKTracker.Repository.Repository
                                                 x.Location.LocationName.Contains(filterDto.SearchValue) ||
                                                 x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.Fabric.FabricName.ToString().Contains(filterDto.SearchValue) ||
+                                                x.ActualQuantity.ToString().Contains(filterDto.SearchValue)||
                                                 x.TotalQuantity.ToString().Contains(filterDto.SearchValue));
                 }
 
@@ -53,6 +54,7 @@ namespace VKTracker.Repository.Repository
                     ItemName = x.Item.ItemName,
                     StockCodeId = (int)x.StockCodeId,
                     StockCode = x.StockCode.Code,
+                    ActualQuantity = (int)x.ActualQuantity,
                     TotalQuantity = (int)x.TotalQuantity,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.ModifiedBy).UserName,
                     CreatedOn = x.ModifiedOn,
