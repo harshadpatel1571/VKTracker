@@ -19,6 +19,7 @@ namespace VKTracker.Model.Context
         {
             this.UserOrganizations = new HashSet<UserOrganization>();
             this.StockManagements = new HashSet<StockManagement>();
+            this.Distributions = new HashSet<Distribution>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace VKTracker.Model.Context
         public virtual ICollection<UserOrganization> UserOrganizations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockManagement> StockManagements { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Distribution> Distributions { get; set; }
     }
 }

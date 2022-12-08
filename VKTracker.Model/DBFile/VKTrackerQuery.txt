@@ -1,125 +1,7 @@
 USE [VKTracker]
 GO
 
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_User]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_StockCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_ParcelCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Organization]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Location]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Item]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Fabric]
-GO
-
-/****** Object:  Table [dbo].[StockManagement]    Script Date: 07-12-2022 11:06:48 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagement]') AND type in (N'U'))
-DROP TABLE [dbo].[StockManagement]
-GO
-
-/****** Object:  Table [dbo].[StockManagement]    Script Date: 07-12-2022 11:06:48 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[StockManagement](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ParcelId] [int] NULL,
-	[StockCodeId] [int] NULL,
-	[FabricId] [int] NULL,
-	[ItemId] [int] NULL,
-	[LocationId] [int] NULL,
-	[ActualQuantity] [decimal](18, 2) NOT NULL,
-	[TotalQuantity] [decimal](18, 2) NOT NULL,
-	[OrganizationId] [int] NULL,
-	[UserId] [int] NULL,
-	[IsActive] [bit] NOT NULL,
-	[CreatedBy] [int] NULL,
-	[CreatedOn] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
-	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_StockManagement] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Fabric] FOREIGN KEY([FabricId])
-REFERENCES [dbo].[Fabric] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Fabric]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Item] FOREIGN KEY([ItemId])
-REFERENCES [dbo].[Item] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Item]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Location] FOREIGN KEY([LocationId])
-REFERENCES [dbo].[Location] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Location]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Organization] FOREIGN KEY([OrganizationId])
-REFERENCES [dbo].[Organization] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Organization]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_ParcelCode] FOREIGN KEY([ParcelId])
-REFERENCES [dbo].[ParcelCode] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_ParcelCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_StockCode] FOREIGN KEY([StockCodeId])
-REFERENCES [dbo].[StockCode] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_StockCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_User] FOREIGN KEY([UserId])
-REFERENCES [dbo].[User] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_User]
-GO
-
-----------------------------------------------------------------------------------------------------
-
-USE [VKTracker]
-GO
-
-ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Customer]
-GO
-
-/****** Object:  Table [dbo].[Distribution]    Script Date: 07-12-2022 11:07:29 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Distribution]') AND type in (N'U'))
-DROP TABLE [dbo].[Distribution]
-GO
-
-/****** Object:  Table [dbo].[Distribution]    Script Date: 07-12-2022 11:07:29 PM ******/
+/****** Object:  Table [dbo].[Distribution]    Script Date: 08-12-2022 10:42:58 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -134,12 +16,14 @@ CREATE TABLE [dbo].[Distribution](
 	[TypeId] [int] NULL,
 	[BillNo] [varchar](100) NULL,
 	[Note] [varchar](250) NULL,
-	[Quantity] [int] NULL,
+	[Quantity] [decimal](18, 2) NULL,
 	[IsActive] [bit] NOT NULL,
 	[CreatedBy] [int] NULL,
 	[CreatedOn] [datetime] NULL,
 	[ModifiedBy] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
  CONSTRAINT [PK_Distribution] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -152,6 +36,27 @@ REFERENCES [dbo].[Customer] ([Id])
 GO
 
 ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Customer]
+GO
+
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Organization]
+GO
+
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_StockManagement] FOREIGN KEY([StockManagementId])
+REFERENCES [dbo].[StockManagement] ([Id])
+GO
+
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_StockManagement]
+GO
+
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_User]
 GO
 
 

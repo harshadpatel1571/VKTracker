@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace VKTracker.Model.ViewModel
 {
-    public class DistributionViewModel
+    public class DistributionViewModel : BaseModel
     {
         public int StockCodeId { get; set; }
+        public string StockCode { get; set; }
         public int FabricId { get; set; }
+        public string FabricName { get; set; }
         public int ItemTypeId { get; set; }
+        public string ItemName { get; set; }
         public int AvailableQuantity { get; set; }
         public int LocationId { get; set; }
+        public string LocationName { get; set; }
         public int StockNo { get; set; }
         public int PartyId { get; set; }
         public int Quantity { get; set; }
@@ -20,11 +24,7 @@ namespace VKTracker.Model.ViewModel
         public string Note { get; set; }
         public bool IsFull { get; set; }
         public DateTime? DistributionDate { get; set; }
+        public int OrganizationId { get; set; }
+        public int UserId { get; set; }
     }
-
-    //public class DistributionListModel
-    //{
-    //    public DistributionViewModel DistributionModel { get; set; }
-    //    public List<int> StockIds { get; set; }
-    //}
 }

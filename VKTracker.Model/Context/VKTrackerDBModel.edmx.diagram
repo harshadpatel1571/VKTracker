@@ -41,6 +41,8 @@
         <EntityTypeShape EntityType="VKTrackerModel.Distribution" Width="1.5" PointX="16.875" PointY="6.25" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Customer" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
+        <AssociationConnector Association="VKTrackerModel.FK_Distribution_Organization" />
+        <AssociationConnector Association="VKTrackerModel.FK_Distribution_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
