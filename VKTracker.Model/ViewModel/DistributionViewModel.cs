@@ -13,6 +13,7 @@ namespace VKTracker.Model.ViewModel
         public int StockManagementId { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string CustomerAddress { get; set; }
         public int ParcelId { get; set; }
         public string ParcelCode { get; set; }
         public int StockCodeId { get; set; }
@@ -35,5 +36,8 @@ namespace VKTracker.Model.ViewModel
         public int UserId { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal ActualQuantity { get; set; }
+
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

@@ -25,7 +25,9 @@ namespace VKTracker.Repository.Repository
                                                 x.StockManagement.Fabric.FabricName.Contains(filterDto.SearchValue)||
                                                 x.StockManagement.Item.ItemName.Contains(filterDto.SearchValue)||
                                                 x.StockManagement.TotalQuantity.ToString().Contains(filterDto.SearchValue)||
-                                                x.StockManagement.ActualQuantity.ToString().Contains(filterDto.SearchValue));
+                                                x.StockManagement.ActualQuantity.ToString().Contains(filterDto.SearchValue) ||
+                                                x.Customer.Name.ToString().Contains(filterDto.SearchValue) ||
+                                                x.Customer.Address.ToString().Contains(filterDto.SearchValue));
                 }
 
                 var model = new DataTableResponseCarrier<DistributionViewModel>
@@ -50,7 +52,12 @@ namespace VKTracker.Repository.Repository
                     ItemName = x.StockManagement.Item.ItemName,
                     TotalQuantity= x.StockManagement.TotalQuantity,
                     ActualQuantity= x.StockManagement.ActualQuantity,
-                    LocationName = x.StockManagement.Location.LocationName                    
+                    LocationName = x.StockManagement.Location.LocationName,
+                    CustomerName = x.Customer.Name,
+                    CustomerAddress = x.Customer.Address,
+                    DistributionDate = x.DistributionDate,
+                    ModifiedBy = x.ModifiedBy,
+                    ModifiedDate = x.ModifiedOn
                 });
 
                 model.Data = await DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder).ToListAsync();

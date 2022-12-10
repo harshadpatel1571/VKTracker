@@ -3,137 +3,148 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Dashboard</h4>
+@Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
-            </div>
-
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <div class="card-title mb-0 flex-grow-1" id="recentDistributionHeader"></div>
+        <div>
+            <button class="btn btn-primary btn-label waves-effect waves-light">
+                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Distribution
+            </button>
         </div>
+    </div>
+    <div class="card-body">
+        <table id="gridRecentDistribution" class="display table caption-top table-nowrap" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th>Party Name</th>
+                    <th>Party Location</th>
+                    <th>Stock Id</th>
+                    <th>S.Code</th>
+                    <th>Febric</th>
+                    <th>Distributed from</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Distribution Date</th>
+                    <th>Modified By</th>
+                    <th>Modified On</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
-        <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total Earnings</p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <h5 class="text-success fs-14 mb-0">
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k </h4>
-                                <a href="#" class="text-decoration-underline">View net earnings</a>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-success rounded fs-3">
-                                    <i class="bx bx-dollar-circle"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+@section scripts
+{
+    <script>
+        $(function () {
+            $('#gridDistribution').DataTable().destroy();
+            bindRecentDistribution();
+        });
 
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Orders</p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <h5 class="text-danger fs-14 mb-0">
-                                    <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
-                                <a href="#" class="text-decoration-underline">View all orders</a>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-info rounded fs-3">
-                                    <i class="bx bx-shopping-bag"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Customers</p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <h5 class="text-success fs-14 mb-0">
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M </h4>
-                                <a href="#" class="text-decoration-underline">See details</a>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-warning rounded fs-3">
-                                    <i class="bx bx-user-circle"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Balance</p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <h5 class="text-muted fs-14 mb-0">
-                                    +0.00 %
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k </h4>
-                                <a href="#" class="text-decoration-underline">Withdraw money</a>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-danger rounded fs-3">
-                                    <i class="bx bx-wallet"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+        function bindRecentDistribution() {
+            $('#gridRecentDistribution').DataTable({
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                lengthMenu: [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, 'All']],
+                info: true,
+                autoWidth: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                filter: true,
+                ajax: {
+                    url: "/Distribution/GetDistributionList/",
+                    type: "POST",
+                    datatype: "json"
+                },
+                columns: [
+                    { data: "customerName", name: "Customer Name", "autoWidth": true },
+                    { data: "customerAddress", name: "Customer Address", "autoWidth": true },
+                    { data: "stockManagementId", name: "StockManagement Id", "autoWidth": true },
+                    { data: "parcelCode", name: "Parcel Code", "autoWidth": true },
+                    { data: "fabricName", name: "Fabric Name", "autoWidth": true },
+                    { data: "locationName", name: "Location Name", "autoWidth": true },
+                    { data: "itemName", name: "Item Name", "autoWidth": true },
+                    { data: "actualQuantity", name: "ActualQuantity", "autoWidth": true },
+                    { data: "distributionDate", name: "Distribution Date", "autoWidth": true },
+                    { data: "modifiedBy", name: "Modified By", "autoWidth": true },
+                    { data: "modifiedDate", name: "Modified On", "autoWidth": true },
+                    {
+                        bSortable: false,
+                        autoWidth: true,
+                        sDefaultContent: "<div class=\"hstack gap-3 flex-wrap\">\n" +
+                            "                                    <a href=\"javascript:void(0);\" class=\"link-success fs-20\">\n" +
+                            "                                        <i class=\"ri-edit-2-line\"></i>\n" +
+                            "                                    </a>\n" +
+                            "                                    <a href=\"javascript:void(0);\" class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(0)'>\n" +
+                            "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
+                            "                                    </a>\n" +
+                            "                                </div>",
+                        render: function (data, type, row) {
+                            return "<div class=\"hstack gap-3 flex-wrap\">\n" +
+                                "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
+                                "                                        <i class=\"ri-edit-2-line\"></i>\n" +
+                                "                                    </a>\n" +
+                                "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
+                                "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
+                                "                                    </a>\n" +
+                                "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindStockCodeLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#stockCodeLogModal'>\n" +
+                                "                                        <i class=\"ri-history-line\"></i>\n" +
+                                "                                    </a>\n" +
+                                "                                </div>";
+                        }
+                    },
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'PDF',
+                        titleAttr: 'Generate PDF',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excel',
+                        titleAttr: 'Generate Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: 'CSV',
+                        titleAttr: 'Generate CSV',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'copyHtml5',
+                        text: 'Copy',
+                        titleAttr: 'Copy to clipboard',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print',
+                        titleAttr: 'Copy to clipboard',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    'pageLength'
+                ]
+            }).buttons().container().appendTo('#recentDistributionHeader');
+        }
+    </script>
+}

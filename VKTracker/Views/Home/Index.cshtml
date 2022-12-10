@@ -6,8 +6,6 @@
 
 @Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
 
-<h2>Index</h2>
-
 <div class="modal fade zoomIn" id="organizationSelectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-dialog-centered modal-m">
         <div class="modal-content border-0">
@@ -72,6 +70,7 @@
                             buttonsStyling: !1
                         }).then(function () {
                             $('#organizationSelectModal').modal('hide');
+                            window.location.href = '/Home/Dashboard';
                         });
                     }
                     else {
