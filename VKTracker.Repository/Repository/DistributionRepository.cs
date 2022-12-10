@@ -43,6 +43,7 @@ namespace VKTracker.Repository.Repository
                 var response = result.Select(x => new DistributionViewModel
                 {
                     Id= x.Id,
+                    StockManagementId = (int)x.StockManagementId,
                     ParcelId = x.StockManagement.ParcelCode.Id,
                     ParcelCode = x.StockManagement.ParcelCode.Code,
                     FabricName= x.StockManagement.Fabric.FabricName,
@@ -111,6 +112,91 @@ namespace VKTracker.Repository.Repository
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+        public async Task<bool> DeleteList(List<DistributionViewModel> objModel)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                foreach (var item in objModel)
+                {
+                    var model = await db.Distributions.FirstOrDefaultAsync(x => x.Id == item.Id).ConfigureAwait(false);
+                    model.IsActive = false;
+                    model.CreatedBy = item.CreatedBy;
+                    model.CreatedOn = item.CreatedOn;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+
+                var status = await db.SaveChangesAsync().ConfigureAwait(false);
+                return status > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public async Task<DataTableResponseCarrier<DistributionViewModel>> GetLogList(DataTableFilterViewModel filterDto, int id)
+        {
+            var db = new VKTrackerEntities();
+
+            try
+            {
+                var result = db.DistributionLogs.Where(x => x.DistributionId== id).AsNoTracking().AsQueryable();
+
+                if (!string.IsNullOrEmpty(filterDto.SearchValue))
+                {
+                    result = result.Where(x => x.DistributionId.ToString().Contains(filterDto.SearchValue));
+                }
+
+                var model = new DataTableResponseCarrier<DistributionViewModel>
+                {
+                    TotalCount = result.Count()
+                };
+
+                result = result.OrderBy(x => x.Id);
+                result = result.Skip(filterDto.Skip);
+
+                if (filterDto.Take != -1)
+                {
+                    result = result.Take(filterDto.Take);
+                }
+
+                var response = result.Select(x => new DistributionViewModel
+                {
+                    Id = x.Id,
+                    CustomerId = (int)x.CustomerId,
+                    CustomerName = db.Customers.FirstOrDefault(c => c.Id == x.CustomerId).Name,
+                    DistributionDate = x.DistributionDate,
+                    StockManagementId = (int)x.StockManagementId,
+                    ParcelCode = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).ParcelCode.Code, //  x.StockManagement.ParcelCode.Code,
+                    FabricName = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).Fabric.FabricName,
+                    ItemName = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).Item.ItemName,
+                    TotalQuantity = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).TotalQuantity,
+                    ActualQuantity = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).ActualQuantity,
+                    LocationName = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).Location.LocationName,
+                    Action = (bool)x.IsActive ? x.Action : "delete",
+                    CreatedOn = x.CreatedOn,
+                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,
+                });
+
+                response = DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder);
+                model.Data = await response.ToListAsync().ConfigureAwait(false);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             finally
             {

@@ -25,7 +25,7 @@
                         '</div>';
                 }
             },
-            { data: "parcelId", name: "Parcel Id", "autoWidth": true },
+            { data: "stockManagementId", name: "StockManagement Id", "autoWidth": true },
             { data: "parcelCode", name: "Parcel Code", "autoWidth": true },
             { data: "fabricName", name: "Fabric Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },
@@ -100,6 +100,9 @@
                     columns: [0,1,2,3,4,5]
                 }
             },
+            DeleteButton,
+            TransferLocationButton,
+            DistributeButton,
             'pageLength'
         ]
     }).buttons().container().appendTo('#distributionHeader');
@@ -117,4 +120,300 @@ $(document).ready(function () {
                 table.search("").draw();
             }
         });
+});
+
+var DeleteButton = {
+    text: 'Delete',
+    action: function (e, dt, node, config) {
+        DeleteStockList();
+    }
+};
+var TransferLocationButton = {
+    text: 'Transfer Location',
+    action: function (e, dt, node, config) {
+        TransferLocation();
+    }
+};
+var DistributeButton = {
+    text: 'Distribute',
+    action: function (e, dt, node, config) {
+        AddDistribution();
+    }
+};
+
+function DeleteStockList() {
+    var checkboxValues = [];
+
+    $('input[name=distribute]:checked').map(function () {
+
+        var data = {
+            Id: $(this).val(),
+        };
+        checkboxValues.push(data);
+
+    });
+
+    var objModel = {
+        objModel: checkboxValues
+    };
+
+    if (checkboxValues.length > 0) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            cancelButtonClass: "btn btn-danger w-xs mt-2",
+            confirmButtonText: "Yes, delete it!",
+            buttonsStyling: !1,
+            showCloseButton: !0,
+        }).then(function (t) {
+            if (!t.isConfirmed) return;
+            $.ajax({
+                url: "/Distribution/DeleteDistributionList",
+                type: "POST",
+                data: objModel,
+                success: function (response) {
+                    if (response.status) {
+                        t.value && Swal.fire({
+                            timer: 1500,
+                            title: "Deleted.",
+                            text: "Your record has been deleted.",
+                            icon: "success",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            buttonsStyling: !1
+                        }).then(function () {
+                            const table = $("#gridStockManagement").DataTable();
+                            table.ajax.reload(null, false);
+                        });
+                    }
+                },
+                error: function (response) {
+                    let message = "This entity is being referred somewhere else.";
+
+                    if (response.status === 404) {
+                        message = "Entity can not be found.";
+                    }
+
+                    t.value && Swal.fire({
+                        title: "Unable to delete.",
+                        text: message,
+                        icon: "warning",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        buttonsStyling: !1
+                    })
+                },
+                complete: function () {
+                }
+            });
+        });
+    }
+    else {
+        Swal.fire({
+            title: "Unable to delete record.",
+            text: "Please select atlist one record",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+            buttonsStyling: !1
+        })
+    }
+
+}
+
+var checkboxValues = [];
+function TransferLocation() {
+
+    $('input[name=distribute]:checked').map(function () {
+
+        var data = {
+            Id: $(this).val(),
+        };
+        checkboxValues.push(data);
+
+    });
+    if (checkboxValues.length > 0) {
+
+        $('#transferLocationModal').modal('show');
+
+    }
+    else {
+        Swal.fire({
+            title: "Unable to Transfer location.",
+            text: "Please select atlist one record",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+            buttonsStyling: !1
+        })
+    }
+}
+
+$("#addTransferLocation").click(function () {
+    if ($("#transferLocationModalForm").valid()) {
+        event.preventDefault
+        var objModel = {
+            StockManagementList: checkboxValues
+        };
+        var location = $("#transferLocationModalForm #LocationId").val();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            cancelButtonClass: "btn btn-danger w-xs mt-2",
+            confirmButtonText: "Yes, Transfer it!",
+            buttonsStyling: !1,
+            showCloseButton: !0,
+        }).then(function (t) {
+            if (!t.isConfirmed) return;
+            $.ajax({
+                url: "/StockManagement/TransferLocation",
+                type: "POST",
+                data: { objModel: objModel, locationId: location },
+                success: function (response) {
+                    if (response.status) {
+                        t.value && Swal.fire({
+                            timer: 1500,
+                            title: "Transfered.",
+                            text: "Your loaction has been transfered.",
+                            icon: "success",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            buttonsStyling: !1
+                        }).then(function () {
+                            const table = $("#gridStockManagement").DataTable();
+                            table.ajax.reload(null, false);
+                            $("#transferLocationModalForm #close-modal").click();
+                            checkboxValues = [];
+                        });
+                    }
+                },
+                error: function (response) {
+                    let message = "This entity is being referred somewhere else.";
+
+                    if (response.status === 404) {
+                        message = "Entity can not be found.";
+                    }
+
+                    t.value && Swal.fire({
+                        title: "Unable to delete.",
+                        text: message,
+                        icon: "warning",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        buttonsStyling: !1
+                    })
+                },
+                complete: function () {
+                }
+            });
+        });
+    }
+    else {
+        return false;
+    }
+});
+
+function AddDistribution() {
+    var stockIds = '';
+    $('input[name=distribute]:checked').map(function () {
+
+        checkboxValues.push($(this).val());
+        stockIds = stockIds + $(this).val() + ",";
+    });
+    if (checkboxValues.length > 0) {
+        if (checkboxValues.length != 1) {
+            $("#divIsFull").hide();
+            $("#divQuantity").hide();
+        }
+        else {
+            $("#divIsFull").show();
+            $("#divQuantity").show();
+        }
+        $('#distributeForm #StockCodeId').text(stockIds);
+        $('#distributionModal').modal('show');
+    }
+    else {
+        Swal.fire({
+            title: "Unable to Add Distribution.",
+            text: "Please select atlist one record",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+            buttonsStyling: !1
+        })
+    }
+
+};
+
+$("#addDistribute").click(function () {
+
+    if ($("#distributeForm").valid()) {
+        var data = {
+            DistributionDate: $("#DistributionDate").val(),
+            PartyId: $("#PartyId").val(),
+            IsFull: $('input[name=IsFull]:checked').val(),
+            Quantity: $("#Quantity").val(),
+            BillNo: $("#BillNo").val(),
+            Note: $("#Note").val(),
+        };
+        console.log(checkboxValues);
+        var objModel = {
+            objModel: data,
+            StockIds: checkboxValues
+        };
+
+        $.ajax({
+            url: "/Distribution/SaveDistributionList",
+            type: "POST",
+            data: objModel,
+            success: function (response) {
+                if (response.status) {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Saved.",
+                        text: "Your record has been Saved.",
+                        icon: "success",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    }).then(function () {
+                        const table = $("#gridStockManagement").DataTable();
+                        table.ajax.reload(null, false);
+                        $("#distributeForm #close-modal").click();
+                        checkboxValues = [];
+                    });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
+                }
+            },
+            error: function (response) {
+                alert('Error!');
+            },
+            complete: function () {
+            }
+        })
+    } else {
+        return false;
+    }
+
+});
+
+$('#distributionModal').on('hidden.bs.modal', function () {
+    checkboxValues = [];
 });

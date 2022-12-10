@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -66,6 +67,29 @@ namespace VKTracker.Controllers
                 ContentEncoding = System.Text.Encoding.UTF8,
                 ContentType = "application/json"
             };
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDistributionList(List<DistributionViewModel> objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            objModel = objModel.Select(x => new DistributionViewModel
+            {
+                Id = x.Id,
+                CreatedBy = Convert.ToInt32(Session["userId"]),
+                CreatedOn = DateTime.Now,
+
+            }).ToList();
+
+            var repository = new DistributionRepository();
+            var respose = await repository.DeleteList(objModel);
+            return Json(new { status = respose });
         }
     }
 }

@@ -10,6 +10,9 @@ namespace VKTracker.Model.ViewModel
     public class DistributionViewModel : BaseModel
     {
         public int Id { get; set; }
+        public int StockManagementId { get; set; }
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public int ParcelId { get; set; }
         public string ParcelCode { get; set; }
         public int StockCodeId { get; set; }
@@ -18,7 +21,7 @@ namespace VKTracker.Model.ViewModel
         public string FabricName { get; set; }
         public int ItemTypeId { get; set; }
         public string ItemName { get; set; }
-        public Nullable<decimal> AvailableQuantity { get; set; }
+        public decimal AvailableQuantity { get; set; }
         public int LocationId { get; set; }
         public string LocationName { get; set; }
         public int StockNo { get; set; }
