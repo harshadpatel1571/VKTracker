@@ -71,11 +71,12 @@ namespace VKTracker.Repository.Repository
             try
             {
                 var listModel = new List<Distribution>();
+                var stockData = db.StockManagements.Where(x => StockIds.Contains(x.Id)).ToList();
+
                 foreach (var item in StockIds)
                 {
                     var model = new Distribution();
                     model.CustomerId = objModel.PartyId;
-                    model.Quantity = objModel.Quantity;
                     model.StockManagementId = item;
                     model.BillNo = objModel.BillNo;
                     model.DistributionDate = objModel.DistributionDate;
@@ -86,7 +87,22 @@ namespace VKTracker.Repository.Repository
                     model.UserId= userId;
                     model.OrganizationId = organizationId;
 
+                    var modelStockCode = stockData.Where(x => x.Id == item).FirstOrDefault();
+                    if (objModel.IsFull)
+                    {
+                        model.Quantity = modelStockCode.ActualQuantity;
+                        modelStockCode.ActualQuantity = 0;
+                    }
+                    else
+                    {
+                        model.Quantity = objModel.Quantity;
+                        modelStockCode.ActualQuantity = modelStockCode.ActualQuantity - objModel.Quantity;
+                    }
+                    modelStockCode.ModifiedBy = userId;
+                    modelStockCode.ModifiedOn = DateTime.Now;
+
                     listModel.Add(model);
+                    db.Entry(modelStockCode).State = EntityState.Modified;
                 }
                 db.Distributions.AddRange(listModel);
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);

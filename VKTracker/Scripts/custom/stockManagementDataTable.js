@@ -650,7 +650,14 @@ function AddDistribution() {
         stockIds = stockIds + $(this).val() + ",";
     });
     if (checkboxValues.length > 0) {
-        console.log(stockIds);
+        if (checkboxValues.length != 1) {
+            $("#divIsFull").hide();
+            $("#divQuantity").hide();
+        }
+        else {
+            $("#divIsFull").show();
+            $("#divQuantity").show();
+        }
         $('#distributeForm #StockCodeId').text(stockIds);
         $('#distributionModal').modal('show');
     }
@@ -673,7 +680,7 @@ $("#addDistribute").click(function () {
         var data = {
             DistributionDate: $("#DistributionDate").val(),
             PartyId: $("#PartyId").val(),
-            IsFull: $("#IsFull").val(),
+            IsFull: $('input[name=IsFull]:checked').val(),
             Quantity: $("#Quantity").val(),
             BillNo: $("#BillNo").val(),
             Note: $("#Note").val(),

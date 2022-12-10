@@ -18,7 +18,7 @@ namespace VKTracker.Model.ViewModel
         public string FabricName { get; set; }
         public int ItemTypeId { get; set; }
         public string ItemName { get; set; }
-        public int AvailableQuantity { get; set; }
+        public Nullable<decimal> AvailableQuantity { get; set; }
         public int LocationId { get; set; }
         public string LocationName { get; set; }
         public int StockNo { get; set; }
@@ -26,7 +26,7 @@ namespace VKTracker.Model.ViewModel
         public int Quantity { get; set; }
         public string BillNo { get; set; }
         public string Note { get; set; }
-        public bool IsFull { get; set; }
+        public bool IsFull { get; set; } = true;
         public DateTime? DistributionDate { get; set; }
         public int OrganizationId { get; set; }
         public int UserId { get; set; }
