@@ -59,6 +59,9 @@
     <Compile Include="Context\Distribution.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\DistributionLog.cs">
+      <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\Fabric.cs">
       <DependentUpon>VKTrackerDBModel.tt</DependentUpon>
     </Compile>

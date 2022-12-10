@@ -1,7 +1,26 @@
+------------------Distribution Table --------------------------
+
 USE [VKTracker]
 GO
 
-/****** Object:  Table [dbo].[Distribution]    Script Date: 08-12-2022 10:42:58 PM ******/
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_User]
+GO
+
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_StockManagement]
+GO
+
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Organization]
+GO
+
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Customer]
+GO
+
+/****** Object:  Table [dbo].[Distribution]    Script Date: 10-12-2022 10:04:26 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Distribution]') AND type in (N'U'))
+DROP TABLE [dbo].[Distribution]
+GO
+
+/****** Object:  Table [dbo].[Distribution]    Script Date: 10-12-2022 10:04:26 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -13,7 +32,7 @@ CREATE TABLE [dbo].[Distribution](
 	[CustomerId] [int] NULL,
 	[DistributionDate] [datetime] NULL,
 	[StockManagementId] [int] NULL,
-	[TypeId] [int] NULL,
+	[TypeId] [bit] NULL,
 	[BillNo] [varchar](100) NULL,
 	[Note] [varchar](250) NULL,
 	[Quantity] [decimal](18, 2) NULL,
@@ -57,6 +76,309 @@ REFERENCES [dbo].[User] ([Id])
 GO
 
 ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_User]
+GO
+
+
+-----------------------------Distribution Trigger --------------------------------
+
+USE [VKTracker]
+GO
+/****** Object:  Trigger [dbo].[Trig_Distribution]    Script Date: 10-12-2022 10:05:26 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER [dbo].[Trig_Distribution] ON [dbo].[Distribution]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[DistributionLog]
+           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Insert',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[DistributionLog]
+           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Update',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[ModifiedBy],[ModifiedOn]
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[DistributionLog]
+           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Delete',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[ModifiedBy],[ModifiedOn]
+		FROM Inserted
+	End
+
+END
+
+
+----------------------------Distribution Log Table ------------------------------
+USE [VKTracker]
+GO
+
+/****** Object:  Table [dbo].[DistributionLog]    Script Date: 10-12-2022 10:07:59 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DistributionLog]') AND type in (N'U'))
+DROP TABLE [dbo].[DistributionLog]
+GO
+
+/****** Object:  Table [dbo].[DistributionLog]    Script Date: 10-12-2022 10:07:59 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[DistributionLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[DistributionId] [int] NULL,
+	[CustomerId] [int] NULL,
+	[DistributionDate] [datetime] NULL,
+	[StockManagementId] [int] NULL,
+	[TypeId] [bit] NULL,
+	[BillNo] [varchar](100) NULL,
+	[Note] [varchar](250) NULL,
+	[Quantity] [decimal](18, 2) NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+ CONSTRAINT [PK_DistributionLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+------------------------- StockManagement table -------------------------
+
+USE [VKTracker]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_User]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_StockCode]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_ParcelCode]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Organization]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Location]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Item]
+GO
+
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Fabric]
+GO
+
+/****** Object:  Table [dbo].[StockManagement]    Script Date: 10-12-2022 10:09:05 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagement]') AND type in (N'U'))
+DROP TABLE [dbo].[StockManagement]
+GO
+
+/****** Object:  Table [dbo].[StockManagement]    Script Date: 10-12-2022 10:09:05 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[StockManagement](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ParcelId] [int] NULL,
+	[StockCodeId] [int] NULL,
+	[FabricId] [int] NULL,
+	[ItemId] [int] NULL,
+	[LocationId] [int] NULL,
+	[ActualQuantity] [decimal](18, 2) NOT NULL,
+	[TotalQuantity] [decimal](18, 2) NOT NULL,
+	[OrganizationId] [int] NULL,
+	[UserId] [int] NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_StockManagement] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Fabric] FOREIGN KEY([FabricId])
+REFERENCES [dbo].[Fabric] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Fabric]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Item] FOREIGN KEY([ItemId])
+REFERENCES [dbo].[Item] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Item]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Location] FOREIGN KEY([LocationId])
+REFERENCES [dbo].[Location] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Location]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Organization]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_ParcelCode] FOREIGN KEY([ParcelId])
+REFERENCES [dbo].[ParcelCode] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_ParcelCode]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_StockCode] FOREIGN KEY([StockCodeId])
+REFERENCES [dbo].[StockCode] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_StockCode]
+GO
+
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_User]
+GO
+
+
+----------------------StockManagement Trigger ---------------------
+USE [VKTracker]
+GO
+/****** Object:  Trigger [dbo].[Trig_StockManagement]    Script Date: 10-12-2022 10:09:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER [dbo].[Trig_StockManagement] ON [dbo].[StockManagement]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[StockManagementLog]
+           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Insert',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[StockManagementLog]
+           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Update',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[StockManagementLog]
+           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Delete',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+END
+
+
+----------------------------StockManagement Log table ----------------------------
+
+USE [VKTracker]
+GO
+
+/****** Object:  Table [dbo].[StockManagementLog]    Script Date: 10-12-2022 10:10:25 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagementLog]') AND type in (N'U'))
+DROP TABLE [dbo].[StockManagementLog]
+GO
+
+/****** Object:  Table [dbo].[StockManagementLog]    Script Date: 10-12-2022 10:10:25 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[StockManagementLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[StockManagementId] [int] NULL,
+	[ParcelId] [int] NULL,
+	[StockCodeId] [int] NULL,
+	[FabricId] [int] NULL,
+	[ItemId] [int] NULL,
+	[LocationId] [int] NULL,
+	[ActualQuantity] [decimal](18, 2) NULL,
+	[TotalQuantity] [decimal](18, 2) NULL,
+	[OrganizationId] [int] NULL,
+	[UserId] [int] NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+ CONSTRAINT [PK_Table_1] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 

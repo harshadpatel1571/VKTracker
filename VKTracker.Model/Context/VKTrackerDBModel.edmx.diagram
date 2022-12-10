@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="VKTrackerModel.Organization" Width="1.5" PointX="6.75" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.ParcelCode" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.StockCode" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VKTrackerModel.User" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VKTrackerModel.User" Width="1.5" PointX="0.5" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.UserOrganization" Width="1.5" PointX="9" PointY="2.875" />
         <AssociationConnector Association="VKTrackerModel.FK_UserOrganization_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_UserOrganization_User" />
@@ -43,6 +43,7 @@
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_User" />
+        <EntityTypeShape EntityType="VKTrackerModel.DistributionLog" Width="1.5" PointX="5.375" PointY="12.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

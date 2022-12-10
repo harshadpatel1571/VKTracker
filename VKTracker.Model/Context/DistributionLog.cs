@@ -12,9 +12,11 @@ namespace VKTracker.Model.Context
     using System;
     using System.Collections.Generic;
     
-    public partial class Distribution
+    public partial class DistributionLog
     {
         public int Id { get; set; }
+        public string Action { get; set; }
+        public Nullable<int> DistributionId { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public Nullable<System.DateTime> DistributionDate { get; set; }
         public Nullable<int> StockManagementId { get; set; }
@@ -22,17 +24,10 @@ namespace VKTracker.Model.Context
         public string BillNo { get; set; }
         public string Note { get; set; }
         public Nullable<decimal> Quantity { get; set; }
-        public bool IsActive { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedOn { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrganizationId { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        public virtual Organization Organization { get; set; }
-        public virtual StockManagement StockManagement { get; set; }
-        public virtual User User { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
     }
 }
