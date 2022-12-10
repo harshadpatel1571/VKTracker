@@ -69,24 +69,25 @@
 
 
 
-<div class="modal fade zoomIn" id="parcelLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade zoomIn" id="distributionLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-0">
             <div class="modal-header p-3 bg-soft-info">
-                <h5 class="modal-title" id="exampleModalLabel">Parcel History Logs</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Distribution History Logs</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <div class="modal-body">
-                <table id="gridParcelLog" class="display table caption-top table-nowrap" style="width:100%">
+                <table id="gridDistributionLog" class="display table caption-top table-nowrap" style="width:100%">
                     <thead class="table-light">
                         <tr>
                             <th>Action</th>
-                            <th>Parcel Id</th>
-                            <th>Parcel Code</th>
-                            <th>Dishpached Date</th>
-                            <th>Challan No</th>
-                            <th>Arrival Date</th>
-                            <th>Receive Location</th>
+                            <th>Than Id</th>
+                            <th>Code</th>
+                            <th>Fabric Type</th>
+                            <th>Item Type</th>
+                            <th>Total Quantity</th>
+                            <th>Actual Quantity</th>
+                            <th>Current Location</th>
                             <th>Created By</th>
                             <th>Created Date</th>
                         </tr>
@@ -114,8 +115,8 @@
             console.log(formateDateYMD(currentDate));
             //$("#frmSearch #FromDate").val(formateDateYMD(currentDate));
             //$("#frmSearch #ToDate").val(formateDateYMD(currentDate));
-            $('#gridParcel').DataTable().destroy();
-            bindParcel();
+            //$('#gridParcel').DataTable().destroy();
+            //bindParcel();
             $('#gridDistribution').DataTable().destroy();
             bindDistribution();
         });

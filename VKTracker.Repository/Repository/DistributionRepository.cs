@@ -47,7 +47,7 @@ namespace VKTracker.Repository.Repository
                     Id= x.Id,
                     StockManagementId = (int)x.StockManagementId,
                     ParcelId = x.StockManagement.ParcelCode.Id,
-                    ParcelCode = x.StockManagement.ParcelCode.Code,
+                    StockCode = x.StockManagement.StockCode.Code,
                     FabricName= x.StockManagement.Fabric.FabricName,
                     ItemName = x.StockManagement.Item.ItemName,
                     TotalQuantity= x.StockManagement.TotalQuantity,
@@ -158,7 +158,7 @@ namespace VKTracker.Repository.Repository
 
             try
             {
-                var result = db.DistributionLogs.Where(x => x.DistributionId== id).AsNoTracking().AsQueryable();
+                var result = db.DistributionLogs.Where(x => x.DistributionId == id).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -185,7 +185,7 @@ namespace VKTracker.Repository.Repository
                     CustomerName = db.Customers.FirstOrDefault(c => c.Id == x.CustomerId).Name,
                     DistributionDate = x.DistributionDate,
                     StockManagementId = (int)x.StockManagementId,
-                    ParcelCode = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).ParcelCode.Code, //  x.StockManagement.ParcelCode.Code,
+                    StockCode = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).StockCode.Code, //  x.StockManagement.ParcelCode.Code,
                     FabricName = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).Fabric.FabricName,
                     ItemName = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).Item.ItemName,
                     TotalQuantity = db.StockManagements.FirstOrDefault(c => c.Id == x.StockManagementId).TotalQuantity,

@@ -91,5 +91,30 @@ namespace VKTracker.Controllers
             var respose = await repository.DeleteList(objModel);
             return Json(new { status = respose });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetDistributionLogList(int id)
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new DistributionRepository();
+
+            var data = await repository.GetLogList(filter, id).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<DistributionViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
+        }
     }
 }

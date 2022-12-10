@@ -26,7 +26,7 @@
                 }
             },
             { data: "stockManagementId", name: "StockManagement Id", "autoWidth": true },
-            { data: "parcelCode", name: "Parcel Code", "autoWidth": true },
+            { data: "stockCode", name: "Stock Code", "autoWidth": true },
             { data: "fabricName", name: "Fabric Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },
             { data: "totalQuantity", name: "TotalQuantity", "autoWidth": true },
@@ -51,7 +51,7 @@
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
                         "                                    </a>\n" +
-                        "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindStockCodeLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#stockCodeLogModal'>\n" +
+                        "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindDistributionLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#distributionLogModal'>\n" +
                         "                                        <i class=\"ri-history-line\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
@@ -122,6 +122,90 @@ $(document).ready(function () {
         });
 });
 
+function bindDistributionLogGrid(id) {
+    $('#gridDistributionLog').DataTable().destroy();
+    $('#gridDistributionLog').DataTable({
+        paging: false,
+        lengthChange: false,
+        searching: false,
+        ordering: true,
+        lengthMenu: [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, 'All']],
+        info: true,
+        autoWidth: true,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        filter: true,
+        scrollX: true,
+        ajax: {
+            url: "/Distribution/GetDistributionLogList/" + id,
+            type: "POST",
+            datatype: "json"
+        },
+        columns: [
+            { data: "action", name: "Action", "autoWidth": true },
+            { data: "stockManagementId", name: "StockManagement Id", "autoWidth": true },
+            { data: "stockCode", name: "Stock Code", "autoWidth": true },
+            { data: "fabricName", name: "Fabric Name", "autoWidth": true },
+            { data: "itemName", name: "Item Name", "autoWidth": true },
+            { data: "totalQuantity", name: "TotalQuantity", "autoWidth": true },
+            { data: "actualQuantity", name: "ActualQuantity", "autoWidth": true },
+            { data: "locationName", name: "Location Name", "autoWidth": true },
+            { data: "logUserName", name: "Log User Name", "autoWidth": true },
+            {
+                data: "createdOn", name: "CreatedOn", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            }
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                titleAttr: 'Generate PDF',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                titleAttr: 'Generate Excel',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: 'CSV',
+                titleAttr: 'Generate CSV',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'copyHtml5',
+                text: 'Copy',
+                titleAttr: 'Copy to clipboard',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                titleAttr: 'Copy to clipboard',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            }
+        ]
+    }).buttons().container().appendTo('#gridDistributionLog_wrapper .col-md-6:eq(0)');
+}
+
+
 var DeleteButton = {
     text: 'Delete',
     action: function (e, dt, node, config) {
@@ -185,7 +269,7 @@ function DeleteStockList() {
                             showConfirmButton: false,
                             buttonsStyling: !1
                         }).then(function () {
-                            const table = $("#gridStockManagement").DataTable();
+                            const table = $("#gridDistribution").DataTable();
                             table.ajax.reload(null, false);
                         });
                     }

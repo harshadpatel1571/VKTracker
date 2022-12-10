@@ -661,6 +661,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\choices.min.js" />
     <Content Include="Scripts\custom\customerDataTable.js" />
+    <Content Include="Scripts\custom\dashboardDataTable.js" />
     <Content Include="Scripts\custom\distrubutionDataTable.js" />
     <Content Include="Scripts\custom\fabricDataTable.js" />
     <Content Include="Scripts\custom\itemDataTable.js" />
