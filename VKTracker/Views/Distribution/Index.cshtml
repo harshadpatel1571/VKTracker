@@ -52,12 +52,14 @@
         <table id="gridDistribution" class="display table caption-top table-nowrap" style="width:100%">
             <thead class="table-light">
                 <tr>
-                    <th>Parcel Id</th>
-                    <th>Parcel Code</th>
-                    <th>Dishpached Date</th>
-                    <th>Challan No</th>
-                    <th>Arrival Date</th>
-                    <th>Receive Location</th>
+                    <th>Select</th>
+                    <th>Than Id</th>
+                    <th>Code</th>
+                    <th>Fabric Type</th>
+                    <th>Item Type</th>
+                    <th>Total Quantity</th>
+                    <th>Actual Quantity</th>
+                    <th>Current Location</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -104,6 +106,7 @@
 @section scripts
 {
     <script src="~/Scripts/custom/parcelDatatable.js"></script>
+    <script src="~/Scripts/custom/distrubutionDataTable.js"></script>
 
     <script>
         $(function () {
@@ -113,6 +116,8 @@
             //$("#frmSearch #ToDate").val(formateDateYMD(currentDate));
             $('#gridParcel').DataTable().destroy();
             bindParcel();
+            $('#gridDistribution').DataTable().destroy();
+            bindDistribution();
         });
     </script>
 }

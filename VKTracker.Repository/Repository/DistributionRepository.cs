@@ -4,12 +4,14 @@ using System;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
 using System.Linq.Dynamic.Core;
+using System.Data.Entity;
+using System.Linq;
 
 namespace VKTracker.Repository.Repository
 {
     public class DistributionRepository
     {
-        /*public async Task<DataTableResponseCarrier<DistributionViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
+        public async Task<DataTableResponseCarrier<DistributionViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -18,13 +20,12 @@ namespace VKTracker.Repository.Repository
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
-                    result = result.Where(x => x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.StockCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.Location.LocationName.Contains(filterDto.SearchValue) ||
-                                                x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.Fabric.FabricName.ToString().Contains(filterDto.SearchValue) ||
-                                                x.ActualQuantity.ToString().Contains(filterDto.SearchValue) ||
-                                                x.TotalQuantity.ToString().Contains(filterDto.SearchValue));
+                    result = result.Where(x => x.StockManagement.Location.LocationName.Contains(filterDto.SearchValue) ||
+                                                x.StockManagement.ParcelCode.Code.Contains(filterDto.SearchValue) ||
+                                                x.StockManagement.Fabric.FabricName.Contains(filterDto.SearchValue)||
+                                                x.StockManagement.Item.ItemName.Contains(filterDto.SearchValue)||
+                                                x.StockManagement.TotalQuantity.ToString().Contains(filterDto.SearchValue)||
+                                                x.StockManagement.ActualQuantity.ToString().Contains(filterDto.SearchValue));
                 }
 
                 var model = new DataTableResponseCarrier<DistributionViewModel>
@@ -41,9 +42,14 @@ namespace VKTracker.Repository.Repository
 
                 var response = result.Select(x => new DistributionViewModel
                 {
-                    
-                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.ModifiedBy).UserName,
-                    CreatedOn = x.ModifiedOn,
+                    Id= x.Id,
+                    ParcelId = x.StockManagement.ParcelCode.Id,
+                    ParcelCode = x.StockManagement.ParcelCode.Code,
+                    FabricName= x.StockManagement.Fabric.FabricName,
+                    ItemName = x.StockManagement.Item.ItemName,
+                    TotalQuantity= x.StockManagement.TotalQuantity,
+                    ActualQuantity= x.StockManagement.ActualQuantity,
+                    LocationName = x.StockManagement.Location.LocationName                    
                 });
 
                 model.Data = await DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder).ToListAsync();
@@ -58,7 +64,7 @@ namespace VKTracker.Repository.Repository
             {
                 db.Dispose();
             }
-        }*/
+        }
         public async Task<bool> SaveList(DistributionViewModel objModel, List<int> StockIds, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
@@ -74,6 +80,11 @@ namespace VKTracker.Repository.Repository
                     model.BillNo = objModel.BillNo;
                     model.DistributionDate = objModel.DistributionDate;
                     model.Note = objModel.Note;
+                    model.IsActive = true;
+                    model.CreatedBy= userId;
+                    model.CreatedOn = DateTime.Now;
+                    model.UserId= userId;
+                    model.OrganizationId = organizationId;
 
                     listModel.Add(model);
                 }
@@ -90,7 +101,5 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
-
-        
     }
 }

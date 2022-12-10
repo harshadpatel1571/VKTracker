@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+using VKTracker.Helper;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository.Repository;
 
@@ -41,7 +41,31 @@ namespace VKTracker.Controllers
             }
             var repository = new DistributionRepository();
             var respose = await repository.SaveList(objModel, StockIds, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
-            return Json(new { status = true });
+            return Json(new { status = respose });
+        }
+
+        public async Task<ActionResult> GetDistributionList()
+        {
+            var filter = DataExtractor.Extract(Request);
+
+            var repository = new DistributionRepository();
+
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
+
+            var responseModel = new DataTableResponseDto<DistributionViewModel>
+            {
+                Draw = filter.Draw,
+                Data = data.Data,
+                RecordsFiltered = data.TotalCount,
+                RecordsTotal = data.TotalCount
+            };
+
+            return new ContentResult
+            {
+                Content = JsonConvert.SerializeObject(responseModel, JsonSetting.Default),
+                ContentEncoding = System.Text.Encoding.UTF8,
+                ContentType = "application/json"
+            };
         }
     }
 }

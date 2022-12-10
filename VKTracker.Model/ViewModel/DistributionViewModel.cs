@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ namespace VKTracker.Model.ViewModel
 {
     public class DistributionViewModel : BaseModel
     {
+        public int Id { get; set; }
+        public int ParcelId { get; set; }
+        public string ParcelCode { get; set; }
         public int StockCodeId { get; set; }
         public string StockCode { get; set; }
         public int FabricId { get; set; }
@@ -26,5 +30,7 @@ namespace VKTracker.Model.ViewModel
         public DateTime? DistributionDate { get; set; }
         public int OrganizationId { get; set; }
         public int UserId { get; set; }
+        public decimal TotalQuantity { get; set; }
+        public decimal ActualQuantity { get; set; }
     }
 }
