@@ -85,12 +85,7 @@ namespace VKTracker.Controllers
             }
 
             var repository = new ParcelRepository();
-            //bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name);
-            //if (isDuplicate)
-            //{
-            //    return Json(new { status = false, msg = "Duplicate Data Found !!" });
-            //}
-
+            
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
             var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
