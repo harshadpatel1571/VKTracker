@@ -14,7 +14,15 @@
         ajax: {
             url: "/Distribution/GetDistributionList/",
             type: "POST",
-            datatype: "json"
+            datatype: "json",
+            data: function (data) {
+                data.stockCodeId = $('#StockCodeId').val();
+                data.fabricId = $('#FabricId').val();
+                data.itemTypeId = $('#ItemTypeId').val();
+                data.availableQuantity = $('#AvailableQuantity').val();
+                data.locationId = $('#LocationId').val();
+                data.stockNo = $('#StockNo').val();
+            }
         },
         columns: [
             {
@@ -65,7 +73,7 @@
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -73,7 +81,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -81,7 +89,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -89,7 +97,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -97,7 +105,7 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             //DeleteButton,
@@ -495,6 +503,12 @@ $("#addDistribute").click(function () {
     } else {
         return false;
     }
+
+});
+
+$("#btnSearch").click(function () {
+    const table = $("#gridDistribution").DataTable();
+    table.ajax.reload(null, false);
 
 });
 

@@ -45,13 +45,14 @@ namespace VKTracker.Controllers
             return Json(new { status = respose });
         }
 
-        public async Task<ActionResult> GetDistributionList()
+        [HttpPost]
+        public async Task<ActionResult> GetDistributionList(int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo)
         {
             var filter = DataExtractor.Extract(Request);
 
             var repository = new DistributionRepository();
 
-            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]), stockCodeId, fabricId, itemTypeId, availableQuantity, locationId, stockNo).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<DistributionViewModel>
             {

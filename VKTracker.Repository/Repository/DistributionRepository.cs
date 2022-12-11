@@ -12,20 +12,27 @@ namespace VKTracker.Repository.Repository
 {
     public class DistributionRepository
     {
-        public async Task<DataTableResponseCarrier<DistributionViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
+        public async Task<DataTableResponseCarrier<DistributionViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo)
         {
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.Distributions.Where(x => x.IsActive && x.UserId == userId && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
+                var result = db.Distributions.Where(x => (x.IsActive && x.UserId == userId && x.OrganizationId == organizationId) &&
+                                                    (stockCodeId.HasValue ? x.StockManagement.StockCodeId == stockCodeId : true) &&
+                                                    (fabricId.HasValue ? x.StockManagement.FabricId == fabricId : true) &&
+                                                    (itemTypeId.HasValue ? x.StockManagement.ItemId == itemTypeId : true) &&
+                                                    (availableQuantity.HasValue ? x.StockManagement.ActualQuantity == availableQuantity : true) &&
+                                                    (locationId.HasValue ? x.StockManagement.LocationId == locationId : true) &&
+                                                    (!string.IsNullOrEmpty(stockNo) ? x.BillNo == stockNo : true)
+                                                    ).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
                     result = result.Where(x => x.StockManagement.Location.LocationName.Contains(filterDto.SearchValue) ||
                                                 x.StockManagement.ParcelCode.Code.Contains(filterDto.SearchValue) ||
-                                                x.StockManagement.Fabric.FabricName.Contains(filterDto.SearchValue)||
-                                                x.StockManagement.Item.ItemName.Contains(filterDto.SearchValue)||
-                                                x.StockManagement.TotalQuantity.ToString().Contains(filterDto.SearchValue)||
+                                                x.StockManagement.Fabric.FabricName.Contains(filterDto.SearchValue) ||
+                                                x.StockManagement.Item.ItemName.Contains(filterDto.SearchValue) ||
+                                                x.StockManagement.TotalQuantity.ToString().Contains(filterDto.SearchValue) ||
                                                 x.StockManagement.ActualQuantity.ToString().Contains(filterDto.SearchValue) ||
                                                 x.Customer.Name.ToString().Contains(filterDto.SearchValue) ||
                                                 x.Customer.Address.ToString().Contains(filterDto.SearchValue));
@@ -45,14 +52,14 @@ namespace VKTracker.Repository.Repository
 
                 var response = result.Select(x => new DistributionViewModel
                 {
-                    Id= x.Id,
+                    Id = x.Id,
                     StockManagementId = (int)x.StockManagementId,
                     ParcelId = x.StockManagement.ParcelCode.Id,
                     StockCode = x.StockManagement.StockCode.Code,
-                    FabricName= x.StockManagement.Fabric.FabricName,
+                    FabricName = x.StockManagement.Fabric.FabricName,
                     ItemName = x.StockManagement.Item.ItemName,
-                    TotalQuantity= x.StockManagement.TotalQuantity,
-                    ActualQuantity= x.StockManagement.ActualQuantity,
+                    TotalQuantity = x.StockManagement.TotalQuantity,
+                    ActualQuantity = x.StockManagement.ActualQuantity,
                     LocationName = x.StockManagement.Location.LocationName,
                     CustomerName = x.Customer.Name,
                     CustomerAddress = x.Customer.Address,
@@ -91,9 +98,9 @@ namespace VKTracker.Repository.Repository
                     model.DistributionDate = objModel.DistributionDate;
                     model.Note = objModel.Note;
                     model.IsActive = true;
-                    model.CreatedBy= userId;
+                    model.CreatedBy = userId;
                     model.CreatedOn = DateTime.Now;
-                    model.UserId= userId;
+                    model.UserId = userId;
                     model.OrganizationId = organizationId;
 
                     var modelStockCode = stockData.Where(x => x.Id == item).FirstOrDefault();
