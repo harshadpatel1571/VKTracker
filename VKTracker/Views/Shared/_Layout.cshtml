@@ -239,6 +239,7 @@
         });
 
         function formateDate(value) {
+
             var today = new Date(value);
 
             var dd = String(today.getDate()).padStart(2, '0');
@@ -254,7 +255,7 @@
             var strTime = hours + ':' + minutes + ' ' + ampm;
 
             today = dd + '-' + mm + '-' + yyyy + " " + strTime;
-            return today;
+            return value != null ? today : value;
         }
 
         function formateDateYMD(value) {
@@ -264,7 +265,8 @@
             var yyyy = today.getFullYear();
 
             today = yyyy + '-' + mm + '-' + dd;
-            return today;
+            //return today;
+            return value != null ? today : value;
         }
 
         $(function () {
