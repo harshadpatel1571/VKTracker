@@ -45,14 +45,14 @@
                     "                                </div>",
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
-                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
-                        "                                        <i class=\"ri-edit-2-line\"></i>\n" +
-                        "                                    </a>\n" +
-                        "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
-                        "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
-                        "                                    </a>\n" +
+                        //"                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
+                        //"                                        <i class=\"ri-edit-2-line\" Title=\"Edit\"></i>\n" +
+                        //"                                    </a>\n" +
+                        //"                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
+                        //"                                        <i class=\"ri-delete-bin-line\" Title=\"Delete\"></i>\n" +
+                        //"                                    </a>\n" +
                         "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindDistributionLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#distributionLogModal'>\n" +
-                        "                                        <i class=\"ri-history-line\"></i>\n" +
+                        "                                        <i class=\"ri-history-line\" Title=\"Log History\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
                 }
@@ -100,9 +100,9 @@
                     columns: [0,1,2,3,4,5]
                 }
             },
-            DeleteButton,
-            TransferLocationButton,
-            DistributeButton,
+            //DeleteButton,
+            //TransferLocationButton,
+            //DistributeButton,
             'pageLength'
         ]
     }).buttons().container().appendTo('#distributionHeader');

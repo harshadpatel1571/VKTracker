@@ -32,13 +32,13 @@
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
                         "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editParcelRecord(" + row.id + ")'>\n" +
-                        "                                        <i class=\"ri-edit-2-line\"></i>\n" +
+                        "                                        <i class=\"ri-edit-2-line\" Title=\"Edit\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteParcelRecord(" + row.id + ")'>\n" +
-                        "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
+                        "                                        <i class=\"ri-delete-bin-line\" Title=\"Delete\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindParcelCodeLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#parcelCodeLogModal'>\n" +
-                        "                                        <i class=\"ri-history-line\"></i>\n" +
+                        "                                        <i class=\"ri-history-line\" Title=\"Log History\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
                 }

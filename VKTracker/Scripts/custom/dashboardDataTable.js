@@ -25,9 +25,17 @@
             { data: "locationName", name: "Location Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },
             { data: "actualQuantity", name: "ActualQuantity", "autoWidth": true },
-            { data: "distributionDate", name: "Distribution Date", "autoWidth": true },
+            { data: "distributionDate", name: "Distribution Date", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            },
             { data: "modifiedBy", name: "Modified By", "autoWidth": true },
-            { data: "modifiedDate", name: "Modified On", "autoWidth": true },
+            { data: "modifiedDate", name: "Modified On", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            },
             {
                 bSortable: false,
                 autoWidth: true,
@@ -42,13 +50,13 @@
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
                         "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
-                        "                                        <i class=\"ri-edit-2-line\"></i>\n" +
+                        "                                        <i class=\"ri-edit-2-line\" Title=\"Edit\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteDistributionRecord(" + row.id + ")'>\n" +
-                        "                                        <i class=\"ri-delete-bin-line\"></i>\n" +
+                        "                                        <i class=\"ri-delete-bin-line\" Title=\"Delete\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindDistributionLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#distributionLogModal'>\n" +
-                        "                                        <i class=\"ri-history-line\"></i>\n" +
+                        "                                        <i class=\"ri-history-line\" Title=\"Log History\"></i>\n" +
                         "                                    </a>\n" +
                         "                                </div>";
                 }
