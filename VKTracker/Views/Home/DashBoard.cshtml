@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var distributionModel = new VKTracker.Model.ViewModel.DistributionViewModel();
 }
 
 @Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
@@ -69,7 +70,7 @@
         </div>
     </div>
 </div>
-
+@Html.Partial("~/Views/Distribution/_DistributionPartial.cshtml", distributionModel)
 
 @section scripts
 {

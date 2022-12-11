@@ -49,7 +49,7 @@
                     "                                </div>",
                 render: function (data, type, row) {
                     return "<div class=\"hstack gap-3 flex-wrap\">\n" +
-                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
+                        "                                    <a class=\"link-success fs-20 sa-warning\" onclick='editDistributionRecord(" + row.id + ")'>\n" +
                         "                                        <i class=\"ri-edit-2-line\" Title=\"Edit\"></i>\n" +
                         "                                    </a>\n" +
                         "                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteDistributionRecord(" + row.id + ")'>\n" +
@@ -240,3 +240,69 @@ function bindDistributionLogGrid(id) {
         ]
     }).buttons().container().appendTo('#gridDistributionLog_wrapper .col-md-6:eq(0)');
 }
+
+function editDistributionRecord(id) {
+    $.ajax({
+        url: "/Distribution/EditDistribution/" + id,
+        type: "GET",
+        success: function (response) {
+            if (response.status) {
+                $("#distributeForm #Id").val(response.data.Id);
+                $("#distributeForm #StockCodeId").val(response.data.FabricName);
+                $("#distributeForm #DistributionDate").val(response.data.FabricName);
+                $("#distributeForm #PartyId").val(response.data.FabricName);
+                $("#distributeForm #BillNo").val(response.data.FabricName);
+                $("#distributeForm #IsFull").val(response.data.FabricName);
+                $("#distributeForm #Quantity").val(response.data.FabricName);
+                $("#distributeForm #Note").val(response.data.FabricName);
+                $('#distributionModal').modal('show');
+            }
+        },
+        error: function (response) {
+            alert('Error!');
+        },
+        complete: function () {
+        }
+    })
+}
+
+$("#addDistribute").click(function () {
+
+    if ($("#distributeForm").valid()) {
+
+        event.preventDefault();
+        var formData = $("#distributeForm").serialize();
+        $.ajax({
+            url: "/Distribution/SaveDistribution/",
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+                if (response.status) {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Saved.",
+                        text: "Your record has been Saved.",
+                        icon: "success",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    }).then(function () {
+                        const table = $("#gridRecentDistribution").DataTable();
+                        table.ajax.reload(null, false);
+                        $("#distributeForm #close-modal").click();
+                    });
+                }
+            },
+            error: function (response) {
+                alert('Error!');
+            },
+            complete: function () {
+            }
+        })
+    }
+    else {
+        return false;
+    }
+});

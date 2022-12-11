@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using VKTracker.Model.ViewModel;
 using VKTracker.Repository.Repository;
 
 namespace VKTracker.Controllers
@@ -11,9 +12,14 @@ namespace VKTracker.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public ActionResult DashBoard()
+        public async Task<ActionResult> DashBoard()
         {
-            return View();
+            var model = new DistributionViewModel();
+            
+            var repoCustomer = new CustomerRepository();
+                       
+            ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(), "Id", "Name");
+            return View(model);
         }
 
         public async Task<ActionResult> Index()

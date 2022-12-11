@@ -6,6 +6,7 @@ using VKTracker.Model.ViewModel;
 using System.Linq.Dynamic.Core;
 using System.Data.Entity;
 using System.Linq;
+using System.Data.Entity.Infrastructure;
 
 namespace VKTracker.Repository.Repository
 {
@@ -232,6 +233,84 @@ namespace VKTracker.Repository.Repository
             {
 
                 throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public async Task<bool> Save(DistributionViewModel objModel,int userId,int organizationId)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                var model = new Distribution();
+
+                if (objModel.Id > 0)
+                {
+                    model = await db.Distributions.FirstOrDefaultAsync(x => x.Id == objModel.Id).ConfigureAwait(false);
+                }
+
+                model.CustomerId = objModel.PartyId;
+                model.StockManagementId = objModel.StockCodeId;
+                model.BillNo = objModel.BillNo;
+                model.DistributionDate = objModel.DistributionDate;
+                model.Note = objModel.Note;
+                model.IsActive = true;
+                model.CreatedBy = userId;
+                model.CreatedOn = DateTime.Now;
+                model.UserId = userId;
+                model.OrganizationId = organizationId;
+
+                if (objModel.Id > 0)
+                {
+                    model.Id = objModel.Id;
+                    model.ModifiedBy = objModel.CreatedBy;
+                    model.ModifiedOn = DateTime.Now;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                else
+                {
+                    model.CreatedBy = objModel.CreatedBy;
+                    model.CreatedOn = DateTime.Now;
+                    db.Distributions.Add(model);
+                }
+
+                var status = await db.SaveChangesAsync().ConfigureAwait(false);
+                return status == 1 ? true : false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public async Task<DistributionViewModel> GetById(int id)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                return await db.Distributions.Where(x => x.Id == id).Select(x => new DistributionViewModel
+                {
+                    Id = x.Id,
+                    PartyId = (int)x.CustomerId,
+                    DistributionDate= x.DistributionDate,
+                    StockCodeId = (int)x.StockManagementId,
+                    BillNo= x.BillNo,
+                    IsFull= (bool)x.TypeId,
+                    Quantity = (int)x.Quantity,
+                    Note= x.Note
+            }).FirstOrDefaultAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             finally
             {

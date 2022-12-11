@@ -125,5 +125,37 @@ namespace VKTracker.Controllers
 
             return Json(new { status = respose });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveDistribution(DistributionViewModel objModel)
+        {
+            ModelState.Remove("Id");
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Model is not valid");
+            }
+
+            var repository = new DistributionRepository();
+            objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
+            return Json(new { status = respose });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditDistribution(int id)
+        {
+            var repository = new DistributionRepository();
+            var model = await repository.GetById(id);
+
+            if (model != null)
+            {
+                return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { status = false });
+            }
+        }
     }
 }

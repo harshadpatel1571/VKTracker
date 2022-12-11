@@ -1,4 +1,4 @@
-﻿@model VKTracker.Model.ViewModel.DistributionViewModel
+﻿        @model VKTracker.Model.ViewModel.DistributionViewModel
 
 <div class="modal fade zoomIn" id="distributionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -12,6 +12,7 @@
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="projectName-field" class="form-label">Stock Code</label>
+                            @Html.HiddenFor(m=>m.Id)
                             @Html.LabelFor(m => m.StockCodeId, new { @class = "form-control", @id = "StockCodeId" })
                         </div>
                         <div class="col-6">
