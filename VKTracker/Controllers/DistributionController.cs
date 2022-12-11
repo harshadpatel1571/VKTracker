@@ -116,5 +116,14 @@ namespace VKTracker.Controllers
                 ContentType = "application/json"
             };
         }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDistribution(int id)
+        {
+            var repository = new DistributionRepository();
+            var respose = await repository.Delete(id, Convert.ToInt32(Session["userId"]));
+
+            return Json(new { status = respose });
+        }
     }
 }

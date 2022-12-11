@@ -212,5 +212,31 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
+
+        public async Task<bool> Delete(int id, int userId)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                var model = await db.Distributions.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
+                model.IsActive = false;
+                model.ModifiedBy = userId;
+                model.ModifiedOn = DateTime.Now;
+
+                db.Entry(model).State = EntityState.Modified;
+                var status = await db.SaveChangesAsync().ConfigureAwait(false);
+
+                return status == 1 ? true : false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }

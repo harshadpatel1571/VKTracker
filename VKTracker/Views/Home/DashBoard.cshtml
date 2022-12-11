@@ -36,6 +36,41 @@
     </div>
 </div>
 
+<div class="modal fade zoomIn" id="distributionLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-info">
+                <h5 class="modal-title" id="exampleModalLabel">Distribution History Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <div class="modal-body">
+                <table id="gridDistributionLog" class="display table caption-top table-nowrap" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Action</th>
+                            <th>Than Id</th>
+                            <th>Code</th>
+                            <th>Fabric Type</th>
+                            <th>Item Type</th>
+                            <th>Total Quantity</th>
+                            <th>Actual Quantity</th>
+                            <th>Current Location</th>
+                            <th>Created By</th>
+                            <th>Created Date</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="hstack gap-2 justify-content-end">
+                    <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section scripts
 {
     <script src="~/Scripts/custom/dashboardDataTable.js"></script>
