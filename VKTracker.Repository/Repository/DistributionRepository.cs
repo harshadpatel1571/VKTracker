@@ -100,10 +100,12 @@ namespace VKTracker.Repository.Repository
                     {
                         model.Quantity = modelStockCode.ActualQuantity;
                         modelStockCode.ActualQuantity = 0;
+                        model.TypeId = objModel.IsFull;
                     }
                     else
                     {
                         model.Quantity = objModel.Quantity;
+                        model.TypeId = objModel.IsFull;
                         modelStockCode.ActualQuantity = modelStockCode.ActualQuantity - objModel.Quantity;
                     }
                     modelStockCode.ModifiedBy = userId;
