@@ -29,7 +29,15 @@ namespace VKTracker.Controllers
                     Session["userId"] = userModel.Id;
                     Session["emailId"] = userModel.EmailId;
                     Session["isAdmin"] = userModel.IsAdmin;
-                    return RedirectToAction("Index", "Home");
+
+                    if(userModel.IsAdmin)
+                    {
+                        return RedirectToAction("UserIndex", "Master");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
