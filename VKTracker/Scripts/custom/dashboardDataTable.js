@@ -246,15 +246,18 @@ function editDistributionRecord(id) {
         url: "/Distribution/EditDistribution/" + id,
         type: "GET",
         success: function (response) {
+            console.log(response.data);
             if (response.status) {
                 $("#distributeForm #Id").val(response.data.Id);
-                $("#distributeForm #StockCodeId").val(response.data.FabricName);
-                $("#distributeForm #DistributionDate").val(response.data.FabricName);
-                $("#distributeForm #PartyId").val(response.data.FabricName);
-                $("#distributeForm #BillNo").val(response.data.FabricName);
-                $("#distributeForm #IsFull").val(response.data.FabricName);
-                $("#distributeForm #Quantity").val(response.data.FabricName);
-                $("#distributeForm #Note").val(response.data.FabricName);
+                $("#distributeForm #StockCodeId").text(response.data.StockCodeId);
+                $("#distributeForm #DistributionDate").val(formateDateYMD(response.data.DistributionDate));
+                $("#distributeForm #PartyId").val(response.data.PartyId);
+                $("#distributeForm #BillNo").val(response.data.BillNo);
+                //$("#distributeForm #IsFull").val(response.data.TypeId);
+                $("input[name=IsFull][value=" + response.data.TypeId + "]").attr('checked', true);
+                $("#distributeForm #IsFull").val(response.data.TypeId);
+                $("#distributeForm #Quantity").val(response.data.Quantity);
+                $("#distributeForm #Note").val(response.data.Note);
                 $('#distributionModal').modal('show');
             }
         },

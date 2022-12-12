@@ -310,8 +310,8 @@ namespace VKTracker.Repository.Repository
                     DistributionDate= x.DistributionDate,
                     StockCodeId = (int)x.StockManagementId,
                     BillNo= x.BillNo,
-                    IsFull= (bool)x.TypeId,
-                    Quantity = (int)x.Quantity,
+                    //IsFull= (bool)x.TypeId,
+                    //Quantity = (int)x.Quantity,
                     Note= x.Note
             }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
