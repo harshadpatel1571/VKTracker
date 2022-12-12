@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Distribution";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var distributionModel = new VKTracker.Model.ViewModel.DistributionViewModel();
 }
 
 @Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
@@ -24,7 +25,7 @@
                 </div>
                 <div class="col-3">
                     <label for="projectName-field" class="form-label">Fabric</label>
-                    @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDL, "Select Fabric" , new { @class = "form-select" })
+                    @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDL, "Select Fabric", new { @class = "form-select" })
                 </div>
                 <div class="col-3">
                     <label for="projectName-field" class="form-label">Item Type</label>
@@ -40,7 +41,7 @@
                 </div>
                 <div class="col-3">
                     <label for="projectName-field" class="form-label">Stock No</label>
-                    @Html.TextBoxFor(m => m.StockNo, new { @class = "form-control", @placeholder="Bill No" })
+                    @Html.TextBoxFor(m => m.StockNo, new { @class = "form-control", @placeholder = "Bill No" })
                 </div>
                 <div class="col-1 mt-4">
                     <button type="button" class="btn btn-success btn-label waves-effect waves-light" id="btnSearch">
@@ -102,7 +103,7 @@
         </div>
     </div>
 </div>
-
+@Html.Partial("~/Views/Distribution/_DistributionPartial.cshtml", distributionModel)
 
 @section scripts
 {

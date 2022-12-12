@@ -16,8 +16,8 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.StockManagements.Where(x => x.IsActive && x.UserId == userId && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
-
+                var result = db.StockManagements.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
+                //&& x.UserId == userId 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
                     result = result.Where(x => x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
@@ -25,7 +25,7 @@ namespace VKTracker.Repository.Repository
                                                 x.Location.LocationName.Contains(filterDto.SearchValue) ||
                                                 x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.Fabric.FabricName.ToString().Contains(filterDto.SearchValue) ||
-                                                x.ActualQuantity.ToString().Contains(filterDto.SearchValue)||
+                                                x.ActualQuantity.ToString().Contains(filterDto.SearchValue) ||
                                                 x.TotalQuantity.ToString().Contains(filterDto.SearchValue));
                 }
 
@@ -250,7 +250,7 @@ namespace VKTracker.Repository.Repository
                     FabricId = x.FabricId,
                     ItemId = x.ItemId,
                     LocationId = x.LocationId,
-                    ActualQuantity= x.TotalQuantity,
+                    ActualQuantity = x.TotalQuantity,
                     TotalQuantity = x.TotalQuantity,
                     IsActive = true,
                     CreatedBy = x.CreatedBy,
@@ -299,7 +299,7 @@ namespace VKTracker.Repository.Repository
                 db.Dispose();
             }
         }
-        public async Task<bool> TransferLocation(List<StockManagementViewModel> objModel,int locationId)
+        public async Task<bool> TransferLocation(List<StockManagementViewModel> objModel, int locationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -307,7 +307,7 @@ namespace VKTracker.Repository.Repository
                 foreach (var item in objModel)
                 {
                     var model = await db.StockManagements.FirstOrDefaultAsync(x => x.Id == item.Id).ConfigureAwait(false);
-                    model.LocationId= locationId;
+                    model.LocationId = locationId;
                     model.ModifiedBy = item.CreatedBy;
                     model.ModifiedOn = item.CreatedOn;
                     db.Entry(model).State = EntityState.Modified;

@@ -17,14 +17,14 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.Distributions.Where(x => (x.IsActive && x.UserId == userId && x.OrganizationId == organizationId) &&
+                var result = db.Distributions.Where(x => (x.IsActive  && x.OrganizationId == organizationId) &&
                                                     (stockCodeId.HasValue ? x.StockManagement.StockCodeId == stockCodeId : true) &&
                                                     (fabricId.HasValue ? x.StockManagement.FabricId == fabricId : true) &&
                                                     (itemTypeId.HasValue ? x.StockManagement.ItemId == itemTypeId : true) &&
                                                     (availableQuantity.HasValue ? x.StockManagement.ActualQuantity == availableQuantity : true) &&
                                                     (locationId.HasValue ? x.StockManagement.LocationId == locationId : true) &&
                                                     (!string.IsNullOrEmpty(stockNo) ? x.BillNo == stockNo : true)
-                                                    ).AsNoTracking().AsQueryable();
+                                                    ).AsNoTracking().AsQueryable();//&& x.UserId == userId
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {

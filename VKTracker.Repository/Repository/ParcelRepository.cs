@@ -20,10 +20,10 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.ParcelReports.Where(x => x.IsActive && x.UserId == userId && x.OrganizationId == organizationId &&
+                var result = db.ParcelReports.Where(x => x.IsActive  && x.OrganizationId == organizationId &&
                 ((fromDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
                 (toDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) <= DbFunctions.TruncateTime(toDate) : true))
-                ).AsNoTracking().AsQueryable();
+                ).AsNoTracking().AsQueryable();//&& x.UserId == userId
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {

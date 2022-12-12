@@ -56,9 +56,9 @@
                         //"                                    <a class=\"link-success fs-20 sa-warning\" onclick='editRecourd(" + row.id + ")'>\n" +
                         //"                                        <i class=\"ri-edit-2-line\" Title=\"Edit\"></i>\n" +
                         //"                                    </a>\n" +
-                        //"                                    <a class=\"link-danger fs-20 sa-warning\" onclick='deleteRecord(" + row.id + ")'>\n" +
-                        //"                                        <i class=\"ri-delete-bin-line\" Title=\"Delete\"></i>\n" +
-                        //"                                    </a>\n" +
+                        "                                    <a class=\"link-info fs-20 sa-warning\" onclick='ShowDistributionRecord(" + row.id + ")'>\n" +
+                        "                                        <i class=\"ri-information-line\" Title=\"Show Distribution\"></i>\n" +
+                        "                                    </a>\n" +
                         "                                    <a class=\"link-primary fs-20 sa-warning\" onclick='bindDistributionLogGrid(" + row.id + ")' data-bs-toggle='modal' data-bs-target='#distributionLogModal'>\n" +
                         "                                        <i class=\"ri-history-line\" Title=\"Log History\"></i>\n" +
                         "                                    </a>\n" +
@@ -515,3 +515,32 @@ $("#btnSearch").click(function () {
 $('#distributionModal').on('hidden.bs.modal', function () {
     checkboxValues = [];
 });
+
+function ShowDistributionRecord(id) {
+    $.ajax({
+        url: "/Distribution/EditDistribution/" + id,
+        type: "GET",
+        success: function (response) {
+            console.log(response.data);
+            if (response.status) {
+                $("#distributeForm #Id").val(response.data.id);
+                $("#distributeForm #StockCodeId").text(response.data.stockCodeId);
+                $("#distributeForm #DistributionDate").val(formateDateYMD(response.data.distributionDate));
+                $("#distributeForm #PartyId").val(response.data.partyId);
+                $("#distributeForm #BillNo").val(response.data.billNo);
+                $("#distributeForm #IsFull").val(response.data.typeId);
+                $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity + ")");
+                $("#distributeForm #Quantity").val(response.data.quantity);
+                $("#distributeForm #Note").val(response.data.note);
+                $("#distributeForm #addDistribute").hide();
+
+                $('#distributionModal').modal('show');
+            }
+        },
+        error: function (response) {
+            alert('Error!');
+        },
+        complete: function () {
+        }
+    })
+}
