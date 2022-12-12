@@ -247,7 +247,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Save(DistributionViewModel objModel,int userId,int organizationId)
+        public async Task<bool> UpdateDistribution(DistributionViewModel objModel,int userId,int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -310,8 +310,9 @@ namespace VKTracker.Repository.Repository
                     DistributionDate= x.DistributionDate,
                     StockCodeId = (int)x.StockManagementId,
                     BillNo= x.BillNo,
-                    //IsFull= (bool)x.TypeId,
-                    //Quantity = (int)x.Quantity,
+                    IsFull= (bool)x.TypeId,
+                    ActualQuantity = x.StockManagement.ActualQuantity,
+                    Quantity = (int)x.Quantity,
                     Note= x.Note
             }).FirstOrDefaultAsync().ConfigureAwait(false);
             }

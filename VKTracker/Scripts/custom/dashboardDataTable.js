@@ -248,16 +248,15 @@ function editDistributionRecord(id) {
         success: function (response) {
             console.log(response.data);
             if (response.status) {
-                $("#distributeForm #Id").val(response.data.Id);
-                $("#distributeForm #StockCodeId").text(response.data.StockCodeId);
-                $("#distributeForm #DistributionDate").val(formateDateYMD(response.data.DistributionDate));
-                $("#distributeForm #PartyId").val(response.data.PartyId);
-                $("#distributeForm #BillNo").val(response.data.BillNo);
-                //$("#distributeForm #IsFull").val(response.data.TypeId);
-                $("input[name=IsFull][value=" + response.data.TypeId + "]").attr('checked', true);
-                $("#distributeForm #IsFull").val(response.data.TypeId);
-                $("#distributeForm #Quantity").val(response.data.Quantity);
-                $("#distributeForm #Note").val(response.data.Note);
+                $("#distributeForm #Id").val(response.data.id);
+                $("#distributeForm #StockCodeId").text(response.data.stockCodeId);
+                $("#distributeForm #DistributionDate").val(formateDateYMD(response.data.distributionDate));
+                $("#distributeForm #PartyId").val(response.data.partyId);
+                $("#distributeForm #BillNo").val(response.data.billNo);
+                $("#distributeForm #IsFull").val(response.data.typeId);
+                $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity +")");
+                $("#distributeForm #Quantity").val(response.data.quantity);
+                $("#distributeForm #Note").val(response.data.note);
                 $('#distributionModal').modal('show');
             }
         },

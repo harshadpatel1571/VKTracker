@@ -139,19 +139,25 @@ namespace VKTracker.Controllers
 
             var repository = new DistributionRepository();
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
+            var respose = await repository.UpdateDistribution(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
 
         [HttpGet]
         public async Task<ActionResult> EditDistribution(int id)
         {
+
             var repository = new DistributionRepository();
             var model = await repository.GetById(id);
 
             if (model != null)
             {
-                return Json(new { status = true, data = model }, JsonRequestBehavior.AllowGet);
+                return new ContentResult
+                {
+                    Content = JsonConvert.SerializeObject(new { status = true, data = model }, JsonSetting.Default),
+                    ContentEncoding = System.Text.Encoding.UTF8,
+                    ContentType = "application/json"
+                };
             }
             else
             {

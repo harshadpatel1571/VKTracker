@@ -30,7 +30,7 @@ namespace VKTracker.Model.ViewModel
         public int Quantity { get; set; }
         public string BillNo { get; set; }
         public string Note { get; set; }
-        public bool IsFull { get; set; } = true;
+        public bool IsFull { get; set; } 
         public DateTime? DistributionDate { get; set; }
         public int OrganizationId { get; set; }
         public int UserId { get; set; }

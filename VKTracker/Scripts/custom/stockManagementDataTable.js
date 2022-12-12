@@ -648,17 +648,21 @@ function AddDistribution() {
               
         checkboxValues.push($(this).val());
         stockIds = stockIds + $(this).val() + ",";
+        console.log($(this));
     });
     if (checkboxValues.length > 0) {
         if (checkboxValues.length != 1) {
             $("#divIsFull").hide();
             $("#divQuantity").hide();
+            $("#distributeForm #IsFull").val(true);
         }
         else {
             $("#divIsFull").show();
             $("#divQuantity").show();
+            $("#distributeForm #IsFull").val(false);
         }
         $('#distributeForm #StockCodeId').text(stockIds);
+        $("#distributeForm #LQuantity").text("(" + "response.data.quantity" + ")");
         $('#distributionModal').modal('show');
     }
     else {
