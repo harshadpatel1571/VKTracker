@@ -139,7 +139,7 @@ namespace VKTracker.Controllers
                 return Json("Model is not valid");
             }
 
-            objModel.StockManagementList = objModel.StockManagementList.Select(x=> new StockManagementViewModel
+            objModel.StockManagementList = objModel.StockManagementList.Select(x => new StockManagementViewModel
             {
                 ParcelId = x.ParcelId,
                 StockCodeId = x.StockCodeId,
@@ -151,7 +151,6 @@ namespace VKTracker.Controllers
                 CreatedOn = DateTime.Now,
                 UserId = Convert.ToInt32(Session["userId"]),
                 OrganizationId = Convert.ToInt32(Session["OrganizationId"])
-
             }).ToList();
 
             var repository = new StockManagementRepository();
@@ -171,7 +170,7 @@ namespace VKTracker.Controllers
 
             objModel.StockManagementList = objModel.StockManagementList.Select(x => new StockManagementViewModel
             {
-                Id= x.Id,
+                Id = x.Id,
                 CreatedBy = Convert.ToInt32(Session["userId"]),
                 CreatedOn = DateTime.Now,
 
@@ -201,7 +200,7 @@ namespace VKTracker.Controllers
             }).ToList();
 
             var repository = new StockManagementRepository();
-            var respose = await repository.TransferLocation(objModel.StockManagementList,locationId);
+            var respose = await repository.TransferLocation(objModel.StockManagementList, locationId);
             return Json(new { status = respose });
         }
     }

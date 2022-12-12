@@ -41,6 +41,7 @@ namespace VKTracker.Controllers
                 return Json("Model is not valid");
             }
             var repository = new DistributionRepository();
+            objModel.IsFull = StockIds.Count == 1 ? objModel.IsFull : true;
             var respose = await repository.SaveList(objModel, StockIds, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
