@@ -35,7 +35,7 @@ namespace VKTracker.Controllers
 
             var repository = new OrganizationRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<OrganizationViewModel>
             {
@@ -71,7 +71,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
 
