@@ -17,7 +17,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.Distributions.Where(x => (x.IsActive  && x.OrganizationId == organizationId) &&
+                var result = db.Distributions.Where(x => (x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)) &&
                                                     (stockCodeId.HasValue ? x.StockManagement.StockCodeId == stockCodeId : true) &&
                                                     (fabricId.HasValue ? x.StockManagement.FabricId == fabricId : true) &&
                                                     (itemTypeId.HasValue ? x.StockManagement.ItemId == itemTypeId : true) &&
@@ -100,8 +100,11 @@ namespace VKTracker.Repository.Repository
                     model.IsActive = true;
                     model.CreatedBy = userId;
                     model.CreatedOn = DateTime.Now;
+                    if (organizationId > 0)
+                    {
+                        model.OrganizationId = organizationId;
+                    }
                     model.UserId = userId;
-                    model.OrganizationId = organizationId;
 
                     var modelStockCode = stockData.Where(x => x.Id == item).FirstOrDefault();
                     if (objModel.IsFull)
@@ -267,8 +270,11 @@ namespace VKTracker.Repository.Repository
                 model.IsActive = true;
                 model.CreatedBy = userId;
                 model.CreatedOn = DateTime.Now;
+                if (organizationId > 0)
+                {
+                    model.OrganizationId = organizationId;
+                }
                 model.UserId = userId;
-                model.OrganizationId = organizationId;
 
                 if (objModel.Id > 0)
                 {

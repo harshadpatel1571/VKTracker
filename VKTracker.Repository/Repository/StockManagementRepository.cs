@@ -16,7 +16,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.StockManagements.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
+                var result = db.StockManagements.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)).AsNoTracking().AsQueryable();
                 //&& x.UserId == userId 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -96,8 +96,11 @@ namespace VKTracker.Repository.Repository
 
                 model.IsActive = true;
 
+                if (organizationId > 0)
+                {
+                    model.OrganizationId = organizationId;
+                }
                 model.UserId = userId;
-                model.OrganizationId = organizationId;
 
                 if (objModel.Id > 0)
                 {
@@ -238,7 +241,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> SaveList(List<StockManagementViewModel> objModel)
+        public async Task<bool> SaveList(List<StockManagementViewModel> objModel, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -256,7 +259,7 @@ namespace VKTracker.Repository.Repository
                     CreatedBy = x.CreatedBy,
                     CreatedOn = x.CreatedOn,
                     UserId = x.UserId,
-                    OrganizationId = x.OrganizationId
+                    OrganizationId = organizationId > 0 ? organizationId : 0,
                 }).ToList();
 
                 db.StockManagements.AddRange(model);

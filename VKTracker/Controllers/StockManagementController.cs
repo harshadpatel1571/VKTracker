@@ -149,12 +149,12 @@ namespace VKTracker.Controllers
                 TotalQuantity = x.TotalQuantity,
                 CreatedBy = Convert.ToInt32(Session["userId"]),
                 CreatedOn = DateTime.Now,
-                UserId = Convert.ToInt32(Session["userId"]),
-                OrganizationId = Convert.ToInt32(Session["OrganizationId"])
+                //UserId = Convert.ToInt32(Session["userId"]),
+                //OrganizationId = Convert.ToInt32(Session["OrganizationId"])
             }).ToList();
 
             var repository = new StockManagementRepository();
-            var respose = await repository.SaveList(objModel.StockManagementList);
+            var respose = await repository.SaveList(objModel.StockManagementList, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
 

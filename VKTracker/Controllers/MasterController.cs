@@ -140,7 +140,7 @@ namespace VKTracker.Controllers
 
         #endregion
 
-        #region Location Code
+        #region Location
         public ActionResult LocationIndex()
         {
             return View();
@@ -152,7 +152,7 @@ namespace VKTracker.Controllers
 
             var repository = new LocationRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<LocationViewModel>
             {
@@ -188,7 +188,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
 
             return Json(new { status = respose });
         }
@@ -271,7 +271,7 @@ namespace VKTracker.Controllers
 
             var repository = new ParcelCodeRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<ParcelCodeViewModel>
             {
@@ -307,7 +307,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
 
             return Json(new { status = respose });
         }
@@ -392,7 +392,7 @@ namespace VKTracker.Controllers
 
             var repository = new UserRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<UserViewModel>
             {
@@ -429,7 +429,7 @@ namespace VKTracker.Controllers
 
             objModel.Password = Encryption.Encrypt(objModel.Password);
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
 
             return Json(new { status = respose });
         }
@@ -498,7 +498,7 @@ namespace VKTracker.Controllers
 
             var repository = new FabricRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<FabricViewModel>
             {
@@ -534,7 +534,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
 
@@ -600,7 +600,7 @@ namespace VKTracker.Controllers
 
             var repository = new ItemRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<ItemViewModel>
             {
@@ -636,7 +636,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
 
@@ -700,7 +700,7 @@ namespace VKTracker.Controllers
 
             var repository = new StockCodeRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<StockCodeViewModel>
             {
@@ -736,7 +736,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
 
             return Json(new { status = respose });
         }
@@ -804,7 +804,7 @@ namespace VKTracker.Controllers
 
             var repository = new CustomerRepository();
 
-            var data = await repository.GetList(filter).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<CustomerViewModel>
             {
@@ -840,7 +840,7 @@ namespace VKTracker.Controllers
             }
 
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
-            var respose = await repository.Save(objModel);
+            var respose = await repository.Save(objModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
 
             return Json(new { status = respose });
         }

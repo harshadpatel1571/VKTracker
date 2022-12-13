@@ -11,13 +11,13 @@ namespace VKTracker.Repository.Repository
 {
     public class StockCodeRepository
     {
-        public async Task<DataTableResponseCarrier<StockCodeViewModel>> GetList(DataTableFilterViewModel filterDto)
+        public async Task<DataTableResponseCarrier<StockCodeViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
 
             try
             {
-                var result = db.StockCodes.Where(x => x.IsActive).AsNoTracking().AsQueryable();
+                var result = db.StockCodes.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -56,7 +56,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> Save(StockCodeViewModel objModel)
+        public async Task<bool> Save(StockCodeViewModel objModel, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -70,7 +70,11 @@ namespace VKTracker.Repository.Repository
 
                 model.Code = objModel.Code;
                 model.IsActive = true;
-
+                if (organizationId > 0)
+                {
+                    model.OrganizationId = organizationId;
+                }
+                model.UserId = userId;
                 if (objModel.Id > 0)
                 {
                     model.Id = objModel.Id;

@@ -20,7 +20,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.ParcelReports.Where(x => x.IsActive  && x.OrganizationId == organizationId &&
+                var result = db.ParcelReports.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId) &&
                 ((fromDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
                 (toDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) <= DbFunctions.TruncateTime(toDate) : true))
                 ).AsNoTracking().AsQueryable();//&& x.UserId == userId
@@ -146,8 +146,11 @@ namespace VKTracker.Repository.Repository
                 model.DispachedDate = objModel.DishpatchDate;
                 model.IsActive = true;
 
+                if (organizationId > 0)
+                {
+                    model.OrganizationId = organizationId;
+                }
                 model.UserId = userId;
-                model.OrganizationId = organizationId;
 
                 if (objModel.Id > 0)
                 {
