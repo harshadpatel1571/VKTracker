@@ -20,6 +20,14 @@ namespace VKTracker.Model.Context
             this.UserOrganizations = new HashSet<UserOrganization>();
             this.StockManagements = new HashSet<StockManagement>();
             this.Distributions = new HashSet<Distribution>();
+            this.Customers = new HashSet<Customer>();
+            this.Items = new HashSet<Item>();
+            this.Locations = new HashSet<Location>();
+            this.Organization1 = new HashSet<Organization>();
+            this.ParcelCodes = new HashSet<ParcelCode>();
+            this.ParcelReports = new HashSet<ParcelReport>();
+            this.StockCodes = new HashSet<StockCode>();
+            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
@@ -29,6 +37,8 @@ namespace VKTracker.Model.Context
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public Nullable<int> OrganizationId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserOrganization> UserOrganizations { get; set; }
@@ -36,5 +46,23 @@ namespace VKTracker.Model.Context
         public virtual ICollection<StockManagement> StockManagements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Distribution> Distributions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Item> Items { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Location> Locations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Organization> Organization1 { get; set; }
+        public virtual Organization Organization2 { get; set; }
+        public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ParcelCode> ParcelCodes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ParcelReport> ParcelReports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockCode> StockCodes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

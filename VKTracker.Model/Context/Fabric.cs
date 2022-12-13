@@ -27,8 +27,12 @@ namespace VKTracker.Model.Context
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public string FabricName { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public Nullable<int> OrganizationId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockManagement> StockManagements { get; set; }
+        public virtual OrganizationLog OrganizationLog { get; set; }
+        public virtual User User { get; set; }
     }
 }
