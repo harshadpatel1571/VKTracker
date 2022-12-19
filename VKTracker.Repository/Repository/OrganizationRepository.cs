@@ -153,12 +153,12 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> GetDuplicate(int id, string name)
+        public async Task<bool> GetDuplicate(int id, string name, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
             {
-                return await db.Organizations.AnyAsync(x => x.Id != id && x.Name.ToLower() == name.ToLower()).ConfigureAwait(false);
+                return await db.Organizations.AnyAsync(x => x.Id != id && x.OrganizationId == organizationId && x.Name.ToLower() == name.ToLower()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
