@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
 
@@ -156,7 +155,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                return await db.Fabrics.AnyAsync(x => x.Id != id && x.OrganizationId == organizationId && x.FabricName.ToLower() == name.ToLower()).ConfigureAwait(false);
+                return await db.Fabrics.AnyAsync(x => x.Id != id && x.OrganizationId == organizationId && x.FabricName.ToLower() == name.ToLower() && x.IsActive == true).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

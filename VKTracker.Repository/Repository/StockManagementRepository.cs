@@ -16,7 +16,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.StockManagements.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)).AsNoTracking().AsQueryable();
+                var result = db.StockManagements.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
                 //&& x.UserId == userId 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {

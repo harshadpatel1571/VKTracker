@@ -17,7 +17,7 @@ namespace VKTracker.Repository.Repository
 
             try
             {
-                var result = db.Locations.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)).AsNoTracking().AsQueryable();
+                var result = db.Locations.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -150,12 +150,12 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> GetDuplicate(int id, string locationName)
+        public async Task<bool> GetDuplicate(int id, string locationName, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
             {
-                return await db.Locations.AnyAsync(x => x.Id != id && x.LocationName.ToLower() == locationName.ToLower()).ConfigureAwait(false);
+                return await db.Locations.AnyAsync(x => x.Id != id && x.LocationName.ToLower() == locationName.ToLower() && x.IsActive == true && x.OrganizationId == organizationId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

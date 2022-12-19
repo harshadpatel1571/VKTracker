@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics.Eventing.Reader;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
@@ -20,7 +16,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.ParcelReports.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId) &&
+                var result = db.ParcelReports.Where(x => x.IsActive && x.OrganizationId == organizationId &&
                 ((fromDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
                 (toDate.HasValue ? DbFunctions.TruncateTime(x.ArrivalDate.Value) <= DbFunctions.TruncateTime(toDate) : true))
                 ).AsNoTracking().AsQueryable();//&& x.UserId == userId

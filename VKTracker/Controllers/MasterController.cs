@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VKTracker.Common.Helper;
 using VKTracker.Helper;
 using VKTracker.Model.ViewModel;
-using VKTracker.Repository;
 using VKTracker.Repository.Repository;
 
 namespace VKTracker.Controllers
@@ -181,7 +179,7 @@ namespace VKTracker.Controllers
             }
 
             var repository = new LocationRepository();
-            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.LocationName);
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.LocationName, Convert.ToInt32(Session["OrganizationId"]));
             if (isDuplicate)
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
@@ -300,7 +298,7 @@ namespace VKTracker.Controllers
             }
 
             var repository = new ParcelCodeRepository();
-            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Code);
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Code, Convert.ToInt32(Session["OrganizationId"]));
             if (isDuplicate)
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
@@ -630,7 +628,7 @@ namespace VKTracker.Controllers
             }
 
             var repository = new ItemRepository();
-            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.ItemName);
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.ItemName, Convert.ToInt32(Session["OrganizationId"]));
             if (isDuplicate)
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
@@ -730,7 +728,7 @@ namespace VKTracker.Controllers
             }
 
             var repository = new StockCodeRepository();
-            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Code);
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Code, Convert.ToInt32(Session["OrganizationId"]));
             if (isDuplicate)
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });
@@ -834,7 +832,7 @@ namespace VKTracker.Controllers
             }
 
             var repository = new CustomerRepository();
-            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name);
+            bool isDuplicate = await repository.GetDuplicate(objModel.Id, objModel.Name,Convert.ToInt32(Session["OrganizationId"]));
             if (isDuplicate)
             {
                 return Json(new { status = false, msg = "Duplicate Data Found !!" });

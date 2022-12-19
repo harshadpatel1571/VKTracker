@@ -1,9 +1,6 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
-using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository;
 

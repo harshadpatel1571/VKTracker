@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
@@ -18,7 +17,7 @@ namespace VKTracker.Repository.Repository
 
             try
             {
-                var result = db.Customers.Where(x => x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)).AsNoTracking().AsQueryable();
+                var result = db.Customers.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
@@ -45,7 +44,7 @@ namespace VKTracker.Repository.Repository
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Address= x.Address,
+                    Address = x.Address,
                     Mobile = x.Mobile
 
                 }).ToListAsync().ConfigureAwait(false);
@@ -146,9 +145,9 @@ namespace VKTracker.Repository.Repository
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Address= x.Address,
-                    Mobile= x.Mobile,
-                    
+                    Address = x.Address,
+                    Mobile = x.Mobile,
+
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -161,12 +160,12 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> GetDuplicate(int id, string name)
+        public async Task<bool> GetDuplicate(int id, string name, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
             {
-                return await db.Customers.AnyAsync(x => x.Id != id && x.Name.ToLower() == name.ToLower() && x.IsActive != false).ConfigureAwait(false);
+                return await db.Customers.AnyAsync(x => x.Id != id && x.Name.ToLower() == name.ToLower() && x.IsActive == true && x.OrganizationId == organizationId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -210,8 +209,8 @@ namespace VKTracker.Repository.Repository
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Address= x.Address,
-                    Mobile= x.Mobile,
+                    Address = x.Address,
+                    Mobile = x.Mobile,
                     Action = (bool)x.IsActive ? x.Action : "delete",
                     CreatedOn = x.CreatedOn,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,

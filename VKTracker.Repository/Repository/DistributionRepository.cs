@@ -6,7 +6,6 @@ using VKTracker.Model.ViewModel;
 using System.Linq.Dynamic.Core;
 using System.Data.Entity;
 using System.Linq;
-using System.Data.Entity.Infrastructure;
 
 namespace VKTracker.Repository.Repository
 {
@@ -17,7 +16,7 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.Distributions.Where(x => (x.IsActive && (organizationId == 0 ? true : x.OrganizationId == organizationId)) &&
+                var result = db.Distributions.Where(x => (x.IsActive && x.OrganizationId == organizationId) &&
                                                     (stockCodeId.HasValue ? x.StockManagement.StockCodeId == stockCodeId : true) &&
                                                     (fabricId.HasValue ? x.StockManagement.FabricId == fabricId : true) &&
                                                     (itemTypeId.HasValue ? x.StockManagement.ItemId == itemTypeId : true) &&
