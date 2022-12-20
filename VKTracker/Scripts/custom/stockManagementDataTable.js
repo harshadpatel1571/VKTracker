@@ -657,7 +657,18 @@ function AddDistribution() {
         else {
             $("#divIsFull").show();
             $("#divQuantity").show();
-        }
+
+            $.ajax({
+                url: "/StockManagement/EditStockManagement/" + checkboxValues[0],
+                type: "GET",
+                success: function (response) {
+                    if (response.status) {
+                        //$("#stockManageEditForm #TotalQuantity").val(response.data.totalQuantity);
+                        $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity + ")");
+                    }
+                }
+            });
+         }
         $('#distributeForm #StockCodeId').text(stockIds);
         //$("#distributeForm #LQuantity").text("(" + "response.data.quantity" + ")");
         $('#distributionModal').modal('show');
@@ -677,7 +688,17 @@ function AddDistribution() {
 
 $("#addDistribute").click(function () {
 
-    if ($("#distributeForm").valid()) {
+    var status = false;
+    if (checkboxValues.length == 1) {
+        var aqtn = $("#distributeForm #LQuantity").text();
+        var qtn = parseInt($("#Quantity").val());
+        var total = parseInt(aqtn.slice(1, -1)) - qtn;
+        status = (total >= 0 && qtn >= 0) ? true : false;
+    } else {
+        status = true;
+    }
+
+    if ($("#distributeForm").valid() && status) {
         var data = {
             DistributionDate: $("#DistributionDate").val(),
             PartyId: $("#PartyId").val(),
@@ -733,6 +754,10 @@ $("#addDistribute").click(function () {
             }
         })
     } else {
+        var msg = status ? "" : "please enter valid quantity!";
+        console.log(msg);
+        $("#distributeForm #Quantity-error").text(msg);
+        //$("#distributeForm #quantity-error").text(msg);
         return false;
     }
 
@@ -740,4 +765,6 @@ $("#addDistribute").click(function () {
 
 $('#distributionModal').on('hidden.bs.modal', function () {
     checkboxValues = [];
+    $("#distributeForm #Quantity-error").text("");
+    $('form#distributeForm').trigger("reset");
 });

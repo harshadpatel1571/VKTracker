@@ -142,6 +142,7 @@ namespace VKTracker.Repository.Repository
                     FabricId = (int)x.FabricId,
                     ItemId = (int)x.ItemId,
                     LocationId = (int)x.LocationId,
+                    ActualQuantity = x.ActualQuantity,
                     TotalQuantity = x.TotalQuantity,
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }

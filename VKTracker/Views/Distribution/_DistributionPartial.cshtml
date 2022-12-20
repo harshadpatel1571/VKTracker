@@ -46,6 +46,7 @@
                         <div class="col-6" id="divQuantity">
                             <label for="projectName-field" class="form-label">Quantity <span id="LQuantity"></span></label>
                             @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", @placeHolder = "Quantity" })
+                            <span id="Quantity-error" class = "text-danger"></span>
                         </div>
                         <div class="col-12">
                             <label for="projectName-field" class="form-label">Note</label>
