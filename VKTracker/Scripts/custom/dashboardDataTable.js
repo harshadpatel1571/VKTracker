@@ -25,13 +25,15 @@
             { data: "locationName", name: "Location Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },
             { data: "actualQuantity", name: "ActualQuantity", "autoWidth": true },
-            { data: "distributionDate", name: "Distribution Date", "autoWidth": true,
+            {
+                data: "distributionDate", name: "Distribution Date", "autoWidth": true,
                 render: function (data, type, row) {
                     return formateDate(data);
                 }
             },
             { data: "modifiedBy", name: "Modified By", "autoWidth": true },
-            { data: "modifiedDate", name: "Modified On", "autoWidth": true,
+            {
+                data: "modifiedDate", name: "Modified On", "autoWidth": true,
                 render: function (data, type, row) {
                     return formateDate(data);
                 }
@@ -254,7 +256,7 @@ function editDistributionRecord(id) {
                 $("#distributeForm #PartyId").val(response.data.partyId);
                 $("#distributeForm #BillNo").val(response.data.billNo);
                 $("#distributeForm #IsFull").val(response.data.typeId);
-                $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity +")");
+                $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity + ")");
                 $("#distributeForm #Quantity").val(response.data.quantity);
                 $("#distributeForm #Note").val(response.data.note);
                 $('#distributionModal').modal('show');
@@ -270,14 +272,34 @@ function editDistributionRecord(id) {
 
 $("#addDistribute").click(function () {
 
-    if ($("#distributeForm").valid()) {
+    var status = false;
+    var aqtn = $("#distributeForm #LQuantity").text();
+    var qtn = parseInt($("#Quantity").val());
+    var total = parseInt(aqtn.slice(1, -1)) - qtn;
+    status = (total >= 0 && qtn >= 0) ? true : false;
 
-        event.preventDefault();
-        var formData = $("#distributeForm").serialize();
+    if ($("#distributeForm").valid() && status) {
+
+        event.preventDefault();          
+        var data = {
+            Id: $("#Id").val(),
+            StockCodeId: $("#StockCodeId").text(),
+            DistributionDate: $("#DistributionDate").val(),
+            PartyId: $("#PartyId").val(),
+            IsFull: $('input[name=IsFull]:checked').val(),
+            Quantity: $("#Quantity").val(),
+            BillNo: $("#BillNo").val(),
+            Note: $("#Note").val(),
+        };
+
+        var objModel = {
+            objModel: data,
+        };
+        //var formData = $("#distributeForm").serialize();
         $.ajax({
             url: "/Distribution/SaveDistribution/",
             type: "POST",
-            data: formData,
+            data: objModel,
             dataType: "json",
             success: function (response) {
                 if (response.status) {
@@ -305,6 +327,13 @@ $("#addDistribute").click(function () {
         })
     }
     else {
+        var msg = status ? "" : "please enter valid quantity!";
+        $("#distributeForm #Quantity-error").text(msg);
         return false;
     }
+});
+
+$('#distributionModal').on('hidden.bs.modal', function () {
+    $("#distributeForm #Quantity-error").text("");
+    $('form#distributeForm').trigger("reset");
 });

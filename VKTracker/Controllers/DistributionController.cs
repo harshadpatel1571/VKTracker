@@ -132,11 +132,11 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> SaveDistribution(DistributionViewModel objModel)
         {
             ModelState.Remove("Id");
-            if (!ModelState.IsValid)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Model is not valid");
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            //    return Json("Model is not valid");
+            //}
 
             var repository = new DistributionRepository();
             objModel.CreatedBy = Convert.ToInt32(Session["userId"]);
