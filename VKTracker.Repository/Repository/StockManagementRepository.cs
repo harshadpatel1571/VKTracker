@@ -259,7 +259,7 @@ namespace VKTracker.Repository.Repository
                     IsActive = true,
                     CreatedBy = x.CreatedBy,
                     CreatedOn = x.CreatedOn,
-                    UserId = x.UserId,
+                    UserId = userId,
                     OrganizationId = organizationId > 0 ? organizationId : 0,
                 }).ToList();
 
