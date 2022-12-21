@@ -73,7 +73,7 @@
                 text: 'PDF',
                 titleAttr: 'Generate PDF',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                 }
             },
             {
@@ -81,7 +81,7 @@
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                 }
             },
             {
@@ -89,7 +89,7 @@
                 text: 'CSV',
                 titleAttr: 'Generate CSV',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                 }
             },
             {
@@ -97,7 +97,7 @@
                 text: 'Copy',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                 }
             },
             {
@@ -105,7 +105,7 @@
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                 }
             },
             DeleteButton,
@@ -668,7 +668,7 @@ function AddDistribution() {
                     }
                 }
             });
-         }
+        }
         $('#distributeForm #StockCodeId').text(stockIds);
         //$("#distributeForm #LQuantity").text("(" + "response.data.quantity" + ")");
         $('#distributionModal').modal('show');
