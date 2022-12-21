@@ -137,6 +137,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BaseModel.cs" />
     <Compile Include="ViewModel\BindDropdownViewModel.cs" />
+    <Compile Include="ViewModel\CaptchaResponceViewModel.cs" />
     <Compile Include="ViewModel\CustomerViewModel.cs" />
     <Compile Include="ViewModel\DataTableFilterViewModel.cs" />
     <Compile Include="ViewModel\DistributionViewModel.cs" />

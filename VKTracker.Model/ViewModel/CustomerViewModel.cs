@@ -5,7 +5,7 @@ namespace VKTracker.Model.ViewModel
     public class CustomerViewModel : BaseModel
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "First Name is required.")]
+        [Required(ErrorMessage = "Name is required.")]
         [RegularExpression(@"^\S+(?:\s+\S+)*$", ErrorMessage = "First Name not valid.")]
         public string Name { get; set; }
         [MaxLength(20)]

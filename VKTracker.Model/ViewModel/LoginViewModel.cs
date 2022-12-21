@@ -10,5 +10,7 @@ namespace VKTracker.Model.ViewModel
 
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
+
+        public string Tocken { get; set; }
     }
 }

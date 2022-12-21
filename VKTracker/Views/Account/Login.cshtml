@@ -1,6 +1,7 @@
 ﻿@model VKTracker.Model.ViewModel.LoginViewModel
 @{
     Layout = null;
+    string secretKey = System.Configuration.ConfigurationManager.AppSettings["CaptchaSecretKey"];
 }
 
 <!doctype html>
@@ -39,11 +40,10 @@
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <div>
                                 <a href="index.html" class="d-inline-block auth-logo">
-                                    @*<img src="~/images/logo-light.png" alt="" height="20">*@
                                     <h2 class="text-light">Than Tracker</h2>
                                 </a>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
 
@@ -61,7 +61,6 @@
                                     {
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
-                                            @*<input asp-for="UserName" type="text" class="form-control" placeholder="Enter username">*@
                                             @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Enter username" })
                                             @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
                                         </div>
@@ -69,15 +68,15 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="password-input">Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                @*<input asp-for="Password" type="password" class="form-control pe-5 password-input" placeholder="Enter password">*@
                                                 @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control pe-5 password-input", @placeholder = "Enter password" })
+                                                @Html.HiddenFor(x => x.Tocken)
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                 @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Sign In</button>
+                                            <button class="btn btn-success w-100" type="button" id="btnLogin">Sign In</button>
                                         </div>
                                     }
                                 </div>
@@ -93,9 +92,9 @@
                     <div class="col-lg-12">
                         <div class="text-center">
                             @*<p class="mb-0 text-muted">
-                                &copy;
-                                @DateTime.Now.Year VKTracking
-                            </p>*@
+                                    &copy;
+                                    @DateTime.Now.Year VKTracking
+                                </p>*@
                         </div>
                     </div>
                 </div>
@@ -116,6 +115,20 @@
     <script src="~/Scripts/particles.js"></script>
     <script src="~/Scripts/particles.app.js"></script>
     <script src="~/Scripts/password-addon.init.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ldt2ZcjAAAAAE1igVqcvm4gOjbnYs5IOPwlzdOB"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnLogin").click(function () {
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6Ldt2ZcjAAAAAE1igVqcvm4gOjbnYs5IOPwlzdOB', { action: 'submit' }).then(function (token) {
+                        $("#Tocken").val(token);
+                        document.getElementById("loginForm").submit();
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
