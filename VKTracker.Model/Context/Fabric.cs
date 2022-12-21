@@ -32,7 +32,7 @@ namespace VKTracker.Model.Context
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockManagement> StockManagements { get; set; }
-        public virtual OrganizationLog OrganizationLog { get; set; }
         public virtual User User { get; set; }
+        public virtual Organization Organization { get; set; }
     }
 }

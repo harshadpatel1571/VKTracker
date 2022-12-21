@@ -14,12 +14,6 @@ namespace VKTracker.Model.Context
     
     public partial class OrganizationLog
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OrganizationLog()
-        {
-            this.Fabrics = new HashSet<Fabric>();
-        }
-    
         public int Id { get; set; }
         public string Action { get; set; }
         public Nullable<int> OrganizationId { get; set; }
@@ -29,8 +23,5 @@ namespace VKTracker.Model.Context
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> Organization_Id { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fabric> Fabrics { get; set; }
     }
 }

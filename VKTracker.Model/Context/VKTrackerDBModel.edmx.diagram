@@ -46,7 +46,6 @@
         <EntityTypeShape EntityType="VKTrackerModel.DistributionLog" Width="1.5" PointX="5.375" PointY="12.75" />
         <AssociationConnector Association="VKTrackerModel.FK_Customer_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Customer_User" />
-        <AssociationConnector Association="VKTrackerModel.FK_Fabric_OrganizationLog" />
         <AssociationConnector Association="VKTrackerModel.FK_Fabric_User" />
         <AssociationConnector Association="VKTrackerModel.FK_Item_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Item_User" />
@@ -62,6 +61,7 @@
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_User" />
         <AssociationConnector Association="VKTrackerModel.FK_StockCode_User" />
         <AssociationConnector Association="VKTrackerModel.FK_User_User1" />
+        <AssociationConnector Association="VKTrackerModel.FK_Fabric_OrganizationLog1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

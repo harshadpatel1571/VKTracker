@@ -28,6 +28,7 @@ namespace VKTracker.Model.Context
             this.ParcelReports = new HashSet<ParcelReport>();
             this.StockCodes = new HashSet<StockCode>();
             this.Users = new HashSet<User>();
+            this.Fabrics = new HashSet<Fabric>();
         }
     
         public int Id { get; set; }
@@ -64,5 +65,7 @@ namespace VKTracker.Model.Context
         public virtual ICollection<StockCode> StockCodes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Fabric> Fabrics { get; set; }
     }
 }

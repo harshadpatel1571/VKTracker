@@ -443,11 +443,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Fabric_OrganizationLog">
-          <End Role="OrganizationLog" Type="Self.OrganizationLog" Multiplicity="0..1" />
+        <Association Name="FK_Fabric_Organization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
           <End Role="Fabric" Type="Self.Fabric" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrganizationLog">
+            <Principal Role="Organization">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Fabric">
@@ -815,8 +815,8 @@
             <End Role="User" EntitySet="User" />
             <End Role="Distribution" EntitySet="Distribution" />
           </AssociationSet>
-          <AssociationSet Name="FK_Fabric_OrganizationLog" Association="Self.FK_Fabric_OrganizationLog">
-            <End Role="OrganizationLog" EntitySet="OrganizationLog" />
+          <AssociationSet Name="FK_Fabric_Organization" Association="Self.FK_Fabric_Organization">
+            <End Role="Organization" EntitySet="Organization" />
             <End Role="Fabric" EntitySet="Fabric" />
           </AssociationSet>
           <AssociationSet Name="FK_Fabric_User" Association="Self.FK_Fabric_User">
@@ -942,8 +942,8 @@
           <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Fabric" FromRole="Fabric" ToRole="StockManagement" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
-          <NavigationProperty Name="OrganizationLog" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog" FromRole="Fabric" ToRole="OrganizationLog" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Fabric_User" FromRole="Fabric" ToRole="User" />
+          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog1" FromRole="Fabric" ToRole="Organization" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -1006,6 +1006,7 @@
           <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="Organization" ToRole="ParcelReport" />
           <NavigationProperty Name="StockCodes" Relationship="VKTrackerModel.FK_StockCode_Organization" FromRole="Organization" ToRole="StockCode" />
           <NavigationProperty Name="Users" Relationship="VKTrackerModel.FK_User_Organization" FromRole="Organization" ToRole="User" />
+          <NavigationProperty Name="Fabrics" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog1" FromRole="Organization" ToRole="Fabric" />
         </EntityType>
         <EntityType Name="ParcelCode">
           <Key>
@@ -1172,10 +1173,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Fabric_OrganizationLog" Association="VKTrackerModel.FK_Fabric_OrganizationLog">
-            <End Role="OrganizationLog" EntitySet="OrganizationLogs" />
-            <End Role="Fabric" EntitySet="Fabrics" />
-          </AssociationSet>
           <AssociationSet Name="FK_Fabric_User" Association="VKTrackerModel.FK_Fabric_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Fabric" EntitySet="Fabrics" />
@@ -1236,6 +1233,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="User1" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Fabric_OrganizationLog1" Association="VKTrackerModel.FK_Fabric_OrganizationLog1">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Fabric" EntitySet="Fabrics" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserOrganization">
           <Key>
@@ -1286,7 +1287,6 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="Organization_Id" Type="Int32" />
-          <NavigationProperty Name="Fabrics" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog" FromRole="OrganizationLog" ToRole="Fabric" />
         </EntityType>
         <EntityType Name="FabricLog">
           <Key>
@@ -1738,18 +1738,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Fabric_OrganizationLog">
-          <End Type="VKTrackerModel.OrganizationLog" Role="OrganizationLog" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrganizationLog">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Fabric">
-              <PropertyRef Name="OrganizationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Fabric_User">
           <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
           <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="*" />
@@ -1927,6 +1915,18 @@
             </Principal>
             <Dependent Role="User1">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fabric_OrganizationLog1">
+          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fabric">
+              <PropertyRef Name="OrganizationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
