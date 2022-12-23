@@ -15,7 +15,7 @@ namespace VKTracker.Controllers
             
             var repoCustomer = new CustomerRepository();
                        
-            ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(), "Id", "Name");
+            ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             return View(model);
         }
 

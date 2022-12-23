@@ -214,12 +214,12 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<List<BindDropdownViewModel>> BindStockCodeDDl()
+        public async Task<List<BindDropdownViewModel>> BindStockCodeDDl(int organizationId)
         {
             var db = new VKTrackerEntities();
             try
             {
-                return await db.StockCodes.Where(x => x.IsActive).Select(x => new BindDropdownViewModel
+                return await db.StockCodes.Where(x => x.IsActive && x.OrganizationId == organizationId).Select(x => new BindDropdownViewModel
                 {
                     Id = x.Id,
                     Name = x.Code

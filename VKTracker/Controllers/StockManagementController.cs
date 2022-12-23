@@ -24,12 +24,12 @@ namespace VKTracker.Controllers
             var repoLocation = new LocationRepository();
             var repoCustomer = new CustomerRepository();
 
-            ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(), "Id", "Name");
-            ViewBag.StockCodeDDL = new SelectList(await repoStockCode.BindStockCodeDDl(), "Id", "Name");
-            ViewBag.LocationDDl = new SelectList(await repoLocation.BindLocationDDl(), "Id", "Name");
-            ViewBag.FabricDDl = new SelectList(await repoFebric.BindFabricDDl(), "Id", "Name");
-            ViewBag.ItemDDl = new SelectList(await repoItem.BindItemDDl(), "Id", "Name");
-            ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(), "Id", "Name");
+            ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.StockCodeDDL = new SelectList(await repoStockCode.BindStockCodeDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.LocationDDl = new SelectList(await repoLocation.BindLocationDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.FabricDDl = new SelectList(await repoFebric.BindFabricDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.ItemDDl = new SelectList(await repoItem.BindItemDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             return View(model);
         }
 

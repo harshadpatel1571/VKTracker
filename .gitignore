@@ -12,3 +12,4 @@
 /VKTracker.Repository/bin/Debug
 /VKTracker.Repository/obj/Debug
 /packages
+*.user

@@ -17,8 +17,8 @@ namespace VKTracker.Controllers
             var parcelModel = new ParcelViewModel();
             var repoLocation = new LocationRepository();
             var repoParcelCode = new ParcelCodeRepository();
-            ViewBag.LocationDDL = new SelectList(await repoLocation.BindLocationDDl(), "Id", "Name");
-            ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(), "Id", "Name");
+            ViewBag.LocationDDL = new SelectList(await repoLocation.BindLocationDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             return View(parcelModel);
         }
 

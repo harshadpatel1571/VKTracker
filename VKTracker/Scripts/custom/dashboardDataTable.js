@@ -255,7 +255,10 @@ function editDistributionRecord(id) {
                 $("#distributeForm #DistributionDate").val(formateDateYMD(response.data.distributionDate));
                 $("#distributeForm #PartyId").val(response.data.partyId);
                 $("#distributeForm #BillNo").val(response.data.billNo);
-                $("#distributeForm #IsFull").val(response.data.typeId);
+                $("#distributeForm #IsFull").val(response.data.isFull);
+                if (response.data.isFull) {
+                    $("#IsFull").attr('checked', 'checked');
+                }
                 $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity + ")");
                 $("#distributeForm #Quantity").val(response.data.quantity);
                 $("#distributeForm #Note").val(response.data.note);
@@ -336,4 +339,6 @@ $("#addDistribute").click(function () {
 $('#distributionModal').on('hidden.bs.modal', function () {
     $("#distributeForm #Quantity-error").text("");
     $('form#distributeForm').trigger("reset");
+    $("#IsFull").attr('checked', 'false');
+    $("#IsFull").removeAttr('checked', 'checked');
 });

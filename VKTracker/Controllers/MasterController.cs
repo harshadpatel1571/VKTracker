@@ -243,7 +243,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> BindLocationDropdown()
         {
             var repository = new LocationRepository();
-            var dropdownData = new SelectList(await repository.BindLocationDDl(), "Id", "Name");
+            var dropdownData = new SelectList(await repository.BindLocationDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             if (dropdownData != null)
             {
                 return Json(new { status = true, data = dropdownData });
@@ -363,7 +363,7 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> BindParcelDropdown()
         {
             var repository = new ParcelCodeRepository();
-            var dropdownData = new SelectList(await repository.BindParcelDDl(), "Id", "Name");
+            var dropdownData = new SelectList(await repository.BindParcelDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             if (dropdownData != null)
             {
                 return Json(new { status = true, data = dropdownData });
