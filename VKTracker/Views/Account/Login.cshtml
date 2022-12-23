@@ -69,14 +69,13 @@
                                             <label class="form-label" for="password-input">Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
                                                 @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control pe-5 password-input", @placeholder = "Enter password" })
-                                                @Html.HiddenFor(x => x.Tocken)
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                 @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="button" id="btnLogin">Sign In</button>
+                                            <button class="btn btn-success w-100" type="submit" id="btnLogin">Sign In</button>
                                         </div>
                                     }
                                 </div>
@@ -115,20 +114,6 @@
     <script src="~/Scripts/particles.js"></script>
     <script src="~/Scripts/particles.app.js"></script>
     <script src="~/Scripts/password-addon.init.js"></script>
-
-    <script src="https://www.google.com/recaptcha/api.js?render=6Ldt2ZcjAAAAAE1igVqcvm4gOjbnYs5IOPwlzdOB"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#btnLogin").click(function () {
-                grecaptcha.ready(function () {
-                    grecaptcha.execute('6Ldt2ZcjAAAAAE1igVqcvm4gOjbnYs5IOPwlzdOB', { action: 'submit' }).then(function (token) {
-                        $("#Tocken").val(token);
-                        document.getElementById("loginForm").submit();
-                    });
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
