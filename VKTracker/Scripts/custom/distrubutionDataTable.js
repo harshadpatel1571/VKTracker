@@ -516,25 +516,28 @@ $('#distributionModal').on('hidden.bs.modal', function () {
     checkboxValues = [];
 });
 
+$('#distributionDetailModal').on('hidden.bs.modal', function () {
+    checkboxValues = [];
+});
+
 function ShowDistributionRecord(id) {
     $.ajax({
         url: "/Distribution/EditDistribution/" + id,
         type: "GET",
         success: function (response) {
-            console.log(response.data);
             if (response.status) {
-                $("#distributeForm #Id").val(response.data.id);
-                $("#distributeForm #StockCodeId").text(response.data.stockCodeId);
-                $("#distributeForm #DistributionDate").val(formateDateYMD(response.data.distributionDate));
-                $("#distributeForm #PartyId").val(response.data.partyId);
-                $("#distributeForm #BillNo").val(response.data.billNo);
-                $("#distributeForm #IsFull").val(response.data.typeId);
-                $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity + ")");
-                $("#distributeForm #Quantity").val(response.data.quantity);
-                $("#distributeForm #Note").val(response.data.note);
-                $("#distributeForm #addDistribute").hide();
+                $("#distributeDetailForm #Id").val(response.data.id);
+                $("#distributeDetailForm #StockCodeId").text(response.data.stockCodeId);
+                $("#distributeDetailForm #DistributionDate").val(formateDateYMD(response.data.distributionDate));
+                $("#distributeDetailForm #PartyId").val(response.data.partyId);
+                $("#distributeDetailForm #BillNo").val(response.data.billNo);
+                $("#distributeDetailForm #IsFull").val(response.data.typeId);
+                $("#distributeDetailForm #LQuantity").text("(" + response.data.actualQuantity + ")");
+                $("#distributeDetailForm #Quantity").val(response.data.quantity);
+                $("#distributeDetailForm #Note").val(response.data.note);
+                $("#distributeDetailForm #addDistribute").hide();
 
-                $('#distributionModal').modal('show');
+                $('#distributionDetailModal').modal('show');
             }
         },
         error: function (response) {
