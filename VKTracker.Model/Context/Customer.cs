@@ -23,6 +23,7 @@ namespace VKTracker.Model.Context
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public Nullable<int> LocationId { get; set; }
         public string Mobile { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
@@ -32,9 +33,10 @@ namespace VKTracker.Model.Context
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrganizationId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Distribution> Distributions { get; set; }
+        public virtual Location Location { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Distribution> Distributions { get; set; }
     }
 }

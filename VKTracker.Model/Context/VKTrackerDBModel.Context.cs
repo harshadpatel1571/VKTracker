@@ -42,11 +42,11 @@ namespace VKTracker.Model.Context
         public virtual DbSet<Userlog> Userlogs { get; set; }
         public virtual DbSet<ParcelReport> ParcelReports { get; set; }
         public virtual DbSet<ParcelReportLog> ParcelReportLogs { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerLog> CustomerLogs { get; set; }
         public virtual DbSet<StockManagement> StockManagements { get; set; }
         public virtual DbSet<StockManagementLog> StockManagementLogs { get; set; }
         public virtual DbSet<Distribution> Distributions { get; set; }
         public virtual DbSet<DistributionLog> DistributionLogs { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
     }
 }

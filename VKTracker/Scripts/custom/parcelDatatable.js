@@ -1,4 +1,13 @@
-﻿function bindParcel(data) {
+﻿$(document).ready(function () {
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var monthDate = new Date();
+    var mm = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+    $('#FromDate').val(1 + '-' + months[monthDate.getMonth()] + '-' + monthDate.getFullYear());
+    $('#ToDate').val(mm + '-' + months[monthDate.getMonth()] + '-' + monthDate.getFullYear());
+});
+
+
+function bindParcel(data) {
     $('#gridParcel').DataTable({
         paging: true,
         lengthChange: true,

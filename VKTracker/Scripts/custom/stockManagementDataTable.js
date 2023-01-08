@@ -67,6 +67,7 @@
             },
         ],
         dom: 'Bfrtip',
+        order : [[10,'desc']],
         buttons: [
             {
                 extend: 'pdfHtml5',

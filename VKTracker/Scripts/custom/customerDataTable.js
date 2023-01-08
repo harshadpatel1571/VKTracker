@@ -18,6 +18,7 @@
         },
         columns: [
             { data: "name", name: "Name", "autoWidth": true },
+            { data: "locationName", name: "LocationName", "autoWidth": true },
             { data: "address", name: "Address", "autoWidth": true },
             { data: "mobile", name: "Mobile", "autoWidth": true },
 
@@ -167,6 +168,7 @@ function editCustomerRecord(id) {
                 $("#customerForm #Id").val(response.data.Id);
                 $("#customerForm #Name").val(response.data.Name);
                 $("#customerForm #Mobile").val(response.data.Mobile);
+                $("#customerForm #LocationId").val(response.data.LocationId);
                 $("#customerForm #Address").val(response.data.Address);
                 $("#btnCustomerModal").click();
             }
@@ -255,6 +257,7 @@ function bindCustomerLogGrid(id) {
             { data: "action", name: "Action", "autoWidth": true },
             { data: "name", name: "Name", "autoWidth": true },
             { data: "mobile", name: "Mobile", "autoWidth": true },
+            { data: "locationName", name: "LocationName", "autoWidth": true },
             { data: "address", name: "Address", "autoWidth": true },
             { data: "logUserName", name: "Log User Name", "autoWidth": true },
             {

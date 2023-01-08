@@ -792,8 +792,10 @@ namespace VKTracker.Controllers
 
         #region Customer
 
-        public ActionResult CustomerIndex()
+        public async Task<ActionResult> CustomerIndex()
         {
+            var repoLocation = new LocationRepository();
+            ViewBag.LocationDDL = new SelectList(await repoLocation.BindLocationDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             return View();
         }
 

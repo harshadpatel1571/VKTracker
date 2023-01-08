@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -57,11 +58,11 @@ namespace VKTracker.Repository.Repository
                     ActualQuantity = (int)x.ActualQuantity,
                     TotalQuantity = (int)x.TotalQuantity,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.ModifiedBy).UserName,
-                    CreatedOn = x.ModifiedOn,
+                    CreatedOn = x.ModifiedOn
                 });
 
                 model.Data = await DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder).ToListAsync();
-
+                
                 return model;
             }
             catch (Exception ex)
@@ -112,7 +113,9 @@ namespace VKTracker.Repository.Repository
                 else
                 {
                     model.CreatedBy = objModel.CreatedBy;
-                    model.CreatedOn = DateTime.Now;
+                    model.CreatedOn = DateTime.UtcNow;
+                    model.ModifiedBy = objModel.CreatedBy;
+                    model.ModifiedOn = DateTime.UtcNow;
                     db.StockManagements.Add(model);
                 }
 
@@ -259,6 +262,8 @@ namespace VKTracker.Repository.Repository
                     IsActive = true,
                     CreatedBy = x.CreatedBy,
                     CreatedOn = x.CreatedOn,
+                    ModifiedBy = x.CreatedBy,
+                    ModifiedOn = DateTime.UtcNow,
                     UserId = userId,
                     OrganizationId = organizationId > 0 ? organizationId : 0,
                 }).ToList();

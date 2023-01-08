@@ -30,9 +30,9 @@ namespace VKTracker.Model.Context
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrganizationId { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual StockManagement StockManagement { get; set; }
         public virtual User User { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

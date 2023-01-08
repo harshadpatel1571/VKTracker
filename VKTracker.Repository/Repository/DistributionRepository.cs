@@ -63,8 +63,8 @@ namespace VKTracker.Repository.Repository
                     CustomerName = x.Customer.Name,
                     CustomerAddress = x.Customer.Address,
                     DistributionDate = x.DistributionDate,
-                    ModifiedBy = x.ModifiedBy,
-                    ModifiedDate = x.ModifiedOn
+                    LogUserName = db.Users.FirstOrDefault(u=>u.Id == x.ModifiedBy).UserName,
+                    CreatedOn = x.ModifiedOn
                 });
 
                 model.Data = await DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder).ToListAsync();
@@ -97,8 +97,7 @@ namespace VKTracker.Repository.Repository
                     model.DistributionDate = objModel.DistributionDate;
                     model.Note = objModel.Note;
                     model.IsActive = true;
-                    model.CreatedBy = userId;
-                    model.CreatedOn = DateTime.Now;
+                    
                     if (organizationId > 0)
                     {
                         model.OrganizationId = organizationId;
@@ -119,7 +118,21 @@ namespace VKTracker.Repository.Repository
                         modelStockCode.ActualQuantity = modelStockCode.ActualQuantity - objModel.Quantity;
                     }
                     modelStockCode.ModifiedBy = userId;
-                    modelStockCode.ModifiedOn = DateTime.Now;
+                    modelStockCode.ModifiedOn = DateTime.UtcNow;
+
+                    if (objModel.Id > 0)
+                    {
+                        model.Id = objModel.Id;
+                        model.ModifiedBy = userId;
+                        model.ModifiedOn = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        model.CreatedBy = userId;
+                        model.CreatedOn = DateTime.UtcNow;
+                        model.ModifiedBy = userId;
+                        model.ModifiedOn = DateTime.UtcNow;
+                    }
 
                     listModel.Add(model);
                     db.Entry(modelStockCode).State = EntityState.Modified;
@@ -268,7 +281,7 @@ namespace VKTracker.Repository.Repository
                 model.Note = objModel.Note;
                 model.IsActive = true;
                 model.CreatedBy = userId;
-                model.CreatedOn = DateTime.Now;
+                model.CreatedOn = DateTime.UtcNow;
                 if (organizationId > 0)
                 {
                     model.OrganizationId = organizationId;
@@ -279,13 +292,15 @@ namespace VKTracker.Repository.Repository
                 {
                     model.Id = objModel.Id;
                     model.ModifiedBy = objModel.CreatedBy;
-                    model.ModifiedOn = DateTime.Now;
+                    model.ModifiedOn = DateTime.UtcNow;
                     db.Entry(model).State = EntityState.Modified;
                 }
                 else
                 {
                     model.CreatedBy = objModel.CreatedBy;
-                    model.CreatedOn = DateTime.Now;
+                    model.CreatedOn = DateTime.UtcNow;
+                    model.ModifiedBy = objModel.CreatedBy;
+                    model.ModifiedOn = DateTime.UtcNow;
                     db.Distributions.Add(model);
                 }
 

@@ -20,7 +20,6 @@ namespace VKTracker.Model.Context
             this.UserOrganizations = new HashSet<UserOrganization>();
             this.StockManagements = new HashSet<StockManagement>();
             this.Distributions = new HashSet<Distribution>();
-            this.Customers = new HashSet<Customer>();
             this.Fabrics = new HashSet<Fabric>();
             this.Items = new HashSet<Item>();
             this.Locations = new HashSet<Location>();
@@ -29,6 +28,7 @@ namespace VKTracker.Model.Context
             this.ParcelReports = new HashSet<ParcelReport>();
             this.StockCodes = new HashSet<StockCode>();
             this.User1 = new HashSet<User>();
+            this.Customers = new HashSet<Customer>();
         }
     
         public int Id { get; set; }
@@ -54,8 +54,6 @@ namespace VKTracker.Model.Context
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Distribution> Distributions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer> Customers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Fabric> Fabrics { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
@@ -73,5 +71,7 @@ namespace VKTracker.Model.Context
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> User1 { get; set; }
         public virtual User User2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace VKTracker.Repository.Repository
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
                     result = result.Where(x => x.Name.Contains(filterDto.SearchValue) ||
+                                          x.Location.LocationName.Contains(filterDto.SearchValue) ||
                                           x.Mobile.Contains(filterDto.SearchValue) ||
                                           x.Address.Contains(filterDto.SearchValue));
                 }
@@ -45,8 +46,8 @@ namespace VKTracker.Repository.Repository
                     Id = x.Id,
                     Name = x.Name,
                     Address = x.Address,
-                    Mobile = x.Mobile
-
+                    Mobile = x.Mobile,
+                    LocationName = x.Location.LocationName
                 }).ToListAsync().ConfigureAwait(false);
 
                 return model;
@@ -75,6 +76,7 @@ namespace VKTracker.Repository.Repository
 
                 model.Name = objModel.Name;
                 model.Address = objModel.Address;
+                model.LocationId = objModel.LocationId;
                 model.Mobile = objModel.Mobile;
                 model.IsActive = true;
                 if (organizationId > 0)
@@ -147,6 +149,7 @@ namespace VKTracker.Repository.Repository
                     Name = x.Name,
                     Address = x.Address,
                     Mobile = x.Mobile,
+                    LocationId = (int)x.LocationId
 
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
@@ -214,6 +217,7 @@ namespace VKTracker.Repository.Repository
                     Action = (bool)x.IsActive ? x.Action : "delete",
                     CreatedOn = x.CreatedOn,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,
+                    LocationName = db.Locations.FirstOrDefault(y=>y.Id == x.LocationId).LocationName
                 }).ToListAsync().ConfigureAwait(false);
 
                 return model;

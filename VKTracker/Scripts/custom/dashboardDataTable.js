@@ -31,9 +31,9 @@
                     return formateDate(data);
                 }
             },
-            { data: "modifiedBy", name: "Modified By", "autoWidth": true },
+            { data: "logUserName", name: "Log User Name", "autoWidth": true },
             {
-                data: "modifiedDate", name: "Modified On", "autoWidth": true,
+                data: "createdOn", name: "Created On", "autoWidth": true,
                 render: function (data, type, row) {
                     return formateDate(data);
                 }

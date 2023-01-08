@@ -22,12 +22,12 @@
                 </div>
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">From Date</label>
-                    @Html.TextBoxFor(m => m.FromDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.TextBoxFor(m => m.FromDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
                     @Html.ValidationMessageFor(x => x.FromDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">To Date</label>
-                    @Html.TextBoxFor(m => m.ToDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.TextBoxFor(m => m.ToDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
                     @Html.ValidationMessageFor(x => x.ToDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-1 mt-4">
@@ -84,13 +84,13 @@
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Dishpatch Date</label>
-                            @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                            @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
                             @Html.ValidationMessageFor(x => x.DishpatchDate, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Arrival Date</label>
-                            @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "Y-m-d" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                            @Html.TextBoxFor(m => m.ArrivalDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
                             @Html.ValidationMessageFor(x => x.ArrivalDate, "", new { @class = "text-danger" })
                         </div>
                     </div>

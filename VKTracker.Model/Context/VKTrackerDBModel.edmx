@@ -12,6 +12,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
+          <Property Name="LocationId" Type="int" />
           <Property Name="Mobile" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
@@ -30,6 +31,7 @@
           <Property Name="CustomerId" Type="int" />
           <Property Name="Name" Type="nchar" MaxLength="100" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
+          <Property Name="LocationId" Type="int" />
           <Property Name="Mobile" Type="varchar" MaxLength="12" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreatedBy" Type="int" />
@@ -371,6 +373,18 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
+        <Association Name="FK_Customer_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Customer_Organization">
           <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
@@ -791,6 +805,10 @@
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Userlog" EntityType="Self.Userlog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOrganization" EntityType="Self.UserOrganization" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Customer_Location" Association="Self.FK_Customer_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
           <AssociationSet Name="FK_Customer_Organization" Association="Self.FK_Customer_Organization">
             <End Role="Organization" EntitySet="Organization" />
             <End Role="Customer" EntitySet="Customer" />
@@ -979,6 +997,7 @@
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Location_Location" FromRole="Location" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Location_User" FromRole="Location" ToRole="User" />
+          <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_Location" FromRole="Location" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -996,7 +1015,6 @@
           <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_Organization" FromRole="Organization" ToRole="Distribution" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
-          <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_Organization" FromRole="Organization" ToRole="Customer" />
           <NavigationProperty Name="Items" Relationship="VKTrackerModel.FK_Item_Organization" FromRole="Organization" ToRole="Item" />
           <NavigationProperty Name="Locations" Relationship="VKTrackerModel.FK_Location_Location" FromRole="Organization" ToRole="Location" />
           <NavigationProperty Name="Organization1" Relationship="VKTrackerModel.FK_Organization_Organization" FromRole="Organization" ToRole="Organization1" />
@@ -1007,6 +1025,7 @@
           <NavigationProperty Name="StockCodes" Relationship="VKTrackerModel.FK_StockCode_Organization" FromRole="Organization" ToRole="StockCode" />
           <NavigationProperty Name="Users" Relationship="VKTrackerModel.FK_User_Organization" FromRole="Organization" ToRole="User" />
           <NavigationProperty Name="Fabrics" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog1" FromRole="Organization" ToRole="Fabric" />
+          <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_Organization" FromRole="Organization" ToRole="Customer" />
         </EntityType>
         <EntityType Name="ParcelCode">
           <Key>
@@ -1065,7 +1084,6 @@
           <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_User" FromRole="User" ToRole="Distribution" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
-          <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_User" FromRole="User" ToRole="Customer" />
           <NavigationProperty Name="Fabrics" Relationship="VKTrackerModel.FK_Fabric_User" FromRole="User" ToRole="Fabric" />
           <NavigationProperty Name="Items" Relationship="VKTrackerModel.FK_Item_User" FromRole="User" ToRole="Item" />
           <NavigationProperty Name="Locations" Relationship="VKTrackerModel.FK_Location_User" FromRole="User" ToRole="Location" />
@@ -1076,6 +1094,7 @@
           <NavigationProperty Name="StockCodes" Relationship="VKTrackerModel.FK_StockCode_User" FromRole="User" ToRole="StockCode" />
           <NavigationProperty Name="User1" Relationship="VKTrackerModel.FK_User_User1" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User2" Relationship="VKTrackerModel.FK_User_User1" FromRole="User1" ToRole="User" />
+          <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_User" FromRole="User" ToRole="Customer" />
         </EntityType>
         <EntityContainer Name="VKTrackerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Fabrics" EntityType="Self.Fabric" />
@@ -1111,7 +1130,6 @@
             <End Role="ParcelReport" EntitySet="ParcelReports" />
           </AssociationSet>
           <EntitySet Name="ParcelReportLogs" EntityType="VKTrackerModel.ParcelReportLog" />
-          <EntitySet Name="Customers" EntityType="VKTrackerModel.Customer" />
           <EntitySet Name="CustomerLogs" EntityType="VKTrackerModel.CustomerLog" />
           <EntitySet Name="StockManagements" EntityType="VKTrackerModel.StockManagement" />
           <AssociationSet Name="FK_StockManagement_Fabric" Association="VKTrackerModel.FK_StockManagement_Fabric">
@@ -1148,10 +1166,6 @@
           </AssociationSet>
           <EntitySet Name="StockManagementLogs" EntityType="VKTrackerModel.StockManagementLog" />
           <EntitySet Name="Distributions" EntityType="VKTrackerModel.Distribution" />
-          <AssociationSet Name="FK_Distribution_Customer" Association="VKTrackerModel.FK_Distribution_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Distribution" EntitySet="Distributions" />
-          </AssociationSet>
           <AssociationSet Name="FK_Distribution_Organization" Association="VKTrackerModel.FK_Distribution_Organization">
             <End Role="Organization" EntitySet="Organizations" />
             <End Role="Distribution" EntitySet="Distributions" />
@@ -1165,14 +1179,6 @@
             <End Role="Distribution" EntitySet="Distributions" />
           </AssociationSet>
           <EntitySet Name="DistributionLogs" EntityType="VKTrackerModel.DistributionLog" />
-          <AssociationSet Name="FK_Customer_Organization" Association="VKTrackerModel.FK_Customer_Organization">
-            <End Role="Organization" EntitySet="Organizations" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_User" Association="VKTrackerModel.FK_Customer_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Fabric_User" Association="VKTrackerModel.FK_Fabric_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Fabric" EntitySet="Fabrics" />
@@ -1236,6 +1242,23 @@
           <AssociationSet Name="FK_Fabric_OrganizationLog1" Association="VKTrackerModel.FK_Fabric_OrganizationLog1">
             <End Role="Organization" EntitySet="Organizations" />
             <End Role="Fabric" EntitySet="Fabrics" />
+          </AssociationSet>
+          <EntitySet Name="Customers" EntityType="VKTrackerModel.Customer" />
+          <AssociationSet Name="FK_Customer_Location" Association="VKTrackerModel.FK_Customer_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Organization" Association="VKTrackerModel.FK_Customer_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_User" Association="VKTrackerModel.FK_Customer_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Distribution_Customer" Association="VKTrackerModel.FK_Distribution_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Distribution" EntitySet="Distributions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserOrganization">
@@ -1443,25 +1466,6 @@
           <Property Name="OrganizationId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
         </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Customer" ToRole="Distribution" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="OrganizationId" Type="Int32" />
-          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Customer_Organization" FromRole="Customer" ToRole="Organization" />
-          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Customer_User" FromRole="Customer" ToRole="User" />
-        </EntityType>
         <EntityType Name="CustomerLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -1477,6 +1481,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="LocationId" Type="Int32" />
         </EntityType>
         <EntityType Name="StockManagement">
           <Key>
@@ -1641,23 +1646,11 @@
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Distribution_Organization" FromRole="Distribution" ToRole="Organization" />
           <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Distribution_User" FromRole="Distribution" ToRole="User" />
+          <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
         </EntityType>
-        <Association Name="FK_Distribution_Customer">
-          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Distribution">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Distribution_Organization">
           <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
           <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
@@ -1714,30 +1707,6 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
-        <Association Name="FK_Customer_Organization">
-          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Organization">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="OrganizationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Customer_User">
-          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Fabric_User">
           <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
           <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="*" />
@@ -1927,6 +1896,75 @@
             </Principal>
             <Dependent Role="Fabric">
               <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LocationId" Type="Int32" />
+          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_Customer_Location" FromRole="Customer" ToRole="Location" />
+          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Customer_Organization" FromRole="Customer" ToRole="Organization" />
+          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Customer_User" FromRole="Customer" ToRole="User" />
+          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Customer" ToRole="Distribution" />
+        </EntityType>
+        <Association Name="FK_Customer_Location">
+          <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Organization">
+          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_User">
+          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Distribution_Customer">
+          <End Type="VKTrackerModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2207,26 +2245,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="VKTrackerModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CustomerLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.CustomerLog">
               <MappingFragment StoreEntitySet="CustomerLog">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -2321,6 +2343,24 @@
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="DistributionId" ColumnName="DistributionId" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="VKTrackerModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
