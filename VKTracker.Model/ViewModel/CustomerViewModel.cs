@@ -15,7 +15,7 @@ namespace VKTracker.Model.ViewModel
         [RegularExpression(@"[0-9]{10}", ErrorMessage = "Mobile No only 10 digit allow.")]
         public string Mobile { get; set; }
 
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string LocationName { get; set; }
 
     }
