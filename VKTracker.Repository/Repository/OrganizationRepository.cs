@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using VKTracker.Model.Context;
 using VKTracker.Model.ViewModel;
 

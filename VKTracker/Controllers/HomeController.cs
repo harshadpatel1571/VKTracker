@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VKTracker.Common.Helper;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository.Repository;
 
@@ -9,6 +10,7 @@ namespace VKTracker.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        [AuthorizeActionFilter]
         public async Task<ActionResult> DashBoard()
         {
             var model = new DistributionViewModel();

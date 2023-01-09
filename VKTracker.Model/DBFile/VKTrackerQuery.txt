@@ -1,41 +1,33 @@
-------------------Distribution Table --------------------------
-
 USE [VKTracker]
 GO
-
-ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_User]
+/****** Object:  Trigger [Trig_Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
+DROP TRIGGER [dbo].[Trig_Customer]
 GO
-
-ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_StockManagement]
+ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_User]
 GO
-
-ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Organization]
+ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Organization]
 GO
-
-ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Customer]
+ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Location]
 GO
-
-/****** Object:  Table [dbo].[Distribution]    Script Date: 10-12-2022 10:04:26 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Distribution]') AND type in (N'U'))
-DROP TABLE [dbo].[Distribution]
+/****** Object:  Table [dbo].[CustomerLog]    Script Date: 09-01-2023 11:20:03 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerLog]') AND type in (N'U'))
+DROP TABLE [dbo].[CustomerLog]
 GO
-
-/****** Object:  Table [dbo].[Distribution]    Script Date: 10-12-2022 10:04:26 PM ******/
+/****** Object:  Table [dbo].[Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customer]') AND type in (N'U'))
+DROP TABLE [dbo].[Customer]
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
-CREATE TABLE [dbo].[Distribution](
+CREATE TABLE [dbo].[Customer](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[CustomerId] [int] NULL,
-	[DistributionDate] [datetime] NULL,
-	[StockManagementId] [int] NULL,
-	[TypeId] [bit] NULL,
-	[BillNo] [varchar](100) NULL,
-	[Note] [varchar](250) NULL,
-	[Quantity] [decimal](18, 2) NULL,
+	[Name] [varchar](100) NOT NULL,
+	[Address] [varchar](250) NULL,
+	[LocationId] [int] NULL,
+	[Mobile] [varchar](10) NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[CreatedBy] [int] NULL,
 	[CreatedOn] [datetime] NULL,
@@ -43,255 +35,105 @@ CREATE TABLE [dbo].[Distribution](
 	[ModifiedOn] [datetime] NULL,
 	[UserId] [int] NULL,
 	[OrganizationId] [int] NULL,
- CONSTRAINT [PK_Distribution] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_Customer] FOREIGN KEY([CustomerId])
-REFERENCES [dbo].[Customer] ([Id])
-GO
-
-ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Customer]
-GO
-
-ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_Organization] FOREIGN KEY([OrganizationId])
-REFERENCES [dbo].[Organization] ([Id])
-GO
-
-ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Organization]
-GO
-
-ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_StockManagement] FOREIGN KEY([StockManagementId])
-REFERENCES [dbo].[StockManagement] ([Id])
-GO
-
-ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_StockManagement]
-GO
-
-ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_User] FOREIGN KEY([UserId])
-REFERENCES [dbo].[User] ([Id])
-GO
-
-ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_User]
-GO
-
-
------------------------------Distribution Trigger --------------------------------
-
-USE [VKTracker]
-GO
-/****** Object:  Trigger [dbo].[Trig_Distribution]    Script Date: 10-12-2022 10:05:26 PM ******/
+/****** Object:  Table [dbo].[CustomerLog]    Script Date: 09-01-2023 11:20:03 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-ALTER TRIGGER [dbo].[Trig_Distribution] ON [dbo].[Distribution]
-    AFTER INSERT, UPDATE, DELETE
-AS 
-BEGIN
-	SET NOCOUNT ON;
-
-	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
-
-	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
-	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
-	
-	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
-	BEGIN
-		-- Todo Insert
-		INSERT INTO [dbo].[DistributionLog]
-           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn])
-		SELECT 
-			'Insert',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn]
-		FROM Inserted
-	End
-
-	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
-	BEGIN
-		-- Todo Update
-		INSERT INTO [dbo].[DistributionLog]
-           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn])
-		SELECT 
-			'Update',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[ModifiedBy],[ModifiedOn]
-		FROM Inserted
-	End
-
-	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
-	BEGIN
-		-- Todo Delete
-		INSERT INTO [dbo].[DistributionLog]
-           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn])
-		SELECT 
-			'Delete',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[ModifiedBy],[ModifiedOn]
-		FROM Inserted
-	End
-
-END
-
-
-----------------------------Distribution Log Table ------------------------------
-USE [VKTracker]
-GO
-
-/****** Object:  Table [dbo].[DistributionLog]    Script Date: 10-12-2022 10:07:59 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DistributionLog]') AND type in (N'U'))
-DROP TABLE [dbo].[DistributionLog]
-GO
-
-/****** Object:  Table [dbo].[DistributionLog]    Script Date: 10-12-2022 10:07:59 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[DistributionLog](
+CREATE TABLE [dbo].[CustomerLog](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Action] [varchar](10) NULL,
-	[DistributionId] [int] NULL,
 	[CustomerId] [int] NULL,
-	[DistributionDate] [datetime] NULL,
-	[StockManagementId] [int] NULL,
-	[TypeId] [bit] NULL,
-	[BillNo] [varchar](100) NULL,
-	[Note] [varchar](250) NULL,
-	[Quantity] [decimal](18, 2) NULL,
-	[UserId] [int] NULL,
-	[OrganizationId] [int] NULL,
+	[Name] [nchar](100) NULL,
+	[Address] [varchar](250) NULL,
+	[LocationId] [int] NULL,
+	[Mobile] [varchar](12) NULL,
 	[IsActive] [bit] NULL,
 	[CreatedBy] [int] NULL,
 	[CreatedOn] [datetime] NULL,
- CONSTRAINT [PK_DistributionLog] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-
-------------------------- StockManagement table -------------------------
-
-USE [VKTracker]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_User]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_StockCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_ParcelCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Organization]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Location]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Item]
-GO
-
-ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Fabric]
-GO
-
-/****** Object:  Table [dbo].[StockManagement]    Script Date: 10-12-2022 10:09:05 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagement]') AND type in (N'U'))
-DROP TABLE [dbo].[StockManagement]
-GO
-
-/****** Object:  Table [dbo].[StockManagement]    Script Date: 10-12-2022 10:09:05 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[StockManagement](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ParcelId] [int] NULL,
-	[StockCodeId] [int] NULL,
-	[FabricId] [int] NULL,
-	[ItemId] [int] NULL,
-	[LocationId] [int] NULL,
-	[ActualQuantity] [decimal](18, 2) NOT NULL,
-	[TotalQuantity] [decimal](18, 2) NOT NULL,
-	[OrganizationId] [int] NULL,
 	[UserId] [int] NULL,
-	[IsActive] [bit] NOT NULL,
-	[CreatedBy] [int] NULL,
-	[CreatedOn] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
-	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_StockManagement] PRIMARY KEY CLUSTERED 
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_CustomerLog] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Fabric] FOREIGN KEY([FabricId])
-REFERENCES [dbo].[Fabric] ([Id])
+SET IDENTITY_INSERT [dbo].[Customer] ON 
 GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Fabric]
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (9, N'Customer 1', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2022-12-21T22:53:55.767' AS DateTime), 4, CAST(N'2023-01-07T13:40:08.293' AS DateTime), 4, 26)
 GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Item] FOREIGN KEY([ItemId])
-REFERENCES [dbo].[Item] ([Id])
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (10, N'Customer or2', N'Address or2', 13, N'9856230147', 1, 4, CAST(N'2022-12-23T23:43:50.373' AS DateTime), NULL, NULL, 4, 27)
 GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Item]
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (15, N'Customer 2', N'rajkot', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T12:41:08.050' AS DateTime), 4, CAST(N'2023-01-07T13:30:24.963' AS DateTime), 4, 26)
 GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Location] FOREIGN KEY([LocationId])
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (19, N'Customer 3', N'Junagadh', 14, N'9876543210', 1, 4, CAST(N'2023-01-07T13:44:00.780' AS DateTime), NULL, NULL, 4, 26)
+GO
+SET IDENTITY_INSERT [dbo].[Customer] OFF
+GO
+SET IDENTITY_INSERT [dbo].[CustomerLog] ON 
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (9, N'Insert', 9, N'Customer 1                                                                                          ', N'Junagadh', NULL, N'0123456789', 1, 4, CAST(N'2022-12-21T22:53:55.767' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (10, N'Insert', 10, N'Customer or2                                                                                        ', N'Address or2', NULL, N'1234567890', 1, 4, CAST(N'2022-12-23T23:43:50.373' AS DateTime), 4, 27)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (15, N'Insert', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 1234567802, N'13', 1, 4, CAST(N'2023-01-07T12:41:08.050' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (17, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 14, N'1234567802', 1, 4, CAST(N'2023-01-07T12:43:22.693' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (18, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:07.963' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (19, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:16.793' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (20, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:23.187' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (21, N'Update', 15, N'Customer 2                                                                                          ', N'rajkot', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:49:48.443' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (22, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 13, N'0123456789', 1, NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (23, N'Update', 10, N'Customer or2                                                                                        ', N'Address or2', 13, N'1234567890', 1, NULL, NULL, 4, 27)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (24, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 13, N'9874563210', 1, NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (25, N'Update', 10, N'Customer or2                                                                                        ', N'Address or2', 13, N'9856230147', 1, NULL, NULL, 4, 27)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (26, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2023-01-07T13:30:15.590' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (27, N'Update', 15, N'Customer 2                                                                                          ', N'rajkot', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T13:30:24.963' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (28, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2023-01-07T13:40:08.293' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (31, N'Insert', 19, N'Customer 3                                                                                          ', N'Junagadh', 14, N'9876543210', 1, 4, CAST(N'2023-01-07T13:44:00.780' AS DateTime), 4, 26)
+GO
+SET IDENTITY_INSERT [dbo].[CustomerLog] OFF
+GO
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Location] FOREIGN KEY([LocationId])
 REFERENCES [dbo].[Location] ([Id])
 GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Location]
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Location]
 GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Organization] FOREIGN KEY([OrganizationId])
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Organization] FOREIGN KEY([OrganizationId])
 REFERENCES [dbo].[Organization] ([Id])
 GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Organization]
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Organization]
 GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_ParcelCode] FOREIGN KEY([ParcelId])
-REFERENCES [dbo].[ParcelCode] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_ParcelCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_StockCode] FOREIGN KEY([StockCodeId])
-REFERENCES [dbo].[StockCode] ([Id])
-GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_StockCode]
-GO
-
-ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_User] FOREIGN KEY([UserId])
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_User] FOREIGN KEY([UserId])
 REFERENCES [dbo].[User] ([Id])
 GO
-
-ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_User]
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_User]
 GO
-
-
-----------------------StockManagement Trigger ---------------------
-USE [VKTracker]
-GO
-/****** Object:  Trigger [dbo].[Trig_StockManagement]    Script Date: 10-12-2022 10:09:44 PM ******/
+/****** Object:  Trigger [dbo].[Trig_Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-ALTER TRIGGER [dbo].[Trig_StockManagement] ON [dbo].[StockManagement]
+CREATE TRIGGER [dbo].[Trig_Customer] ON [dbo].[Customer]
     AFTER INSERT, UPDATE, DELETE
 AS 
 BEGIN
@@ -305,80 +147,34 @@ BEGIN
 	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
 	BEGIN
 		-- Todo Insert
-		INSERT INTO [dbo].[StockManagementLog]
-           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
-			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		INSERT INTO [dbo].[CustomerLog]
+           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
 		SELECT 
-			'Insert',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
-			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+			'Insert',Id,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
 		FROM Inserted
 	End
 
 	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
 	BEGIN
 		-- Todo Update
-		INSERT INTO [dbo].[StockManagementLog]
-           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
-			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		INSERT INTO [dbo].[CustomerLog]
+           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
 		SELECT 
-			'Update',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
-			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+			'Update',Id,Name,Address,LocationId,Mobile,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
 		FROM Inserted
 	End
 
 	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
 	BEGIN
 		-- Todo Delete
-		INSERT INTO [dbo].[StockManagementLog]
-           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
-			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		INSERT INTO [dbo].[CustomerLog]
+           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
 		SELECT 
-			'Delete',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
-			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+			'Delete',Id,Name,Address,LocationId,Mobile,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
 		FROM Inserted
 	End
 
 END
-
-
-----------------------------StockManagement Log table ----------------------------
-
-USE [VKTracker]
 GO
-
-/****** Object:  Table [dbo].[StockManagementLog]    Script Date: 10-12-2022 10:10:25 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagementLog]') AND type in (N'U'))
-DROP TABLE [dbo].[StockManagementLog]
+ALTER TABLE [dbo].[Customer] ENABLE TRIGGER [Trig_Customer]
 GO
-
-/****** Object:  Table [dbo].[StockManagementLog]    Script Date: 10-12-2022 10:10:25 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[StockManagementLog](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Action] [varchar](10) NULL,
-	[StockManagementId] [int] NULL,
-	[ParcelId] [int] NULL,
-	[StockCodeId] [int] NULL,
-	[FabricId] [int] NULL,
-	[ItemId] [int] NULL,
-	[LocationId] [int] NULL,
-	[ActualQuantity] [decimal](18, 2) NULL,
-	[TotalQuantity] [decimal](18, 2) NULL,
-	[OrganizationId] [int] NULL,
-	[UserId] [int] NULL,
-	[IsActive] [bit] NULL,
-	[CreatedBy] [int] NULL,
-	[CreatedOn] [datetime] NULL,
- CONSTRAINT [PK_Table_1] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-

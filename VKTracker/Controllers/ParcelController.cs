@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VKTracker.Common.Helper;
 using VKTracker.Helper;
 using VKTracker.Model.ViewModel;
 using VKTracker.Repository.Repository;
@@ -10,6 +11,7 @@ using VKTracker.Repository.Repository;
 namespace VKTracker.Controllers
 {
     [Authorize]
+    [AuthorizeActionFilter]
     public class ParcelController : Controller
     {
         public async Task<ActionResult> Index()

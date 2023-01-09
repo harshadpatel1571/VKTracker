@@ -12,6 +12,7 @@ using VKTracker.Repository.Repository;
 namespace VKTracker.Controllers
 {
     [Authorize]
+    [AuthorizeActionFilter]
     public class MasterController : Controller
     {
         public ActionResult Index()
