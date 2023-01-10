@@ -37,7 +37,7 @@
             {
                 data: "createdOn", name: "Created On", "autoWidth": true,
                 render: function (data, type, row) {
-                    return formateDate(data);
+                    return formateDate(new Date(data).toUTCString());
                 }
             },
             {

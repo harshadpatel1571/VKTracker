@@ -87,7 +87,7 @@ namespace VKTracker.Controllers
             {
                 Id = x.Id,
                 CreatedBy = Convert.ToInt32(Session["userId"]),
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.UtcNow,
 
             }).ToList();
 

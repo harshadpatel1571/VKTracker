@@ -244,7 +244,7 @@ namespace VKTracker.Repository.Repository
                 var model = await db.Distributions.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
                 model.ModifiedBy = userId;
-                model.ModifiedOn = DateTime.Now;
+                model.ModifiedOn = DateTime.UtcNow;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);

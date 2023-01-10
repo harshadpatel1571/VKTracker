@@ -88,13 +88,13 @@ namespace VKTracker.Repository.Repository
                 {
                     model.Id = objModel.Id;
                     model.ModifiedBy = objModel.CreatedBy;
-                    model.ModifiedOn = DateTime.Now;
+                    model.ModifiedOn = DateTime.UtcNow;
                     db.Entry(model).State = EntityState.Modified;
                 }
                 else
                 {
                     model.CreatedBy = objModel.CreatedBy;
-                    model.CreatedOn = DateTime.Now;
+                    model.CreatedOn = DateTime.UtcNow;
                     db.Customers.Add(model);
                 }
 
@@ -120,7 +120,7 @@ namespace VKTracker.Repository.Repository
                 var model = await db.Customers.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
                 model.ModifiedBy = userId;
-                model.ModifiedOn = DateTime.Now;
+                model.ModifiedOn = DateTime.UtcNow;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);

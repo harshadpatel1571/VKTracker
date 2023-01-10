@@ -88,7 +88,7 @@ namespace VKTracker.Repository.Repository
                 {
                     model.Id = objModel.Id;
                     model.ModifiedBy = objModel.CreatedBy;
-                    model.ModifiedOn = DateTime.Now;
+                    model.ModifiedOn = DateTime.UtcNow;
                     var old = db.UserOrganizations.Where(x=>x.UserId == objModel.Id).ToList();
                     db.UserOrganizations.RemoveRange(old);
 
@@ -108,7 +108,7 @@ namespace VKTracker.Repository.Repository
                         OrganizationId = x
                     }).ToArray();
                     model.CreatedBy = objModel.CreatedBy;
-                    model.CreatedOn = DateTime.Now;
+                    model.CreatedOn = DateTime.UtcNow;
                     db.Users.Add(model);
                 }
 
@@ -134,7 +134,7 @@ namespace VKTracker.Repository.Repository
                 var model = await db.Users.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
                 model.ModifiedBy = userId;
-                model.ModifiedOn = DateTime.Now;
+                model.ModifiedOn = DateTime.UtcNow;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);

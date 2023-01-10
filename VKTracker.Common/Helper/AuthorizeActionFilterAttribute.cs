@@ -10,7 +10,7 @@ namespace VKTracker.Common.Helper
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             HttpSessionStateBase session = filterContext.HttpContext.Session;
-            if (session["OrganizationId"] == null || Convert.ToInt32(session["OrganizationId"])== 0)
+            if (!Convert.ToBoolean(session["isAdmin"]) && (session["OrganizationId"] == null || Convert.ToInt32(session["OrganizationId"]) == 0))
             {
                 filterContext.Result =
                     new RedirectToRouteResult(

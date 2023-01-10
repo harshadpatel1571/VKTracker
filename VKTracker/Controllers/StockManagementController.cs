@@ -148,7 +148,7 @@ namespace VKTracker.Controllers
                 LocationId = x.LocationId,
                 TotalQuantity = x.TotalQuantity,
                 CreatedBy = Convert.ToInt32(Session["userId"]),
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.UtcNow,
                 //UserId = Convert.ToInt32(Session["userId"]),
                 //OrganizationId = Convert.ToInt32(Session["OrganizationId"])
             }).ToList();
@@ -172,7 +172,7 @@ namespace VKTracker.Controllers
             {
                 Id = x.Id,
                 CreatedBy = Convert.ToInt32(Session["userId"]),
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.UtcNow,
 
             }).ToList();
 
@@ -195,7 +195,7 @@ namespace VKTracker.Controllers
             {
                 Id = x.Id,
                 CreatedBy = Convert.ToInt32(Session["userId"]),
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.UtcNow,
 
             }).ToList();
 

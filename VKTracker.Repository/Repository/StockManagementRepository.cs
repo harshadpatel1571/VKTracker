@@ -57,7 +57,7 @@ namespace VKTracker.Repository.Repository
                     ActualQuantity = (int)x.ActualQuantity,
                     TotalQuantity = (int)x.TotalQuantity,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.ModifiedBy).UserName,
-                    CreatedOn = x.ModifiedOn
+                    CreatedOn = x.ModifiedOn.Value
                 });
 
                 model.Data = await DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder).ToListAsync();
@@ -106,7 +106,7 @@ namespace VKTracker.Repository.Repository
                 {
                     model.Id = objModel.Id;
                     model.ModifiedBy = objModel.CreatedBy;
-                    model.ModifiedOn = DateTime.Now;
+                    model.ModifiedOn = DateTime.UtcNow;
                     db.Entry(model).State = EntityState.Modified;
                 }
                 else
@@ -166,7 +166,7 @@ namespace VKTracker.Repository.Repository
                 var model = await db.StockManagements.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
                 model.IsActive = false;
                 model.ModifiedBy = userId;
-                model.ModifiedOn = DateTime.Now;
+                model.ModifiedOn = DateTime.UtcNow;
 
                 db.Entry(model).State = EntityState.Modified;
                 var status = await db.SaveChangesAsync().ConfigureAwait(false);
