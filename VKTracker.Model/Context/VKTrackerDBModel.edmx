@@ -236,6 +236,8 @@
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="UserId" Type="int" />
           <Property Name="OrganizationId" Type="int" />
+          <Property Name="ChallanDate" Type="datetime" />
+          <Property Name="TransportNo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ParcelReportLog">
           <Key>
@@ -254,6 +256,8 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="OrganizationId" Type="int" />
           <Property Name="UserId" Type="int" />
+          <Property Name="ChallanDate" Type="datetime" />
+          <Property Name="TransportNo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StockCode">
           <Key>
@@ -1423,6 +1427,8 @@
           <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport" FromRole="ParcelReport" ToRole="StockManagement" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="ParcelReport" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_ParcelReport_User" FromRole="ParcelReport" ToRole="User" />
+          <Property Name="ChallanDate" Type="DateTime" Precision="3" />
+          <Property Name="TransportNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_ParcelReport_Location">
           <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="1" />
@@ -1465,6 +1471,8 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="OrganizationId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
+          <Property Name="ChallanDate" Type="DateTime" Precision="3" />
+          <Property Name="TransportNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CustomerLog">
           <Key>
@@ -2210,6 +2218,8 @@
           <EntitySetMapping Name="ParcelReports">
             <EntityTypeMapping TypeName="VKTrackerModel.ParcelReport">
               <MappingFragment StoreEntitySet="ParcelReport">
+                <ScalarProperty Name="TransportNo" ColumnName="TransportNo" />
+                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
@@ -2229,6 +2239,8 @@
           <EntitySetMapping Name="ParcelReportLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.ParcelReportLog">
               <MappingFragment StoreEntitySet="ParcelReportLog">
+                <ScalarProperty Name="TransportNo" ColumnName="TransportNo" />
+                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />

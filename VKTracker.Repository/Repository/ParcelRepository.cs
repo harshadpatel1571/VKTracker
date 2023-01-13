@@ -25,6 +25,7 @@ namespace VKTracker.Repository.Repository
                 {
                     result = result.Where(x => x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.ChalanNo.Contains(filterDto.SearchValue) ||
+                                                x.TransportNo.Contains(filterDto.SearchValue) ||
                                                 x.Location.LocationName.Contains(filterDto.SearchValue) ||
                                                 x.ParcelCode.Code.Contains(filterDto.SearchValue));
                 }
@@ -50,7 +51,9 @@ namespace VKTracker.Repository.Repository
                     Code = x.ParcelCode.Code,
                     LocationName = x.Location.LocationName,
                     DishpatchDate = x.DispachedDate,
-                    ArrivalDate = x.ArrivalDate
+                    ArrivalDate = x.ArrivalDate,
+                    ChallanDate = x.ChallanDate,
+                    TransportNo = x.TransportNo
                 });
 
                 model.Data = await DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder).ToListAsync();
@@ -106,6 +109,8 @@ namespace VKTracker.Repository.Repository
                     Action = (bool)x.IsActive ? x.Action : "delete",
                     CreatedOn = x.CreatedOn,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,
+                    ChallanDate = x.ChallanDate,
+                    TransportNo = x.TransportNo
                 });
 
                 response = DynamicQueryableExtensions.OrderBy(response, filterDto.SortColumn + " " + filterDto.SortOrder);
@@ -141,6 +146,8 @@ namespace VKTracker.Repository.Repository
                 model.ArrivalDate = objModel.ArrivalDate;
                 model.DispachedDate = objModel.DishpatchDate;
                 model.IsActive = true;
+                model.TransportNo = objModel.TransportNo;
+                model.ChallanDate = objModel.ChallanDate;
 
                 if (organizationId > 0)
                 {
@@ -188,6 +195,8 @@ namespace VKTracker.Repository.Repository
                     ParcelId = x.ParcelId,
                     ArrivalDate = x.ArrivalDate,
                     DishpatchDate = x.DispachedDate,
+                    ChallanDate = x.ChallanDate,
+                    TransportNo = x.TransportNo
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
             catch (Exception ex)

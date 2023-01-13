@@ -45,6 +45,13 @@ function bindParcel(data) {
                 }
             },
             { data: "challanNo", name: "Challan No", "autoWidth": true },
+            { data: "transportNo", name: "Transport No", "autoWidth": true },
+            {
+                data: "challanDate", name: "Challan Date", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            },
             {
                 data: "arrivalDate", name: "Arrival Date", "autoWidth": true,
                 render: function (data, type, row) {
@@ -154,6 +161,7 @@ function bindParcelLogGrid(id) {
         processing: true,
         serverSide: true,
         filter: true,
+        scrollX: true,
         ajax: {
             url: "/Parcel/GetParcelLogList/" + id,
             type: "POST",
@@ -175,6 +183,13 @@ function bindParcelLogGrid(id) {
                 }
             },
             { data: "challanNo", name: "Challan No", "autoWidth": true },
+            { data: "transportNo", name: "Transport No", "autoWidth": true },
+            {
+                data: "challanDate", name: "Challan Date", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateDate(data);
+                }
+            },
             {
                 data: "arrivalDate", name: "Arrival Date", "autoWidth": true,
                 render: function (data, type, row) {
@@ -302,6 +317,8 @@ function editParcelRecord(id) {
                 $("#parcelForm #ParcelId").val(response.data.parcelId);
                 $("#parcelForm #LocationId").val(response.data.locationId);
                 $("#parcelForm #ChallanNo").val(response.data.challanNo);
+                $("#parcelForm #TransportNo").val(response.data.transportNo);
+                $("#parcelForm #ChallanDate").val(formateDateYMD(response.data.challanDate));
 
                 $("#parcelForm #DishpatchDate").val(formateDateYMD(response.data.dishpatchDate));
                 $("#parcelForm #ArrivalDate").val(formateDateYMD(response.data.arrivalDate));

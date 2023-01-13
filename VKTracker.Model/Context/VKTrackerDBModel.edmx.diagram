@@ -12,22 +12,22 @@
         <EntityTypeShape EntityType="VKTrackerModel.ParcelCode" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.StockCode" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VKTrackerModel.User" Width="1.5" PointX="0.5" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VKTrackerModel.UserOrganization" Width="1.5" PointX="9" PointY="2.875" />
+        <EntityTypeShape EntityType="VKTrackerModel.UserOrganization" Width="1.5" PointX="13.625" PointY="0.5" />
         <AssociationConnector Association="VKTrackerModel.FK_UserOrganization_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_UserOrganization_User" />
         <EntityTypeShape EntityType="VKTrackerModel.OrganizationLog" Width="1.5" PointX="0.75" PointY="17" />
-        <EntityTypeShape EntityType="VKTrackerModel.FabricLog" Width="1.5" PointX="3.375" PointY="8.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.ItemLog" Width="1.5" PointX="5.375" PointY="8.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.LocationLog" Width="1.5" PointX="7.375" PointY="8.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.ParcelCodeLog" Width="1.5" PointX="9.375" PointY="6.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.StockCodeLog" Width="1.5" PointX="9.375" PointY="10.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.Userlog" Width="1.5" PointX="10.625" PointY="0.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.FabricLog" Width="1.5" PointX="0.5" PointY="20.25" />
+        <EntityTypeShape EntityType="VKTrackerModel.ItemLog" Width="1.5" PointX="12.75" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.LocationLog" Width="1.5" PointX="3" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelCodeLog" Width="1.5" PointX="2.625" PointY="20.25" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockCodeLog" Width="1.5" PointX="10.875" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.Userlog" Width="1.5" PointX="16.75" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="9.125" PointY="0.5" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Location" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_ParcelCode" />
-        <EntityTypeShape EntityType="VKTrackerModel.ParcelReportLog" Width="1.5" PointX="11.375" PointY="5.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.CustomerLog" Width="1.5" PointX="0.75" PointY="12.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.StockManagement" Width="1.5" PointX="14.625" PointY="1.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelReportLog" Width="1.5" PointX="14.75" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.CustomerLog" Width="1.5" PointX="9" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockManagement" Width="1.5" PointX="11.75" PointY="0.5" />
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Fabric" />
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Item" />
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Location" />
@@ -36,12 +36,12 @@
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_ParcelReport1" />
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_StockManagement_User" />
-        <EntityTypeShape EntityType="VKTrackerModel.StockManagementLog" Width="1.5" PointX="3.375" PointY="12.75" />
-        <EntityTypeShape EntityType="VKTrackerModel.Distribution" Width="1.5" PointX="16.875" PointY="4.875" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockManagementLog" Width="1.5" PointX="5" PointY="17" />
+        <EntityTypeShape EntityType="VKTrackerModel.Distribution" Width="1.5" PointX="16.75" PointY="4.375" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_User" />
-        <EntityTypeShape EntityType="VKTrackerModel.DistributionLog" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.DistributionLog" Width="1.5" PointX="7" PointY="17" />
         <AssociationConnector Association="VKTrackerModel.FK_Fabric_User" />
         <AssociationConnector Association="VKTrackerModel.FK_Item_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Item_User" />
@@ -58,7 +58,7 @@
         <AssociationConnector Association="VKTrackerModel.FK_StockCode_User" />
         <AssociationConnector Association="VKTrackerModel.FK_User_User1" />
         <AssociationConnector Association="VKTrackerModel.FK_Fabric_OrganizationLog1" />
-        <EntityTypeShape EntityType="VKTrackerModel.Customer" Width="1.5" PointX="14.5" PointY="8.75" />
+        <EntityTypeShape EntityType="VKTrackerModel.Customer" Width="1.5" PointX="10.25" PointY="8.625" />
         <AssociationConnector Association="VKTrackerModel.FK_Customer_Location" />
         <AssociationConnector Association="VKTrackerModel.FK_Customer_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Customer_User" />

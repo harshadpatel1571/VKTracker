@@ -25,5 +25,9 @@ namespace VKTracker.Model.ViewModel
         public DateTime? ArrivalDate { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+
+        public DateTime? ChallanDate { get; set; }
+
+        public string TransportNo { get; set; }
     }
 }

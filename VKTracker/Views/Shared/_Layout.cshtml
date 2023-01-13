@@ -29,7 +29,7 @@
                 <div class="navbar-header">
                     <div class="d-flex">
                         <div class="dropdown ms-sm-3 header-item">
-                            
+
                             @if (Convert.ToBoolean(Session["isAdmin"]))
                             {
                                 <a href="@Url.Action("OrganizationIndex", "Master")" class="btn shadow-none" id="page-header-user-dropdown">
@@ -245,7 +245,7 @@
     <script src="~/Scripts/datatable/buttons.print.js"></script>
     <script src="~/Scripts/datatable/buttons.colVis.js"></script>
     <script src="~/Scripts/app.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
         $('input[type="text"]').keydown(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
@@ -255,7 +255,6 @@
 
         function formateDate(value) {
             var today = new Date(value);
-            console.log(today.toLocaleString());
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
@@ -273,12 +272,14 @@
         }
 
         function formateDateYMD(value) {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             var today = new Date(value);
             var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var mm = String(today.getMonth() + 1).padStart(2, ''); //January is 0!
             var yyyy = today.getFullYear();
 
-            today = yyyy + '-' + mm + '-' + dd;
+            today = dd + '-' + months[mm-1] + '-' + yyyy;
+
             //return today;
             return value != null ? today : value;
         }

@@ -44,6 +44,8 @@
                     <th>Parcel Code</th>
                     <th>Dishpached Date</th>
                     <th>Challan No</th>
+                    <th>Transport No</th>
+                    <th>Challan Date</th>
                     <th>Arrival Date</th>
                     <th>Receive Location</th>
                     <th>Action</th>
@@ -81,7 +83,18 @@
                             @Html.TextBoxFor(m => m.ChallanNo, new { @class = "form-control", @placeHolder = "Challan No" })
                             @Html.ValidationMessageFor(x => x.ChallanNo, "", new { @class = "text-danger" })
                         </div>
+                        
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Transport No</label>
+                            @Html.TextBoxFor(m => m.TransportNo, new { @class = "form-control", @placeHolder = "Transport No" })
+                            @Html.ValidationMessageFor(x => x.TransportNo, "", new { @class = "text-danger" })
+                        </div>
 
+                        <div class="col-lg-6">
+                            <label for="projectName-field" class="form-label">Challan Date</label>
+                            @Html.TextBoxFor(m => m.ChallanDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                            @Html.ValidationMessageFor(x => x.ChallanDate, "", new { @class = "text-danger" })
+                        </div>
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Dishpatch Date</label>
                             @Html.TextBoxFor(m => m.DishpatchDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
@@ -122,6 +135,8 @@
                             <th>Parcel Code</th>
                             <th>Dishpached Date</th>
                             <th>Challan No</th>
+                            <th>Transport No</th>
+                            <th>Challan Date</th>
                             <th>Arrival Date</th>
                             <th>Receive Location</th>
                             <th>Created By</th>
