@@ -1,33 +1,36 @@
 USE [VKTracker]
 GO
-/****** Object:  Trigger [Trig_Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
-DROP TRIGGER [dbo].[Trig_Customer]
+/****** Object:  Trigger [Trig_ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
+DROP TRIGGER [dbo].[Trig_ParcelReport]
 GO
-ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_User]
+ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_User]
 GO
-ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Organization]
+ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_ParcelCode]
 GO
-ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Location]
+ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_Organization]
 GO
-/****** Object:  Table [dbo].[CustomerLog]    Script Date: 09-01-2023 11:20:03 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerLog]') AND type in (N'U'))
-DROP TABLE [dbo].[CustomerLog]
+ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_Location]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customer]') AND type in (N'U'))
-DROP TABLE [dbo].[Customer]
+/****** Object:  Table [dbo].[ParcelReportLog]    Script Date: 15-01-2023 09:05:36 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelReportLog]') AND type in (N'U'))
+DROP TABLE [dbo].[ParcelReportLog]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
+/****** Object:  Table [dbo].[ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelReport]') AND type in (N'U'))
+DROP TABLE [dbo].[ParcelReport]
+GO
+/****** Object:  Table [dbo].[ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Customer](
+CREATE TABLE [dbo].[ParcelReport](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](100) NOT NULL,
-	[Address] [varchar](250) NULL,
-	[LocationId] [int] NULL,
-	[Mobile] [varchar](10) NOT NULL,
+	[ParcelId] [int] NOT NULL,
+	[DispachedDate] [datetime] NULL,
+	[ChalanNo] [varchar](50) NOT NULL,
+	[ArrivalDate] [datetime] NULL,
+	[LocatoinId] [int] NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[CreatedBy] [int] NULL,
 	[CreatedOn] [datetime] NULL,
@@ -35,105 +38,115 @@ CREATE TABLE [dbo].[Customer](
 	[ModifiedOn] [datetime] NULL,
 	[UserId] [int] NULL,
 	[OrganizationId] [int] NULL,
- CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
+	[ChallanDate] [datetime] NULL,
+	[TransportNo] [varchar](50) NULL,
+ CONSTRAINT [PK_ParcelReport] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CustomerLog]    Script Date: 09-01-2023 11:20:03 PM ******/
+/****** Object:  Table [dbo].[ParcelReportLog]    Script Date: 15-01-2023 09:05:36 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[CustomerLog](
+CREATE TABLE [dbo].[ParcelReportLog](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Action] [varchar](10) NULL,
-	[CustomerId] [int] NULL,
-	[Name] [nchar](100) NULL,
-	[Address] [varchar](250) NULL,
+	[ParcelReportId] [int] NULL,
+	[ParcelId] [int] NULL,
+	[DispachedDate] [datetime] NULL,
+	[ChalanNo] [varchar](50) NULL,
+	[ArrivalDate] [datetime] NULL,
 	[LocationId] [int] NULL,
-	[Mobile] [varchar](12) NULL,
 	[IsActive] [bit] NULL,
 	[CreatedBy] [int] NULL,
 	[CreatedOn] [datetime] NULL,
-	[UserId] [int] NULL,
 	[OrganizationId] [int] NULL,
- CONSTRAINT [PK_CustomerLog] PRIMARY KEY CLUSTERED 
+	[UserId] [int] NULL,
+	[ChallanDate] [datetime] NULL,
+	[TransportNo] [varchar](50) NULL,
+ CONSTRAINT [PK_ParcelReportLog] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[Customer] ON 
+SET IDENTITY_INSERT [dbo].[ParcelReport] ON 
 GO
-INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (9, N'Customer 1', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2022-12-21T22:53:55.767' AS DateTime), 4, CAST(N'2023-01-07T13:40:08.293' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (17, 11, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'100', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2022-12-21T23:47:13.030' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
 GO
-INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (10, N'Customer or2', N'Address or2', 13, N'9856230147', 1, 4, CAST(N'2022-12-23T23:43:50.373' AS DateTime), NULL, NULL, 4, 27)
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (18, 11, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 14, 0, 4, CAST(N'2022-12-21T23:47:39.317' AS DateTime), 4, CAST(N'2022-12-21T23:48:26.570' AS DateTime), 4, 26, NULL, NULL)
 GO
-INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (15, N'Customer 2', N'rajkot', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T12:41:08.050' AS DateTime), 4, CAST(N'2023-01-07T13:30:24.963' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (19, 11, CAST(N'2022-12-29T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 14, 1, 4, CAST(N'2022-12-21T23:49:04.647' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
 GO
-INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (19, N'Customer 3', N'Junagadh', 14, N'9876543210', 1, 4, CAST(N'2023-01-07T13:44:00.780' AS DateTime), NULL, NULL, 4, 26)
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (20, 11, CAST(N'2022-12-30T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 15, 1, 4, CAST(N'2022-12-21T23:50:02.703' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
 GO
-SET IDENTITY_INSERT [dbo].[Customer] OFF
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (21, 14, CAST(N'2022-12-24T00:00:00.000' AS DateTime), N'101', CAST(N'2022-12-30T00:00:00.000' AS DateTime), 16, 1, 4, CAST(N'2022-12-23T23:44:41.573' AS DateTime), NULL, NULL, 4, 27, NULL, NULL)
 GO
-SET IDENTITY_INSERT [dbo].[CustomerLog] ON 
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (22, 12, CAST(N'2023-02-01T00:00:00.000' AS DateTime), N'1452', CAST(N'2023-02-28T00:00:00.000' AS DateTime), 15, 1, 4, CAST(N'2023-01-09T21:56:36.313' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (9, N'Insert', 9, N'Customer 1                                                                                          ', N'Junagadh', NULL, N'0123456789', 1, 4, CAST(N'2022-12-21T22:53:55.767' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (23, 12, CAST(N'2023-01-25T00:00:00.000' AS DateTime), N'963', CAST(N'2023-02-10T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-09T21:57:22.783' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (10, N'Insert', 10, N'Customer or2                                                                                        ', N'Address or2', NULL, N'1234567890', 1, 4, CAST(N'2022-12-23T23:43:50.373' AS DateTime), 4, 27)
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (24, 11, CAST(N'2023-01-17T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-25T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-13T17:27:25.510' AS DateTime), 4, CAST(N'2023-01-13T18:10:12.053' AS DateTime), 4, 26, CAST(N'2023-01-05T00:00:00.000' AS DateTime), N'120')
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (15, N'Insert', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 1234567802, N'13', 1, 4, CAST(N'2023-01-07T12:41:08.050' AS DateTime), 4, 26)
+SET IDENTITY_INSERT [dbo].[ParcelReport] OFF
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (17, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 14, N'1234567802', 1, 4, CAST(N'2023-01-07T12:43:22.693' AS DateTime), 4, 26)
+SET IDENTITY_INSERT [dbo].[ParcelReportLog] ON 
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (18, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:07.963' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (19, N'Insert', 17, 11, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'100', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2022-12-21T23:47:13.030' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (19, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:16.793' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (20, N'Insert', 18, 11, CAST(N'2023-01-02T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 14, 1, 4, CAST(N'2022-12-21T23:47:39.317' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (20, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:23.187' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (21, N'Update', 18, 11, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 14, 1, 4, CAST(N'2022-12-21T23:47:48.140' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (21, N'Update', 15, N'Customer 2                                                                                          ', N'rajkot', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:49:48.443' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (22, N'Update', 18, 11, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 14, 0, 4, CAST(N'2022-12-21T23:48:26.570' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (22, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 13, N'0123456789', 1, NULL, NULL, 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (23, N'Insert', 19, 11, CAST(N'2022-12-29T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 14, 1, 4, CAST(N'2022-12-21T23:49:04.647' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (23, N'Update', 10, N'Customer or2                                                                                        ', N'Address or2', 13, N'1234567890', 1, NULL, NULL, 4, 27)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (24, N'Insert', 20, 11, CAST(N'2022-12-30T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 15, 1, 4, CAST(N'2022-12-21T23:50:02.703' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (24, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 13, N'9874563210', 1, NULL, NULL, 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (25, N'Insert', 21, 14, CAST(N'2022-12-24T00:00:00.000' AS DateTime), N'101', CAST(N'2022-12-30T00:00:00.000' AS DateTime), 16, 1, 4, CAST(N'2022-12-23T23:44:41.573' AS DateTime), 27, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (25, N'Update', 10, N'Customer or2                                                                                        ', N'Address or2', 13, N'9856230147', 1, NULL, NULL, 4, 27)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (26, N'Insert', 22, 12, CAST(N'2023-02-01T00:00:00.000' AS DateTime), N'1452', CAST(N'2023-02-28T00:00:00.000' AS DateTime), 15, 1, 4, CAST(N'2023-01-09T21:56:36.313' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (26, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2023-01-07T13:30:15.590' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (27, N'Insert', 23, 12, CAST(N'2023-01-25T00:00:00.000' AS DateTime), N'963', CAST(N'2023-02-10T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-09T21:57:22.783' AS DateTime), 26, 4, NULL, NULL)
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (27, N'Update', 15, N'Customer 2                                                                                          ', N'rajkot', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T13:30:24.963' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (28, N'Insert', 24, 11, CAST(N'2023-01-17T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-20T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-13T17:27:25.510' AS DateTime), 26, 4, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'120')
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (28, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2023-01-07T13:40:08.293' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (29, N'Update', 24, 11, CAST(N'2023-01-17T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-20T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-13T18:08:51.797' AS DateTime), 26, 4, CAST(N'2023-01-05T00:00:00.000' AS DateTime), N'120')
 GO
-INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (31, N'Insert', 19, N'Customer 3                                                                                          ', N'Junagadh', 14, N'9876543210', 1, 4, CAST(N'2023-01-07T13:44:00.780' AS DateTime), 4, 26)
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (30, N'Update', 24, 11, CAST(N'2023-01-17T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-25T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-13T18:10:12.053' AS DateTime), 26, 4, CAST(N'2023-01-05T00:00:00.000' AS DateTime), N'120')
 GO
-SET IDENTITY_INSERT [dbo].[CustomerLog] OFF
+SET IDENTITY_INSERT [dbo].[ParcelReportLog] OFF
 GO
-ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Location] FOREIGN KEY([LocationId])
+ALTER TABLE [dbo].[ParcelReport]  WITH CHECK ADD  CONSTRAINT [FK_ParcelReport_Location] FOREIGN KEY([LocatoinId])
 REFERENCES [dbo].[Location] ([Id])
 GO
-ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Location]
+ALTER TABLE [dbo].[ParcelReport] CHECK CONSTRAINT [FK_ParcelReport_Location]
 GO
-ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Organization] FOREIGN KEY([OrganizationId])
+ALTER TABLE [dbo].[ParcelReport]  WITH CHECK ADD  CONSTRAINT [FK_ParcelReport_Organization] FOREIGN KEY([OrganizationId])
 REFERENCES [dbo].[Organization] ([Id])
 GO
-ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Organization]
+ALTER TABLE [dbo].[ParcelReport] CHECK CONSTRAINT [FK_ParcelReport_Organization]
 GO
-ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_User] FOREIGN KEY([UserId])
+ALTER TABLE [dbo].[ParcelReport]  WITH CHECK ADD  CONSTRAINT [FK_ParcelReport_ParcelCode] FOREIGN KEY([ParcelId])
+REFERENCES [dbo].[ParcelCode] ([Id])
+GO
+ALTER TABLE [dbo].[ParcelReport] CHECK CONSTRAINT [FK_ParcelReport_ParcelCode]
+GO
+ALTER TABLE [dbo].[ParcelReport]  WITH CHECK ADD  CONSTRAINT [FK_ParcelReport_User] FOREIGN KEY([UserId])
 REFERENCES [dbo].[User] ([Id])
 GO
-ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_User]
+ALTER TABLE [dbo].[ParcelReport] CHECK CONSTRAINT [FK_ParcelReport_User]
 GO
-/****** Object:  Trigger [dbo].[Trig_Customer]    Script Date: 09-01-2023 11:20:03 PM ******/
+/****** Object:  Trigger [dbo].[Trig_ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[Trig_Customer] ON [dbo].[Customer]
+CREATE TRIGGER [dbo].[Trig_ParcelReport] ON [dbo].[ParcelReport]
     AFTER INSERT, UPDATE, DELETE
 AS 
 BEGIN
@@ -147,34 +160,34 @@ BEGIN
 	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
 	BEGIN
 		-- Todo Insert
-		INSERT INTO [dbo].[CustomerLog]
-           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
+		INSERT INTO [dbo].[ParcelReportLog]
+           ([Action],[ParcelReportId],[ParcelId],[DispachedDate],[ChalanNo],[ArrivalDate],[LocationId],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId,ChallanDate,TransportNo)
 		SELECT 
-			'Insert',Id,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+			'Insert',Id,ParcelId,DispachedDate,ChalanNo,ArrivalDate,LocatoinId,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId,ChallanDate,TransportNo
 		FROM Inserted
 	End
 
 	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
 	BEGIN
 		-- Todo Update
-		INSERT INTO [dbo].[CustomerLog]
-           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
+		INSERT INTO [dbo].[ParcelReportLog]
+           ([Action],[ParcelReportId],[ParcelId],[DispachedDate],[ChalanNo],[ArrivalDate],[LocationId],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId,ChallanDate,TransportNo)
 		SELECT 
-			'Update',Id,Name,Address,LocationId,Mobile,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+			'Update',Id,ParcelId,DispachedDate,ChalanNo,ArrivalDate,LocatoinId,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId,ChallanDate,TransportNo
 		FROM Inserted
 	End
 
 	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
 	BEGIN
 		-- Todo Delete
-		INSERT INTO [dbo].[CustomerLog]
-           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
+		INSERT INTO [dbo].[ParcelReportLog]
+           ([Action],[ParcelReportId],[ParcelId],[DispachedDate],[ChalanNo],[ArrivalDate],[LocationId],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId,ChallanDate,TransportNo)
 		SELECT 
-			'Delete',Id,Name,Address,LocationId,Mobile,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+			'Delete',Id,ParcelId,DispachedDate,ChalanNo,ArrivalDate,LocatoinId,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId,ChallanDate,TransportNo
 		FROM Inserted
 	End
 
 END
 GO
-ALTER TABLE [dbo].[Customer] ENABLE TRIGGER [Trig_Customer]
+ALTER TABLE [dbo].[ParcelReport] ENABLE TRIGGER [Trig_ParcelReport]
 GO
