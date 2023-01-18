@@ -223,7 +223,7 @@ namespace VKTracker.Repository.Repository
                 return await db.ParcelCodes.Where(x => x.IsActive && x.OrganizationId == organizationId).Select(x => new BindDropdownViewModel
                 {
                     Id = x.Id,
-                    Name = x.Code
+                    Name = x.Code //+"-"+ x.ParcelReports.FirstOrDefault().ArrivalDate.ToString() +"-"+ x.ParcelReports.FirstOrDefault().ChalanNo
                 }).ToListAsync().ConfigureAwait(false);
             }
             catch (Exception ex)

@@ -67,22 +67,6 @@
                 }
             },
             {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [0, 1, 2]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
-                exportOptions: {
-                    columns: [0, 1, 2]
-                }
-            },
-            {
                 extend: 'print',
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
@@ -281,22 +265,6 @@ function bindCustomerLogGrid(id) {
                 extend: 'excelHtml5',
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
-                exportOptions: {
-                    columns: [0, 1, 2]
-                }
-            },
-            {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [0, 1, 2]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
                 exportOptions: {
                     columns: [0, 1, 2]
                 }

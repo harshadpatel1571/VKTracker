@@ -86,22 +86,6 @@
                 }
             },
             {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                }
-            },
-            {
                 extend: 'print',
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',
@@ -200,22 +184,6 @@ function bindStockManagementLogGrid(id) {
                 extend: 'excelHtml5',
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                }
-            },
-            {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 }

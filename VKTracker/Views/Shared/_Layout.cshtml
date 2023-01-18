@@ -278,7 +278,7 @@
             var mm = String(today.getMonth() + 1).padStart(2, ''); //January is 0!
             var yyyy = today.getFullYear();
 
-            today = dd + '-' + months[mm-1] + '-' + yyyy;
+            today = dd + '-' + months[mm - 1] + '-' + yyyy;
 
             //return today;
             return value != null ? today : value;
@@ -287,6 +287,18 @@
         $(function () {
             $('.removesearch').select2({ minimumResultsForSearch: -1 });
         })
+
+        function formateParcelCode(Code, ArrivalDate, ChallanNo) {
+
+            var today = new Date(ArrivalDate);
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, ''); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = Code + '-' + yyyy + mm + dd + '-' + ChallanNo;
+
+            return today;
+        }
     </script>
 
     @RenderSection("scripts", required: false)

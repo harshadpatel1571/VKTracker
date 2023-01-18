@@ -63,22 +63,6 @@
                 }
             },
             {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [0]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
-                exportOptions: {
-                    columns: [0]
-                }
-            },
-            {
                 extend: 'print',
                 text: 'Print',
                 titleAttr: 'Copy to clipboard',

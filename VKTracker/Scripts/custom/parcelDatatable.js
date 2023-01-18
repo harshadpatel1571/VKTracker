@@ -37,7 +37,12 @@ function bindParcel(data) {
                     return row.code + "-" + data;
                 }
             },
-            { data: "code", name: "Code", "autoWidth": true },
+            {
+                data: "code", name: "Code", "autoWidth": true,
+                render: function (data, type, row) {
+                    return formateParcelCode(data, row.arrivalDate, row.challanNo);
+                }
+            },
             {
                 data: "dishpatchDate", name: "Dishpatch Date", "autoWidth": true,
                 render: function (data, type, row) {
@@ -99,22 +104,6 @@ function bindParcel(data) {
                 extend: 'excelHtml5',
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
-                }
-            },
-            {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5]
                 }
@@ -220,22 +209,6 @@ function bindParcelLogGrid(id) {
                 extend: 'excelHtml5',
                 text: 'Excel',
                 titleAttr: 'Generate Excel',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
-                }
-            },
-            {
-                extend: 'csvHtml5',
-                text: 'CSV',
-                titleAttr: 'Generate CSV',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
-                }
-            },
-            {
-                extend: 'copyHtml5',
-                text: 'Copy',
-                titleAttr: 'Copy to clipboard',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6, 7]
                 }
