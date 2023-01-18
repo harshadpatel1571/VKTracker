@@ -240,7 +240,7 @@
 
 
 <div class="modal fade zoomIn" id="stockManageNewAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
         <div class="modal-content border-0">
             <div class="modal-header p-3 bg-soft-info">
                 <h5 class="modal-title" id="exampleModalLabel">Stock New Add / Edit</h5>
@@ -257,48 +257,51 @@
                                 @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
                             </div>
 
-                            
+
 
                             <div class="col-lg-3" id="Thandiv_0">
                                 <label for="projectName-field" class="form-label">Total Than</label>
-                                @Html.TextBoxFor(x => x.ThanNo, new { @class = "form-control", @type = "number", @placeHolder = "Than No", @maxLength = "100", @id = "ThanNoNew_0" })
+                                @Html.TextBoxFor(x => x.ThanNo, new { @class = "form-control", @type = "number", @placeHolder = "Than No", @maxLength = "2", @id = "ThanNoNew_0" })
                                 @Html.ValidationMessageFor(x => x.ThanNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                    <div id="MainNewParent">
-                        
-                    </div>
-                    <div id="MainNewHideParent" hidden="hidden">
-                        <div class="col-lg-3">
-                            <label for="projectName-field" class="form-label">Stock Code</label>
-                            @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, new { @class = "form-select", @id = "StockCodeIdNew_0" })
-                            @Html.ValidationMessageFor(x => x.StockCodeId, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-lg-3">
-                            <label for="projectName-field" class="form-label">Fabric</label>
-                            @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDl, new { @class = "form-select", @id = "FabricIdNew_0" })
-                            @Html.ValidationMessageFor(x => x.FabricId, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-lg-3">
-                            <label for="projectName-field" class="form-label">Item</label>
-                            @Html.DropDownListFor(m => m.ItemId, (SelectList)ViewBag.ItemDDl, new { @class = "form-select", @id = "ItemIdNew_0" })
-                            @Html.ValidationMessageFor(x => x.ItemId, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-lg-3">
-                            <label for="projectName-field" class="form-label">Location</label>
-                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select", @id = "LocationIdNew_0" })
-                            @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-lg-3">
-                            <label for="projectName-field" class="form-label">Total Quantity</label>
-                            @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100", @id = "TotalQuantityNew_0" })
-                            @Html.ValidationMessageFor(x => x.TotalQuantity, "", new { @class = "text-danger" })
-                        </div>
+                    <table id="MainNewParent" class="table table-responsive">
+                    </table>
+                    <div hidden="hidden">
+                        <table id="ChildTableTH" class="table table-responsive">
+                            <tr>
+                                <th class="col-1">Stock Code</th>
+                                <th class="col-1">Fabric</th>
+                                <th class="col-1">Item</th>
+                                <th class="col-1">Location</th>
+                                <th class="col-1">Than Quantity</th>
+                            </tr>
+                        </table>
+                        <table id="ChildTableTD">
+                            <tr id="ChildTableTDTR_0">
+                                <td>
+                                    @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, new { @class = "form-select", @id = "StockCodeIdNew_0" })
+                                    @Html.ValidationMessageFor(x => x.StockCodeId, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDl, new { @class = "form-select", @id = "FabricIdNew_0" })
+                                    @Html.ValidationMessageFor(x => x.FabricId, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.ItemId, (SelectList)ViewBag.ItemDDl, new { @class = "form-select", @id = "ItemIdNew_0" })
+                                    @Html.ValidationMessageFor(x => x.ItemId, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select", @id = "LocationIdNew_0" })
+                                    @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100", @id = "TotalQuantityNew_0", @value="", @onblur = "addThanQuantity(this)" })
+                                    @Html.ValidationMessageFor(x => x.TotalQuantity, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                        </table>
                     </div>
 
                 </div>
