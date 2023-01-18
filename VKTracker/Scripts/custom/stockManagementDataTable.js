@@ -737,3 +737,12 @@ $('#distributionModal').on('hidden.bs.modal', function () {
     $("#distributeForm #Quantity-error").text("");
     $('form#distributeForm').trigger("reset");
 });
+
+
+
+$("#ThanNoNew_0").focusout(function () {
+    var count = $("#ThanNoNew_0").val();
+    alert(count);
+    const data = $("#MainNewHideParent").html();
+    $('#MainNewParent').append(data);
+});
