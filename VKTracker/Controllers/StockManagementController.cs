@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -139,22 +140,47 @@ namespace VKTracker.Controllers
                 return Json("Model is not valid");
             }
 
-            objModel.StockManagementList = objModel.StockManagementList.Select(x => new StockManagementViewModel
+            //objModel.StockManagementList = objModel.StockManagementList.Select(x => new StockManagementViewModel
+            //{
+            //    ParcelId = x.ParcelId,
+            //    StockCodeId = x.StockCodeId,
+            //    FabricId = x.FabricId,
+            //    ItemId = x.ItemId,
+            //    LocationId = x.LocationId,
+            //    TotalQuantity = x.TotalQuantity,
+            //    CreatedBy = Convert.ToInt32(Session["userId"]),
+            //    CreatedOn = DateTime.UtcNow,
+            //    //UserId = Convert.ToInt32(Session["userId"]),
+            //    //OrganizationId = Convert.ToInt32(Session["OrganizationId"])
+            //}).ToList();
+
+
+            var listModel = new List<StockManagementViewModel>();
+
+            foreach (var item in objModel.StockManagementList)
             {
-                ParcelId = x.ParcelId,
-                StockCodeId = x.StockCodeId,
-                FabricId = x.FabricId,
-                ItemId = x.ItemId,
-                LocationId = x.LocationId,
-                TotalQuantity = x.TotalQuantity,
-                CreatedBy = Convert.ToInt32(Session["userId"]),
-                CreatedOn = DateTime.UtcNow,
-                //UserId = Convert.ToInt32(Session["userId"]),
-                //OrganizationId = Convert.ToInt32(Session["OrganizationId"])
-            }).ToList();
+                foreach (var than in item.ThanList)
+                {
+                    var m = new StockManagementViewModel
+                    {
+                        ParcelId = objModel.ParcelId,
+                        StockCodeId = item.StockCodeId,
+                        FabricId = item.FabricId,
+                        ItemId = item.ItemId,
+                        LocationId = item.LocationId,
+                        TotalQuantity = than,
+                        CreatedBy = Convert.ToInt32(Session["userId"]),
+                        CreatedOn = DateTime.UtcNow,
+                    };
+                    listModel.Add(m);
+                }
+            }
+
+            
 
             var repository = new StockManagementRepository();
-            var respose = await repository.SaveList(objModel.StockManagementList, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
+            //var respose = await repository.SaveList(objModel.StockManagementList, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
+            var respose = await repository.SaveList(listModel, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]));
             return Json(new { status = respose });
         }
 

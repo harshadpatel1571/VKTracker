@@ -297,7 +297,7 @@
                                     @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100", @id = "TotalQuantityNew_0", @value="", @onblur = "addThanQuantity(this)" })
+                                    @Html.TextBoxFor(x => x.TotalQuantity, new { @class = "form-control", @placeHolder = "Total Quantity", @maxLength = "100",@type="number", @id = "TotalQuantityNew_0", @value = "", @onblur = "addThanQuantity(this)" })
                                     @Html.ValidationMessageFor(x => x.TotalQuantity, "", new { @class = "text-danger" })
                                 </td>
                             </tr>

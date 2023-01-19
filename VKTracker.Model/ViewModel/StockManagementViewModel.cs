@@ -41,10 +41,13 @@ namespace VKTracker.Model.ViewModel
         public DateTime ModifiedDate { get; set; }
 
         public int? ThanNo { get; set; }
+
+        public List<int> ThanList{ get; set; }
     }
 
     public class StockManagementListModel
     {
+        public int ParcelId { get; set; }
         public List<StockManagementViewModel> StockManagementList { get; set; }
         
     }

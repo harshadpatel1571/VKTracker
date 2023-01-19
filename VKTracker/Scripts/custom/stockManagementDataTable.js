@@ -739,11 +739,11 @@ $('#distributionModal').on('hidden.bs.modal', function () {
 });
 
 
-let rowNewlist = [0];
+let rowNewlist = [];
 $("#ThanNoNew_0").focusout(function () {
 
     $('#MainNewParent').empty();
-    rowlist = [0];
+    rowNewlist = [];
 
     var count = $("#ThanNoNew_0").val();
     const th = $("#ChildTableTH").html();
@@ -752,8 +752,6 @@ $("#ThanNoNew_0").focusout(function () {
     if (count > 0) {
         $('#MainNewParent').append(th);
         for (var i = 1; i <= count; i++) {
-            //$('#MainNewParent').append(td);
-
             $('#MainNewParent').append(td.replace('StockCodeIdNew_0', 'StockCodeIdNew_' + (i))
                 .replace('FabricIdNew_0', 'FabricIdNew_' + (i))
                 .replace('ItemIdNew_0', 'ItemIdNew_' + (i))
@@ -762,26 +760,108 @@ $("#ThanNoNew_0").focusout(function () {
                 .replace('ChildTableTDTR_0', 'ChildTableTDTR_' + (i))
             );
 
-            rowlist.push(i);
+            rowNewlist.push(i);
         }
     }
 });
 
 function addThanQuantity(value) {
+    debugger;
     let id = value.id.split("_")[1];
     let val = value.value;
 
-    if (val > 13) {
-        alert("Max 13 Than allow.");
+    if (val > 13 || val == 0 || val == "" || val == undefined) {
+        alert("Max 13 and Min 1 Than allow.");
         return false;
     }
+    else {
+        for (var i = 1; i <= val; i++) {
+            $('#ChildTableTDTR_' + id).append("<td><input class=\"form-control col-1\" id=\"TotalThan_" + id + "_" + i + "\" maxlength=\"2\" name=\"TotalThan_" + id + "_" + i + "\"></td>");
+        }
 
-    for (var i = 1; i <= val; i++) {
-        $('#ChildTableTDTR_' + id).append("<td><input class=\"form-control col-1\" id=\"TotalThan_" + i +"\" maxlength=\"2\" name=\"TotalThan_"+i+"\"></td>");
+        $('#ChildTableTDTR_' + id).append("<td><lable class=\"form-control col-1\" id=\"SubTotalThan_" + id + "\"> </lable></td>");
     }
 }
 
 $('#stockManageNewAddModal').on('hidden.bs.modal', function () {
     $('#MainNewParent').empty();
     $('#ThanNoNew_0').val('');
+});
+
+$(document).on('click', '#addStockNewManage', function (e) {
+    debugger;
+    if ($("#stockManageNewAddForm").valid()) {
+        var objModelList = [];
+        rowNewlist.forEach(i => {
+
+            var ThanListValues = [];
+            let qtty = $("#TotalQuantityNew_" + i).val();
+            if (qtty == 0 || qtty == "") {
+                alert("Not valid data.");
+                return false;
+            }
+            else {
+                for (var j = 1; j <= qtty; j++) {
+                    ThanListValues.push($("#TotalThan_" + i + "_" + j).val());
+                }
+            }
+            var data = {
+                ParcelId: $("#ParcelIdNew_" + i).val(),
+                StockCodeId: $("#StockCodeIdNew_" + i).val(),
+                FabricId: $("#FabricIdNew_" + i).val(),
+                ItemId: $("#ItemIdNew_" + i).val(),
+                LocationId: $("#LocationIdNew_" + i).val(),
+                TotalQuantity: qtty,
+                ThanList: ThanListValues
+            };
+            objModelList.push(data);
+        });
+        var objModel = {
+            ParcelId: $("#ParcelIdNew_0").val(),
+            StockManagementList: objModelList
+        };
+
+        $.ajax({
+            url: "/StockManagement/SaveStockManagementList",
+            type: "POST",
+            data: objModel,
+            success: function (response) {
+                if (response.status) {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Saved.",
+                        text: "Your record has been Saved.",
+                        icon: "success",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    }).then(function () {
+                        const table = $("#gridStockManagement").DataTable();
+                        table.ajax.reload(null, false);
+                        $("#stockManageAddForm #close-modal").click();
+                    });
+                }
+                else {
+                    Swal.fire({
+                        timer: 1500,
+                        title: "Duplicate.",
+                        text: response.msg,
+                        icon: "error",
+                        confirmButtonClass: "btn btn-primary w-xs mt-2",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttonsStyling: !1
+                    })
+                }
+            },
+            error: function (response) {
+                alert('Error!');
+            },
+            complete: function () {
+            }
+        })
+    } else {
+        return false;
+    }
 });
