@@ -766,7 +766,6 @@ $("#ThanNoNew_0").focusout(function () {
 });
 
 function addThanQuantity(value) {
-    debugger;
     let id = value.id.split("_")[1];
     let val = value.value;
 
@@ -779,7 +778,7 @@ function addThanQuantity(value) {
             $('#ChildTableTDTR_' + id).append("<td><input class=\"form-control col-1\" id=\"TotalThan_" + id + "_" + i + "\" maxlength=\"2\" name=\"TotalThan_" + id + "_" + i + "\"></td>");
         }
 
-        $('#ChildTableTDTR_' + id).append("<td><lable class=\"form-control col-1\" id=\"SubTotalThan_" + id + "\"> </lable></td>");
+        //$('#ChildTableTDTR_' + id).append("<td><lable class=\"form-control col-1\" id=\"SubTotalThan_" + id + "\"> </lable></td>");
     }
 }
 
@@ -789,7 +788,6 @@ $('#stockManageNewAddModal').on('hidden.bs.modal', function () {
 });
 
 $(document).on('click', '#addStockNewManage', function (e) {
-    debugger;
     if ($("#stockManageNewAddForm").valid()) {
         var objModelList = [];
         rowNewlist.forEach(i => {
