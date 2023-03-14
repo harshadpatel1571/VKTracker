@@ -11,7 +11,7 @@ namespace VKTracker.Repository.Repository
 {
     public class DistributionRepository
     {
-        public async Task<DataTableResponseCarrier<DistributionViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo)
+        public async Task<DataTableResponseCarrier<DistributionViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo, DateTime? fromDate, DateTime? toDate)
         {
             var db = new VKTrackerEntities();
             try
@@ -20,9 +20,11 @@ namespace VKTracker.Repository.Repository
                                                     (stockCodeId.HasValue ? x.StockManagement.StockCodeId == stockCodeId : true) &&
                                                     (fabricId.HasValue ? x.StockManagement.FabricId == fabricId : true) &&
                                                     (itemTypeId.HasValue ? x.StockManagement.ItemId == itemTypeId : true) &&
-                                                    (availableQuantity.HasValue ? x.StockManagement.ActualQuantity == availableQuantity : true) &&
+                                                    (availableQuantity.HasValue ? (x.StockManagement.ActualQuantity > 0 && x.StockManagement.ActualQuantity >= availableQuantity) : true) &&
                                                     (locationId.HasValue ? x.StockManagement.LocationId == locationId : true) &&
-                                                    (!string.IsNullOrEmpty(stockNo) ? x.BillNo == stockNo : true)
+                                                    (!string.IsNullOrEmpty(stockNo) ? x.BillNo == stockNo : true) &&
+                                                    ((fromDate.HasValue ? DbFunctions.TruncateTime(x.DistributionDate.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
+                                                     (toDate.HasValue ? DbFunctions.TruncateTime(x.DistributionDate.Value) <= DbFunctions.TruncateTime(toDate) : true))
                                                     ).AsNoTracking().AsQueryable();//&& x.UserId == userId
 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
@@ -63,7 +65,7 @@ namespace VKTracker.Repository.Repository
                     CustomerName = x.Customer.Name,
                     CustomerAddress = x.Customer.Address,
                     DistributionDate = x.DistributionDate,
-                    LogUserName = db.Users.FirstOrDefault(u=>u.Id == x.ModifiedBy).UserName,
+                    LogUserName = db.Users.FirstOrDefault(u => u.Id == x.ModifiedBy).UserName,
                     CreatedOn = x.ModifiedOn
                 });
 
@@ -97,7 +99,7 @@ namespace VKTracker.Repository.Repository
                     model.DistributionDate = objModel.DistributionDate;
                     model.Note = objModel.Note;
                     model.IsActive = true;
-                    
+
                     if (organizationId > 0)
                     {
                         model.OrganizationId = organizationId;
@@ -262,7 +264,7 @@ namespace VKTracker.Repository.Repository
             }
         }
 
-        public async Task<bool> UpdateDistribution(DistributionViewModel objModel,int userId,int organizationId)
+        public async Task<bool> UpdateDistribution(DistributionViewModel objModel, int userId, int organizationId)
         {
             var db = new VKTrackerEntities();
             try
@@ -327,14 +329,14 @@ namespace VKTracker.Repository.Repository
                 {
                     Id = x.Id,
                     PartyId = (int)x.CustomerId,
-                    DistributionDate= x.DistributionDate,
+                    DistributionDate = x.DistributionDate,
                     StockCodeId = (int)x.StockManagementId,
-                    BillNo= x.BillNo,
-                    IsFull= (bool)x.TypeId,
+                    BillNo = x.BillNo,
+                    IsFull = (bool)x.TypeId,
                     ActualQuantity = x.StockManagement.ActualQuantity,
                     Quantity = (int)x.Quantity,
-                    Note= x.Note
-            }).FirstOrDefaultAsync().ConfigureAwait(false);
+                    Note = x.Note
+                }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

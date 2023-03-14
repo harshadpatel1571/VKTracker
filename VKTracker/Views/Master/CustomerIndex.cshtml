@@ -53,7 +53,7 @@
                             @Html.ValidationMessageFor(x => x.Mobile, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-6">
-                            <label for="projectName-field" class="form-label">Recive Location</label>
+                            <label for="projectName-field" class="form-label">Location</label>
                             @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, new { @class = "form-select" })
                             @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                         </div>

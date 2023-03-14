@@ -34,7 +34,8 @@ function bindParcel(data) {
             {
                 data: "parcelId", name: "Parcel Id", "autoWidth": true,
                 render: function (data, type, row) {
-                    return row.code + "-" + data;
+                    //return row.code + "-" +data;
+                    return row.id;
                 }
             },
             {

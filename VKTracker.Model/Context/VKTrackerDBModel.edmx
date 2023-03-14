@@ -12,7 +12,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
-          <Property Name="LocationId" Type="int" />
           <Property Name="Mobile" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
@@ -21,6 +20,7 @@
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="UserId" Type="int" />
           <Property Name="OrganizationId" Type="int" />
+          <Property Name="LocationId" Type="int" />
         </EntityType>
         <EntityType Name="CustomerLog">
           <Key>
@@ -226,7 +226,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParcelId" Type="int" Nullable="false" />
           <Property Name="DispachedDate" Type="datetime" />
-          <Property Name="ChalanNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChalanNo" Type="varchar" MaxLength="50" />
           <Property Name="ArrivalDate" Type="datetime" />
           <Property Name="LocatoinId" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -237,7 +237,7 @@
           <Property Name="UserId" Type="int" />
           <Property Name="OrganizationId" Type="int" />
           <Property Name="ChallanDate" Type="datetime" />
-          <Property Name="TransportNo" Type="varchar" MaxLength="50" />
+          <Property Name="TransportNo" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ParcelReportLog">
           <Key>
@@ -257,7 +257,7 @@
           <Property Name="OrganizationId" Type="int" />
           <Property Name="UserId" Type="int" />
           <Property Name="ChallanDate" Type="datetime" />
-          <Property Name="TransportNo" Type="varchar" MaxLength="50" />
+          <Property Name="TransportNo" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="StockCode">
           <Key>
@@ -398,18 +398,6 @@
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="OrganizationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Customer_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -815,10 +803,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Customer_Organization" Association="Self.FK_Customer_Organization">
             <End Role="Organization" EntitySet="Organization" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_User" Association="Self.FK_Customer_User">
-            <End Role="User" EntitySet="User" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
           <AssociationSet Name="FK_Distribution_Customer" Association="Self.FK_Distribution_Customer">
@@ -1412,7 +1396,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParcelId" Type="Int32" Nullable="false" />
           <Property Name="DispachedDate" Type="DateTime" Precision="3" />
-          <Property Name="ChalanNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChalanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ArrivalDate" Type="DateTime" Precision="3" />
           <Property Name="LocatoinId" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -1428,7 +1412,7 @@
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="ParcelReport" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_ParcelReport_User" FromRole="ParcelReport" ToRole="User" />
           <Property Name="ChallanDate" Type="DateTime" Precision="3" />
-          <Property Name="TransportNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TransportNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_ParcelReport_Location">
           <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="1" />
@@ -1472,7 +1456,7 @@
           <Property Name="OrganizationId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="ChallanDate" Type="DateTime" Precision="3" />
-          <Property Name="TransportNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TransportNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CustomerLog">
           <Key>

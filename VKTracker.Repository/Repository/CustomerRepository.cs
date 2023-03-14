@@ -217,7 +217,7 @@ namespace VKTracker.Repository.Repository
                     Action = (bool)x.IsActive ? x.Action : "delete",
                     CreatedOn = x.CreatedOn,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.CreatedBy).UserName,
-                    LocationName = db.Locations.FirstOrDefault(y=>y.Id == x.LocationId).LocationName
+                    LocationName = db.Locations.FirstOrDefault(y => y.Id == x.LocationId).LocationName
                 }).ToListAsync().ConfigureAwait(false);
 
                 return model;
@@ -240,7 +240,7 @@ namespace VKTracker.Repository.Repository
                 return await db.Customers.Where(x => x.IsActive && x.OrganizationId == organizationId).Select(x => new BindDropdownViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name
+                    Name = x.Name + " (" + x.Location.LocationName + ")"
                 }).ToListAsync().ConfigureAwait(false);
             }
             catch (Exception ex)

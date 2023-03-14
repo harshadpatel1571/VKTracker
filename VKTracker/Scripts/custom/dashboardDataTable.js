@@ -1,4 +1,12 @@
-﻿function bindRecentDistribution() {
+﻿$(function () {
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var monthDate = new Date();
+    var mm = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+    $('#FromDate').val(1 + '-' + months[monthDate.getMonth()] + '-' + monthDate.getFullYear());
+    $('#ToDate').val(mm + '-' + months[monthDate.getMonth()] + '-' + monthDate.getFullYear());
+});
+
+function bindRecentDistribution() {
     $('#gridRecentDistribution').DataTable({
         paging: true,
         lengthChange: true,
@@ -14,7 +22,11 @@
         ajax: {
             url: "/Distribution/GetDistributionList/",
             type: "POST",
-            datatype: "json"
+            datatype: "json",
+            data: function (data) {
+                data.fromDate = $('#FromDate').val();
+                data.toDate = $('#ToDate').val();
+            }
         },
         columns: [
             { data: "customerName", name: "Customer Name", "autoWidth": true },
@@ -309,4 +321,14 @@ $('#distributionModal').on('hidden.bs.modal', function () {
     $('form#distributeForm').trigger("reset");
     $("#IsFull").attr('checked', 'false');
     $("#IsFull").removeAttr('checked', 'checked');
+});
+
+$("#btnSearch").click(function () {
+    if ($("#frmSearch").valid()) {
+        const table = $("#gridRecentDistribution").DataTable();
+        table.ajax.reload(null, false);
+    }
+    else {
+        return false;
+    }
 });

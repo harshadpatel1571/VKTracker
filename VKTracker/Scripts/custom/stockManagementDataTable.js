@@ -641,6 +641,9 @@ function AddDistribution() {
         $('#distributeForm #StockCodeId').text(stockIds);
         //$("#distributeForm #LQuantity").text("(" + "response.data.quantity" + ")");
         $('#distributionModal').modal('show');
+
+        var currentDate = new Date();
+        $('#DistributionDate').val(formateDateYMD(currentDate));
     }
     else {
         Swal.fire({
@@ -768,17 +771,15 @@ $("#ThanNoNew_0").focusout(function () {
 function addThanQuantity(value) {
     let id = value.id.split("_")[1];
     let val = value.value;
-
     if (val > 13 || val == 0 || val == "" || val == undefined) {
         alert("Max 13 and Min 1 Than allow.");
         return false;
     }
     else {
+        $('#ChildTableTDTR_' + id + ' .tempTd').remove();
         for (var i = 1; i <= val; i++) {
-            $('#ChildTableTDTR_' + id).append("<td><input class=\"form-control col-1\" id=\"TotalThan_" + id + "_" + i + "\" maxlength=\"2\" name=\"TotalThan_" + id + "_" + i + "\"></td>");
+            $('#ChildTableTDTR_' + id).append("<td class=\"tempTd text-danger\"><input class=\"form-control col-1\" id=\"TotalThan_" + id + "_" + i + "\" maxlength=\"5\" name=\"TotalThan_" + id + "_" + i + "\" required></td>");
         }
-
-        //$('#ChildTableTDTR_' + id).append("<td><lable class=\"form-control col-1\" id=\"SubTotalThan_" + id + "\"> </lable></td>");
     }
 }
 
@@ -791,74 +792,79 @@ $(document).on('click', '#addStockNewManage', function (e) {
     if ($("#stockManageNewAddForm").valid()) {
         var objModelList = [];
         rowNewlist.forEach(i => {
-
             var ThanListValues = [];
             let qtty = $("#TotalQuantityNew_" + i).val();
             if (qtty == 0 || qtty == "") {
                 alert("Not valid data.");
+                rowNewlist = [];
                 return false;
             }
             else {
                 for (var j = 1; j <= qtty; j++) {
                     ThanListValues.push($("#TotalThan_" + i + "_" + j).val());
                 }
-            }
-            var data = {
-                ParcelId: $("#ParcelIdNew_" + i).val(),
-                StockCodeId: $("#StockCodeIdNew_" + i).val(),
-                FabricId: $("#FabricIdNew_" + i).val(),
-                ItemId: $("#ItemIdNew_" + i).val(),
-                LocationId: $("#LocationIdNew_" + i).val(),
-                TotalQuantity: qtty,
-                ThanList: ThanListValues
-            };
-            objModelList.push(data);
-        });
-        var objModel = {
-            ParcelId: $("#ParcelIdNew_0").val(),
-            StockManagementList: objModelList
-        };
 
-        $.ajax({
-            url: "/StockManagement/SaveStockManagementList",
-            type: "POST",
-            data: objModel,
-            success: function (response) {
-                if (response.status) {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Saved.",
-                        text: "Your record has been Saved.",
-                        icon: "success",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    }).then(function () {
-                        const table = $("#gridStockManagement").DataTable();
-                        table.ajax.reload(null, false);
-                        $("#stockManageAddForm #close-modal").click();
-                    });
-                }
-                else {
-                    Swal.fire({
-                        timer: 1500,
-                        title: "Duplicate.",
-                        text: response.msg,
-                        icon: "error",
-                        confirmButtonClass: "btn btn-primary w-xs mt-2",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        buttonsStyling: !1
-                    })
-                }
-            },
-            error: function (response) {
-                alert('Error!');
-            },
-            complete: function () {
+                var data = {
+                    ParcelId: $("#ParcelIdNew_" + i).val(),
+                    StockCodeId: $("#StockCodeIdNew_" + i).val(),
+                    FabricId: $("#FabricIdNew_" + i).val(),
+                    ItemId: $("#ItemIdNew_" + i).val(),
+                    LocationId: $("#LocationIdNew_" + i).val(),
+                    TotalQuantity: qtty,
+                    ThanList: ThanListValues
+                };
+                objModelList.push(data);
             }
-        })
+        });
+
+        if (rowNewlist.length > 0) {
+
+            var objModel = {
+                ParcelId: $("#ParcelIdNew_0").val(),
+                StockManagementList: objModelList
+            };
+
+            $.ajax({
+                url: "/StockManagement/SaveStockManagementList",
+                type: "POST",
+                data: objModel,
+                success: function (response) {
+                    if (response.status) {
+                        Swal.fire({
+                            timer: 1500,
+                            title: "Saved.",
+                            text: "Your record has been Saved.",
+                            icon: "success",
+                            confirmButtonClass: "btn btn-primary w-xs mt-2",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            buttonsStyling: !1
+                        }).then(function () {
+                            const table = $("#gridStockManagement").DataTable();
+                            table.ajax.reload(null, false);
+                            $("#stockManageAddForm #close-modal").click();
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            timer: 1500,
+                            title: "Duplicate.",
+                            text: response.msg,
+                            icon: "error",
+                            confirmButtonClass: "btn btn-primary w-xs mt-2",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            buttonsStyling: !1
+                        })
+                    }
+                },
+                error: function (response) {
+                    alert('Invalid Data !');
+                },
+                complete: function () {
+                }
+            })
+        }
     } else {
         return false;
     }

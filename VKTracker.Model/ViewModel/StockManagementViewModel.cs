@@ -42,7 +42,7 @@ namespace VKTracker.Model.ViewModel
 
         public int? ThanNo { get; set; }
 
-        public List<int> ThanList{ get; set; }
+        public List<decimal> ThanList{ get; set; }
     }
 
     public class StockManagementListModel

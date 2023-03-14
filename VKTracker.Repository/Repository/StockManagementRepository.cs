@@ -54,8 +54,8 @@ namespace VKTracker.Repository.Repository
                     ItemName = x.Item.ItemName,
                     StockCodeId = (int)x.StockCodeId,
                     StockCode = x.StockCode.Code,
-                    ActualQuantity = (int)x.ActualQuantity,
-                    TotalQuantity = (int)x.TotalQuantity,
+                    ActualQuantity = x.ActualQuantity,
+                    TotalQuantity = x.TotalQuantity,
                     LogUserName = db.Users.FirstOrDefault(u => u.Id == x.ModifiedBy).UserName,
                     CreatedOn = x.ModifiedOn.Value
                 });

@@ -17,7 +17,7 @@ namespace VKTracker.Model.ViewModel
 
         public string LocationName { get; set; }
 
-        [Required(ErrorMessage = "Challan No is required.")]
+        //[Required(ErrorMessage = "Challan No is required.")]
         public string ChallanNo { get; set; }
       
         public DateTime? DishpatchDate { get; set; }

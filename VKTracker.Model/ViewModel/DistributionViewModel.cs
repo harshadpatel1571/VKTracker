@@ -34,5 +34,8 @@ namespace VKTracker.Model.ViewModel
 
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
+
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

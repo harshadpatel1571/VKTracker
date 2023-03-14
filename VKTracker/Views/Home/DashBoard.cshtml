@@ -1,7 +1,7 @@
-﻿@{
+﻿@model VKTracker.Model.ViewModel.DistributionViewModel
+@{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var distributionModel = new VKTracker.Model.ViewModel.DistributionViewModel();
 }
 
 @Html.Partial("~/Views/Shared/_BreadCrum.cshtml")
@@ -11,11 +11,32 @@
         <div class="card-title mb-0 flex-grow-1" id="recentDistributionHeader"></div>
         <div>
             @*<button class="btn btn-primary btn-label waves-effect waves-light">
-                <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Distribution
-            </button>*@
+                    <i class="ri-add-circle-line label-icon align-middle fs-16 me-2"></i> Add Distribution
+                </button>*@
         </div>
     </div>
     <div class="card-body">
+        <form id="frmSearch" name="frmSearch">
+            <div class="row mb-4">
+                <div class="col-7">
+                </div>
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">From Date</label>
+                    @Html.TextBoxFor(m => m.FromDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.FromDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">To Date</label>
+                    @Html.TextBoxFor(m => m.ToDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.ToDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-1 mt-4">
+                    <button type="button" class="btn btn-success btn-label waves-effect waves-light" id="btnSearch">
+                        <i class="ri-search-line label-icon align-middle fs-16 me-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </form>
         <table id="gridRecentDistribution" class="display table caption-top table-nowrap" style="width:100%">
             <thead class="table-light">
                 <tr>
@@ -70,13 +91,18 @@
         </div>
     </div>
 </div>
-@Html.Partial("~/Views/Distribution/_DistributionPartial.cshtml", distributionModel)
+@Html.Partial("~/Views/Distribution/_DistributionPartial.cshtml", Model)
 
 @section scripts
 {
     <script src="~/Scripts/custom/dashboardDataTable.js"></script>
     <script>
         $(function () {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var monthDate = new Date();
+            var mm = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+            $('#FromDate').val(1 + '-' + months[monthDate.getMonth()] + '-' + monthDate.getFullYear());
+            $('#ToDate').val(mm + '-' + months[monthDate.getMonth()] + '-' + monthDate.getFullYear());
             $('#gridDistribution').DataTable().destroy();
             bindRecentDistribution();
         });
