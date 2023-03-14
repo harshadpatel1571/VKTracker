@@ -13,7 +13,7 @@
                         <div class="row g-3">
                             <div class="col-lg-3">
                                 <label for="projectName-field" class="form-label">Location</label>
-                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select", @id = "LocationId_0" })
+                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDl, new { @class = "form-select select2", @id = "LocationId_0" })
                                 @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                             </div>
                         </div>

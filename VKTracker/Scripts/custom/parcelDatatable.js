@@ -360,6 +360,7 @@ $('#parcelModal').on('hidden.bs.modal', function () {
     $("#parcelForm #ParcelId-error").text("");
     $("#parcelForm #LocationId-error").text("");
     $("#parcelForm #ChallanNo-error").text("");
+    $("#parcelForm #ChallanDate-error").text("");
     $("#parcelForm #DishpatchDate-error").text("");
     $("#parcelForm #ArrivalDate-error").text("");
     $('form#parcelForm').trigger("reset");

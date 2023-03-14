@@ -31,8 +31,8 @@
             { data: "fabricName", name: "Fabric Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },
             { data: "locationName", name: "Location Name", "autoWidth": true },
-            { data: "actualQuantity", name: "Actual Quantity", "autoWidth": true },
             { data: "totalQuantity", name: "Total Quantity", "autoWidth": true },
+            { data: "actualQuantity", name: "Actual Quantity", "autoWidth": true },
             { data: "logUserName", name: "Log User Name", "autoWidth": true },
             {
                 data: "createdOn", name: "Created On", "autoWidth": true,

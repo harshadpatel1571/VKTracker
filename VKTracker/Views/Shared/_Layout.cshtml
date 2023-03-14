@@ -86,7 +86,7 @@
                                         <span class="align-middle" data-key="t-logout">Stock Code</span>
                                     </a>
                                     <a class="dropdown-item" href="@Url.Action("ParcelCodeIndex", "Master")">
-                                        <span class="align-middle" data-key="t-logout">Parcel</span>
+                                        <span class="align-middle" data-key="t-logout">Parcel Code</span>
                                     </a>
                                     <a class="dropdown-item" href="@Url.Action("LocationIndex", "Master")">
                                         <span class="align-middle" data-key="t-logout">Location</span>
@@ -108,7 +108,7 @@
                                     <span class="d-flex align-items-center">
                                         <i class="ri ri-shopping-basket-fill ri-2x text-white" tooltip="lol"></i>
                                         <span class="text-start ms-xl-2">
-                                            <span class="d-none d-xl-inline-block ms-1 fw-medium text-white" data-key="t-logout">Stock</span>
+                                            <span class="d-none d-xl-inline-block ms-1 fw-medium text-white" data-key="t-logout">Stock Management</span>
                                         </span>
                                     </span>
                                 </a>
@@ -267,7 +267,7 @@
             minutes = minutes < 10 ? '0' + minutes : minutes;
             var strTime = hours + ':' + minutes + ' ' + ampm;
 
-            today = dd + '-' + mm + '-' + yyyy + " " + strTime;
+            today = dd + '-' + mm + '-' + yyyy; // + " " + strTime
             return value != null ? today : value;
         }
 
@@ -284,8 +284,15 @@
             return value != null ? today : value;
         }
 
-        $(function () {
-            $('.removesearch').select2({ minimumResultsForSearch: -1 });
+        //$(function () {
+        //    $('.select2').select2({ theme: "Bootstrap" });
+        //})
+
+        //$('.select2').select2({
+        //    dropdownParent: $('#organizationSelectModal')
+        //});
+        $('.select2').each(function () {
+            $(this).select2({ dropdownParent: $(this).parent() });
         })
 
         function formateParcelCode(Code, ArrivalDate, ChallanNo) {

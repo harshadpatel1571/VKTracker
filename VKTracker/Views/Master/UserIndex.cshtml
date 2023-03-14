@@ -80,7 +80,7 @@
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Select Organization</label>
-                            @Html.DropDownListFor(m => m.OrganizationId, (SelectList)ViewBag.Organization, new { @class = "form-select", @multiple = "multiple" })
+                            @Html.DropDownListFor(m => m.OrganizationId, (SelectList)ViewBag.Organization, new { @class = "form-select select2", @multiple = "multiple" })
                             @Html.ValidationMessageFor(x => x.OrganizationId, "", new { @class = "text-danger" })
                         </div>
                     </div>

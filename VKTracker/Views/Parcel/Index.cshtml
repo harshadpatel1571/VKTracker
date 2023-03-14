@@ -68,13 +68,13 @@
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Parcel Code</label>
                             @Html.HiddenFor(x => x.Id)
-                            @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select" })
+                            @Html.DropDownListFor(m => m.ParcelId, (SelectList)ViewBag.ParcelDDL, new { @class = "form-select select2" })
                             @Html.ValidationMessageFor(x => x.ParcelId, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="col-lg-6">
                             <label for="projectName-field" class="form-label">Recive Location</label>
-                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, new { @class = "form-select" })
+                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, new { @class = "form-select select2" })
                             @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                         </div>
 

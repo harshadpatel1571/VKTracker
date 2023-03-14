@@ -21,23 +21,23 @@
             <div class="row mb-4 d-flex">
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">Stock Code</label>
-                    @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, "Select Code", new { @class = "form-select" })
+                    @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, "Select Code", new { @class = "form-select select2" })
                 </div>
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">Fabric</label>
-                    @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDL, "Select Fabric", new { @class = "form-select" })
+                    @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDL, "Select Fabric", new { @class = "form-select select2" })
                 </div>
                 <div class="col-3">
                     <label for="projectName-field" class="form-label">Item Type</label>
-                    @Html.DropDownListFor(m => m.ItemTypeId, (SelectList)ViewBag.ItemTypeDDL, "Select Item", new { @class = "form-select" })
+                    @Html.DropDownListFor(m => m.ItemTypeId, (SelectList)ViewBag.ItemTypeDDL, "Select Item", new { @class = "form-select select2" })
                 </div>
                 <div class="col-2">
                     <label for="projectName-field" class="form-label">A Quantity</label>
-                    @Html.TextBoxFor(m => m.AvailableQuantity, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.AvailableQuantity, new { @class = "form-control" , @placeholder = "A Quantity" })
                 </div>
                 <div class="col-3">
                     <label for="projectName-field" class="form-label">Location</label>
-                    @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, "Select Location", new { @class = "form-select" })
+                    @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, "Select Location", new { @class = "form-select select2" })
                 </div>
                 <div class="col-3">
                     <label for="projectName-field" class="form-label">Stock Id @*Stock No*@ </label>
