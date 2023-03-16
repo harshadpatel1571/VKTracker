@@ -420,8 +420,9 @@ $("#addDistribute").click(function () {
             Quantity: $("#Quantity").val(),
             BillNo: $("#BillNo").val(),
             Note: $("#Note").val(),
+            LocationId: $("#LocationId").val()
         };
-        console.log(checkboxValues);
+        console.log($("#LocationId").val());
         var objModel = {
             objModel: data,
             StockIds: checkboxValues
@@ -503,8 +504,8 @@ function ShowDistributionRecord(id) {
                 $("#distributeDetailForm #LQuantity").text("(" + response.data.actualQuantity + ")");
                 $("#distributeDetailForm #Quantity").val(response.data.quantity);
                 $("#distributeDetailForm #Note").val(response.data.note);
+                $("#distributeForm #LocationId").val(response.data.locationId);
                 $("#distributeDetailForm #addDistribute").hide();
-
                 $('#distributionDetailModal').modal('show');
             }
         },

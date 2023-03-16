@@ -99,6 +99,7 @@ namespace VKTracker.Repository.Repository
                     model.DistributionDate = objModel.DistributionDate;
                     model.Note = objModel.Note;
                     model.IsActive = true;
+                    model.LocationId = objModel.LocationId;
 
                     if (organizationId > 0)
                     {
@@ -284,6 +285,8 @@ namespace VKTracker.Repository.Repository
                 model.IsActive = true;
                 model.CreatedBy = userId;
                 model.CreatedOn = DateTime.UtcNow;
+                model.LocationId = objModel.LocationId;
+
                 if (organizationId > 0)
                 {
                     model.OrganizationId = organizationId;
@@ -335,7 +338,8 @@ namespace VKTracker.Repository.Repository
                     IsFull = (bool)x.TypeId,
                     ActualQuantity = x.StockManagement.ActualQuantity,
                     Quantity = (int)x.Quantity,
-                    Note = x.Note
+                    Note = x.Note,
+                    LocationId = (int)x.LocationId
                 }).FirstOrDefaultAsync().ConfigureAwait(false);
             }
             catch (Exception ex)

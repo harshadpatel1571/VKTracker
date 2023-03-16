@@ -29,5 +29,6 @@ namespace VKTracker.Model.Context
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<int> LocationId { get; set; }
     }
 }

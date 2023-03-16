@@ -36,13 +36,14 @@ namespace VKTracker.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> GetStockManagementList()
+        [HttpPost]
+        public async Task<ActionResult> GetStockManagementList(int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo, DateTime? fromDate, DateTime? toDate)
         {
             var filter = DataExtractor.Extract(Request);
 
             var repository = new StockManagementRepository();
 
-            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"])).ConfigureAwait(false);
+            var data = await repository.GetList(filter, Convert.ToInt32(Session["userId"]), Convert.ToInt32(Session["OrganizationId"]), stockCodeId, fabricId, itemTypeId, availableQuantity, locationId, stockNo, fromDate, toDate).ConfigureAwait(false);
 
             var responseModel = new DataTableResponseDto<StockManagementViewModel>
             {

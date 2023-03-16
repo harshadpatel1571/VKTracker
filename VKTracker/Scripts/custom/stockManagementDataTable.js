@@ -11,10 +11,25 @@
         processing: true,
         serverSide: true,
         filter: true,
+        //ajax: {
+        //    url: "/StockManagement/GetStockManagementList/",
+        //    type: "POST",
+        //    datatype: "json"
+        //},
         ajax: {
             url: "/StockManagement/GetStockManagementList/",
             type: "POST",
-            datatype: "json"
+            datatype: "json",
+            data: function (data) {
+                data.stockCodeId = $('#StockCodeId').val();
+                data.fabricId = $('#FabricId').val();
+                data.itemTypeId = $('#ItemTypeId').val();
+                data.availableQuantity = $('#AvailableQuantity').val();
+                data.locationId = $('#LocationId').val();
+                data.stockNo = $('#StockNo').val();
+                data.fromDate = $('#FromDate').val();
+                data.toDate = $('#ToDate').val();
+            }
         },
         columns: [
             {
@@ -100,6 +115,12 @@
         ]
     }).buttons().container().appendTo('#stockManagementHeader');
 }
+
+$("#btnSearch").click(function () {
+    const table = $("#gridStockManagement").DataTable();
+    table.ajax.reload(null, false);
+
+});
 
 var DeleteButton = {
     text: 'Delete',
@@ -678,6 +699,7 @@ $("#addDistribute").click(function () {
             Quantity: $("#Quantity").val(),
             BillNo: $("#BillNo").val(),
             Note: $("#Note").val(),
+            LocationId: $("#LocationId").val()
         };
         var objModel = {
             objModel: data,

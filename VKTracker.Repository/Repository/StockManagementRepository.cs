@@ -11,12 +11,23 @@ namespace VKTracker.Repository.Repository
 {
     public class StockManagementRepository
     {
-        public async Task<DataTableResponseCarrier<StockManagementViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId)
+        public async Task<DataTableResponseCarrier<StockManagementViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo, DateTime? fromDate, DateTime? toDate)
         {
             var db = new VKTrackerEntities();
             try
             {
-                var result = db.StockManagements.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
+                var result = db.StockManagements.Where(x => (x.IsActive && x.OrganizationId == organizationId) &&
+                                                    (stockCodeId.HasValue ? x.StockCodeId == stockCodeId : true) &&
+                                                    (fabricId.HasValue ? x.FabricId == fabricId : true) &&
+                                                    (itemTypeId.HasValue ? x.ItemId == itemTypeId : true) &&
+                                                    (availableQuantity.HasValue ? (x.ActualQuantity > 0 && x.ActualQuantity >= availableQuantity) : true) &&
+                                                    (locationId.HasValue ? x.LocationId == locationId : true) &&
+                                                    //(!string.IsNullOrEmpty(stockNo) ? x.BillNo == stockNo : true) &&
+                                                    ((fromDate.HasValue ? DbFunctions.TruncateTime(x.ModifiedOn.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
+                                                     (toDate.HasValue ? DbFunctions.TruncateTime(x.ModifiedOn.Value) <= DbFunctions.TruncateTime(toDate) : true))
+                                                    ).AsNoTracking().AsQueryable();
+
+                //.Where(x => x.IsActive && x.OrganizationId == organizationId).AsNoTracking().AsQueryable();
                 //&& x.UserId == userId 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {

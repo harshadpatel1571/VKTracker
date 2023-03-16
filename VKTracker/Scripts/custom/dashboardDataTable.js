@@ -228,7 +228,7 @@ function editDistributionRecord(id) {
         url: "/Distribution/EditDistribution/" + id,
         type: "GET",
         success: function (response) {
-            console.log(response.data);
+            console.log(response.data.locationId);
             if (response.status) {
                 $("#distributeForm #Id").val(response.data.id);
                 $("#distributeForm #StockCodeId").text(response.data.stockCodeId);
@@ -242,6 +242,7 @@ function editDistributionRecord(id) {
                 $("#distributeForm #LQuantity").text("(" + response.data.actualQuantity + ")");
                 $("#distributeForm #Quantity").val(response.data.quantity);
                 $("#distributeForm #Note").val(response.data.note);
+                $("#distributeForm #LocationId").val(response.data.locationId);
                 $('#distributionModal').modal('show');
             }
         },
@@ -273,6 +274,7 @@ $("#addDistribute").click(function () {
             Quantity: $("#Quantity").val(),
             BillNo: $("#BillNo").val(),
             Note: $("#Note").val(),
+            LocationId: $("#LocationId").val()
         };
 
         var objModel = {

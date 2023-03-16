@@ -16,8 +16,11 @@ namespace VKTracker.Controllers
             var model = new DistributionViewModel();
             
             var repoCustomer = new CustomerRepository();
-                       
+            var repoLocation = new LocationRepository();
+
             ViewBag.PartyDDl = new SelectList(await repoCustomer.BindCustomerDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.LocationDDL = new SelectList(await repoLocation.BindLocationDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+
             return View(model);
         }
 

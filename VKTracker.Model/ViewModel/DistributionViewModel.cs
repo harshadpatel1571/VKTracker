@@ -18,7 +18,7 @@ namespace VKTracker.Model.ViewModel
         public int ItemTypeId { get; set; }
         public string ItemName { get; set; }
         public decimal AvailableQuantity { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string LocationName { get; set; }
         public string StockNo { get; set; }
         public int PartyId { get; set; }

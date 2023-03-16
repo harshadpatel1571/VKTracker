@@ -22,6 +22,49 @@
         </div>
     </div>
     <div class="card-body">
+        <form id="frmSearch" name="frmSearch">
+            <div class="row mb-4 d-flex">
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">Stock Code</label>
+                    @Html.DropDownListFor(m => m.StockCodeId, (SelectList)ViewBag.StockCodeDDL, "Select Code", new { @class = "form-select select2" })
+                </div>
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">Fabric</label>
+                    @Html.DropDownListFor(m => m.FabricId, (SelectList)ViewBag.FabricDDL, "Select Fabric", new { @class = "form-select select2" })
+                </div>
+                <div class="col-3">
+                    <label for="projectName-field" class="form-label">Item Type</label>
+                    @Html.DropDownListFor(m => m.ItemTypeId, (SelectList)ViewBag.ItemDDl, "Select Item", new { @class = "form-select select2" })
+                </div>
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">A Quantity</label>
+                    @Html.TextBoxFor(m => m.AvailableQuantity, new { @class = "form-control", @placeholder = "A Quantity" })
+                </div>
+                <div class="col-3">
+                    <label for="projectName-field" class="form-label">Location</label>
+                    @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationDDL, "Select Location", new { @class = "form-select select2" })
+                </div>
+                <div class="col-3">
+                    <label for="projectName-field" class="form-label">Stock Id @*Stock No*@ </label>
+                    @Html.TextBoxFor(m => m.StockNo, new { @class = "form-control", @placeholder = "Stock Id" })
+                </div>
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">From Date</label>
+                    @Html.TextBoxFor(m => m.FromDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.FromDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-2">
+                    <label for="projectName-field" class="form-label">To Date</label>
+                    @Html.TextBoxFor(m => m.ToDate, new Dictionary<string, object> { { "data-provider", "flatpickr" }, { "data-date-format", "d-M-Y" }, { "class", "form-control" }, { "placeholder", "dd-mm-yyyy" } })
+                    @Html.ValidationMessageFor(x => x.ToDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-1 mt-4">
+                    <button type="button" class="btn btn-success btn-label waves-effect waves-light" id="btnSearch">
+                        <i class="ri-search-line label-icon align-middle fs-16 me-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </form>
         <table id="gridStockManagement" class="display table caption-top table-nowrap" style="width:100%">
             <thead class="table-light">
                 <tr>

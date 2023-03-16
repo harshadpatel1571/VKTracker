@@ -43,6 +43,12 @@ namespace VKTracker.Model.ViewModel
         public int? ThanNo { get; set; }
 
         public List<decimal> ThanList{ get; set; }
+
+        public int ItemTypeId { get; set; }
+        public decimal AvailableQuantity { get; set; }
+        public string StockNo { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 
     public class StockManagementListModel
