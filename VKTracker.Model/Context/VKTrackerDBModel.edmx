@@ -715,11 +715,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StockManagement_ParcelCode">
-          <End Role="ParcelCode" Type="Self.ParcelCode" Multiplicity="0..1" />
+        <Association Name="FK_StockManagement_ParcelReport">
+          <End Role="ParcelReport" Type="Self.ParcelReport" Multiplicity="0..1" />
           <End Role="StockManagement" Type="Self.StockManagement" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ParcelCode">
+            <Principal Role="ParcelReport">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StockManagement">
@@ -935,8 +935,8 @@
             <End Role="Organization" EntitySet="Organization" />
             <End Role="StockManagement" EntitySet="StockManagement" />
           </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_ParcelCode" Association="Self.FK_StockManagement_ParcelCode">
-            <End Role="ParcelCode" EntitySet="ParcelCode" />
+          <AssociationSet Name="FK_StockManagement_ParcelReport" Association="Self.FK_StockManagement_ParcelReport">
+            <End Role="ParcelReport" EntitySet="ParcelReport" />
             <End Role="StockManagement" EntitySet="StockManagement" />
           </AssociationSet>
           <AssociationSet Name="FK_StockManagement_StockCode" Association="Self.FK_StockManagement_StockCode">

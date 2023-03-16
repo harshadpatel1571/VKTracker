@@ -20,14 +20,16 @@ namespace VKTracker.Controllers
         public async Task<ActionResult> Index()
         {
             var model = new StockManagementViewModel();
-            var repoParcelCode = new ParcelCodeRepository();
+            //var repoParcelCode = new ParcelCodeRepository();
+            var repoParcel = new ParcelRepository();
             var repoItem = new ItemRepository();
             var repoFebric = new FabricRepository();
             var repoStockCode = new StockCodeRepository();
             var repoLocation = new LocationRepository();
             var repoCustomer = new CustomerRepository();
 
-            ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            //ViewBag.ParcelDDL = new SelectList(await repoParcelCode.BindParcelDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
+            ViewBag.ParcelDDL = new SelectList(await repoParcel.BindParcelReportDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             ViewBag.StockCodeDDL = new SelectList(await repoStockCode.BindStockCodeDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             ViewBag.LocationDDl = new SelectList(await repoLocation.BindLocationDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
             ViewBag.FabricDDl = new SelectList(await repoFebric.BindFabricDDl(Convert.ToInt32(Session["OrganizationId"])), "Id", "Name");
@@ -37,7 +39,7 @@ namespace VKTracker.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetStockManagementList(int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo, DateTime? fromDate, DateTime? toDate)
+        public async Task<ActionResult> GetStockManagementList(int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, int? stockNo, DateTime? fromDate, DateTime? toDate)
         {
             var filter = DataExtractor.Extract(Request);
 

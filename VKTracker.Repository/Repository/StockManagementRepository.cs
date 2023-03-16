@@ -11,7 +11,7 @@ namespace VKTracker.Repository.Repository
 {
     public class StockManagementRepository
     {
-        public async Task<DataTableResponseCarrier<StockManagementViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, string stockNo, DateTime? fromDate, DateTime? toDate)
+        public async Task<DataTableResponseCarrier<StockManagementViewModel>> GetList(DataTableFilterViewModel filterDto, int userId, int organizationId, int? stockCodeId, int? fabricId, int? itemTypeId, int? availableQuantity, int? locationId, int? stockNo, DateTime? fromDate, DateTime? toDate)
         {
             var db = new VKTrackerEntities();
             try
@@ -22,7 +22,7 @@ namespace VKTracker.Repository.Repository
                                                     (itemTypeId.HasValue ? x.ItemId == itemTypeId : true) &&
                                                     (availableQuantity.HasValue ? (x.ActualQuantity > 0 && x.ActualQuantity >= availableQuantity) : true) &&
                                                     (locationId.HasValue ? x.LocationId == locationId : true) &&
-                                                    //(!string.IsNullOrEmpty(stockNo) ? x.BillNo == stockNo : true) &&
+                                                    (stockNo.HasValue ? x.Id == stockNo : true) &&
                                                     ((fromDate.HasValue ? DbFunctions.TruncateTime(x.ModifiedOn.Value) >= DbFunctions.TruncateTime(fromDate) : true) &&
                                                      (toDate.HasValue ? DbFunctions.TruncateTime(x.ModifiedOn.Value) <= DbFunctions.TruncateTime(toDate) : true))
                                                     ).AsNoTracking().AsQueryable();

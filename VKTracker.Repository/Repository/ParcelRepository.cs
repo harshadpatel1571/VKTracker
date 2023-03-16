@@ -262,5 +262,25 @@ namespace VKTracker.Repository.Repository
             }
         }
 
+        public async Task<List<BindDropdownViewModel>> BindParcelReportDDl(int organizationId)
+        {
+            var db = new VKTrackerEntities();
+            try
+            {
+                return await db.ParcelReports.Where(x => x.IsActive && x.OrganizationId == organizationId).Select(x => new BindDropdownViewModel
+                {
+                    Id = x.Id,
+                    Name = x.ParcelId.ToString() +"-"+ x.ArrivalDate.ToString() + "-"+ x.ChalanNo
+                }).ToListAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
     }
 }
