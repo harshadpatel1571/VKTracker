@@ -1,7 +1,63 @@
 USE [VKTracker]
 GO
-/****** Object:  Trigger [Trig_ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
+/****** Object:  Trigger [Trig_User]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_User]
+GO
+/****** Object:  Trigger [Trig_StockManagement]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_StockManagement]
+GO
+/****** Object:  Trigger [Trig_StockCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_StockCode]
+GO
+/****** Object:  Trigger [Trig_ParcelReport]    Script Date: 17-03-2023 10:48:03 AM ******/
 DROP TRIGGER [dbo].[Trig_ParcelReport]
+GO
+/****** Object:  Trigger [Trig_ParcelCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_ParcelCode]
+GO
+/****** Object:  Trigger [Trig_Organization]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_Organization]
+GO
+/****** Object:  Trigger [Trig_Location]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_Location]
+GO
+/****** Object:  Trigger [Trig_Item]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_Item]
+GO
+/****** Object:  Trigger [Trig_Fabric]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_Fabric]
+GO
+/****** Object:  Trigger [Trig_Distribution]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_Distribution]
+GO
+/****** Object:  Trigger [Trig_Customer]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP TRIGGER [dbo].[Trig_Customer]
+GO
+ALTER TABLE [dbo].[UserOrganization] DROP CONSTRAINT [FK_UserOrganization_User]
+GO
+ALTER TABLE [dbo].[UserOrganization] DROP CONSTRAINT [FK_UserOrganization_Organization]
+GO
+ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_User1]
+GO
+ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_Organization]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_User]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_StockCode]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_ParcelReport]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Organization]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Location]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Item]
+GO
+ALTER TABLE [dbo].[StockManagement] DROP CONSTRAINT [FK_StockManagement_Fabric]
+GO
+ALTER TABLE [dbo].[StockCode] DROP CONSTRAINT [FK_StockCode_User]
+GO
+ALTER TABLE [dbo].[StockCode] DROP CONSTRAINT [FK_StockCode_Organization]
 GO
 ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_User]
 GO
@@ -11,15 +67,536 @@ ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_Organization]
 GO
 ALTER TABLE [dbo].[ParcelReport] DROP CONSTRAINT [FK_ParcelReport_Location]
 GO
-/****** Object:  Table [dbo].[ParcelReportLog]    Script Date: 15-01-2023 09:05:36 PM ******/
+ALTER TABLE [dbo].[ParcelCode] DROP CONSTRAINT [FK_ParcelCode_User]
+GO
+ALTER TABLE [dbo].[ParcelCode] DROP CONSTRAINT [FK_ParcelCode_Organization]
+GO
+ALTER TABLE [dbo].[Organization] DROP CONSTRAINT [FK_Organization_User]
+GO
+ALTER TABLE [dbo].[Organization] DROP CONSTRAINT [FK_Organization_Organization]
+GO
+ALTER TABLE [dbo].[Location] DROP CONSTRAINT [FK_Location_User]
+GO
+ALTER TABLE [dbo].[Location] DROP CONSTRAINT [FK_Location_Location]
+GO
+ALTER TABLE [dbo].[Item] DROP CONSTRAINT [FK_Item_User]
+GO
+ALTER TABLE [dbo].[Item] DROP CONSTRAINT [FK_Item_Organization]
+GO
+ALTER TABLE [dbo].[Fabric] DROP CONSTRAINT [FK_Fabric_User]
+GO
+ALTER TABLE [dbo].[Fabric] DROP CONSTRAINT [FK_Fabric_Organization]
+GO
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_User]
+GO
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_StockManagement]
+GO
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Organization]
+GO
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Location]
+GO
+ALTER TABLE [dbo].[Distribution] DROP CONSTRAINT [FK_Distribution_Customer]
+GO
+ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_User]
+GO
+ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Organization]
+GO
+ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Location]
+GO
+/****** Object:  Table [dbo].[UserOrganization]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserOrganization]') AND type in (N'U'))
+DROP TABLE [dbo].[UserOrganization]
+GO
+/****** Object:  Table [dbo].[Userlog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Userlog]') AND type in (N'U'))
+DROP TABLE [dbo].[Userlog]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[User]') AND type in (N'U'))
+DROP TABLE [dbo].[User]
+GO
+/****** Object:  Table [dbo].[StockManagementLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagementLog]') AND type in (N'U'))
+DROP TABLE [dbo].[StockManagementLog]
+GO
+/****** Object:  Table [dbo].[StockManagement]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockManagement]') AND type in (N'U'))
+DROP TABLE [dbo].[StockManagement]
+GO
+/****** Object:  Table [dbo].[StockCodeLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockCodeLog]') AND type in (N'U'))
+DROP TABLE [dbo].[StockCodeLog]
+GO
+/****** Object:  Table [dbo].[StockCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StockCode]') AND type in (N'U'))
+DROP TABLE [dbo].[StockCode]
+GO
+/****** Object:  Table [dbo].[ParcelReportLog]    Script Date: 17-03-2023 10:48:03 AM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelReportLog]') AND type in (N'U'))
 DROP TABLE [dbo].[ParcelReportLog]
 GO
-/****** Object:  Table [dbo].[ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
+/****** Object:  Table [dbo].[ParcelReport]    Script Date: 17-03-2023 10:48:03 AM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelReport]') AND type in (N'U'))
 DROP TABLE [dbo].[ParcelReport]
 GO
-/****** Object:  Table [dbo].[ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
+/****** Object:  Table [dbo].[ParcelCodeLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelCodeLog]') AND type in (N'U'))
+DROP TABLE [dbo].[ParcelCodeLog]
+GO
+/****** Object:  Table [dbo].[ParcelCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ParcelCode]') AND type in (N'U'))
+DROP TABLE [dbo].[ParcelCode]
+GO
+/****** Object:  Table [dbo].[OrganizationLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[OrganizationLog]') AND type in (N'U'))
+DROP TABLE [dbo].[OrganizationLog]
+GO
+/****** Object:  Table [dbo].[Organization]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Organization]') AND type in (N'U'))
+DROP TABLE [dbo].[Organization]
+GO
+/****** Object:  Table [dbo].[LocationLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LocationLog]') AND type in (N'U'))
+DROP TABLE [dbo].[LocationLog]
+GO
+/****** Object:  Table [dbo].[Location]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Location]') AND type in (N'U'))
+DROP TABLE [dbo].[Location]
+GO
+/****** Object:  Table [dbo].[ItemLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ItemLog]') AND type in (N'U'))
+DROP TABLE [dbo].[ItemLog]
+GO
+/****** Object:  Table [dbo].[Item]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Item]') AND type in (N'U'))
+DROP TABLE [dbo].[Item]
+GO
+/****** Object:  Table [dbo].[FabricLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FabricLog]') AND type in (N'U'))
+DROP TABLE [dbo].[FabricLog]
+GO
+/****** Object:  Table [dbo].[Fabric]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Fabric]') AND type in (N'U'))
+DROP TABLE [dbo].[Fabric]
+GO
+/****** Object:  Table [dbo].[DistributionLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DistributionLog]') AND type in (N'U'))
+DROP TABLE [dbo].[DistributionLog]
+GO
+/****** Object:  Table [dbo].[Distribution]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Distribution]') AND type in (N'U'))
+DROP TABLE [dbo].[Distribution]
+GO
+/****** Object:  Table [dbo].[CustomerLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerLog]') AND type in (N'U'))
+DROP TABLE [dbo].[CustomerLog]
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 17-03-2023 10:48:03 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customer]') AND type in (N'U'))
+DROP TABLE [dbo].[Customer]
+GO
+USE [master]
+GO
+/****** Object:  Database [VKTracker]    Script Date: 17-03-2023 10:48:03 AM ******/
+DROP DATABASE [VKTracker]
+GO
+/****** Object:  Database [VKTracker]    Script Date: 17-03-2023 10:48:03 AM ******/
+CREATE DATABASE [VKTracker]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'VKTracking', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\VKTracking.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'VKTracking_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\VKTracking_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [VKTracker] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [VKTracker].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [VKTracker] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [VKTracker] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [VKTracker] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [VKTracker] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [VKTracker] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [VKTracker] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [VKTracker] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [VKTracker] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [VKTracker] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [VKTracker] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [VKTracker] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [VKTracker] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [VKTracker] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [VKTracker] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [VKTracker] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [VKTracker] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [VKTracker] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [VKTracker] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [VKTracker] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [VKTracker] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [VKTracker] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [VKTracker] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [VKTracker] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [VKTracker] SET  MULTI_USER 
+GO
+ALTER DATABASE [VKTracker] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [VKTracker] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [VKTracker] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [VKTracker] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [VKTracker] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [VKTracker] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'VKTracker', N'ON'
+GO
+ALTER DATABASE [VKTracker] SET QUERY_STORE = OFF
+GO
+USE [VKTracker]
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[Address] [varchar](250) NULL,
+	[LocationId] [int] NULL,
+	[Mobile] [varchar](10) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CustomerLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CustomerLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[CustomerId] [int] NULL,
+	[Name] [nchar](100) NULL,
+	[Address] [varchar](250) NULL,
+	[LocationId] [int] NULL,
+	[Mobile] [varchar](12) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_CustomerLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Distribution]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Distribution](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerId] [int] NULL,
+	[DistributionDate] [datetime] NULL,
+	[StockManagementId] [int] NULL,
+	[TypeId] [bit] NULL,
+	[BillNo] [varchar](100) NULL,
+	[Note] [varchar](250) NULL,
+	[Quantity] [decimal](18, 2) NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+	[LocationId] [int] NULL,
+ CONSTRAINT [PK_Distribution] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DistributionLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DistributionLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[DistributionId] [int] NULL,
+	[CustomerId] [int] NULL,
+	[DistributionDate] [datetime] NULL,
+	[StockManagementId] [int] NULL,
+	[TypeId] [bit] NULL,
+	[BillNo] [varchar](100) NULL,
+	[Note] [varchar](250) NULL,
+	[Quantity] [decimal](18, 2) NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[LocationId] [int] NULL,
+ CONSTRAINT [PK_DistributionLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Fabric]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Fabric](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FabricName] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_Fabric] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[FabricLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[FabricLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[FabricId] [int] NULL,
+	[FabricName] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_FabricLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Item]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Item](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ItemName] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ItemLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ItemLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[ItemId] [int] NULL,
+	[ItemName] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_ItemLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Location]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Location](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[LocationName] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LocationLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LocationLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[LocationId] [int] NULL,
+	[LocationName] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_LocationLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Organization]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Organization](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_Organization] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrganizationLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrganizationLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[OrganizationId] [int] NULL,
+	[Name] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[Organization_Id] [int] NULL,
+ CONSTRAINT [PK_OrganizationLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ParcelCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ParcelCode](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_ParcelCode] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ParcelCodeLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ParcelCodeLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[ParcelCodeId] [int] NULL,
+	[Code] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_ParcelCodeLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ParcelReport]    Script Date: 17-03-2023 10:48:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -46,7 +623,7 @@ CREATE TABLE [dbo].[ParcelReport](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ParcelReportLog]    Script Date: 15-01-2023 09:05:36 PM ******/
+/****** Object:  Table [dbo].[ParcelReportLog]    Script Date: 17-03-2023 10:48:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -73,6 +650,485 @@ CREATE TABLE [dbo].[ParcelReportLog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[StockCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StockCode](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_StockCode] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StockCodeLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StockCodeLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[StockCodeId] [int] NULL,
+	[Code] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_StockCodeLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StockManagement]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StockManagement](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ParcelId] [int] NULL,
+	[StockCodeId] [int] NULL,
+	[FabricId] [int] NULL,
+	[ItemId] [int] NULL,
+	[LocationId] [int] NULL,
+	[ActualQuantity] [decimal](18, 2) NOT NULL,
+	[TotalQuantity] [decimal](18, 2) NOT NULL,
+	[OrganizationId] [int] NULL,
+	[UserId] [int] NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+ CONSTRAINT [PK_StockManagement] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StockManagementLog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StockManagementLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[StockManagementId] [int] NULL,
+	[ParcelId] [int] NULL,
+	[StockCodeId] [int] NULL,
+	[FabricId] [int] NULL,
+	[ItemId] [int] NULL,
+	[LocationId] [int] NULL,
+	[ActualQuantity] [decimal](18, 2) NULL,
+	[TotalQuantity] [decimal](18, 2) NULL,
+	[OrganizationId] [int] NULL,
+	[UserId] [int] NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+ CONSTRAINT [PK_Table_1] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [varchar](100) NULL,
+	[LastName] [varchar](100) NULL,
+	[EmailId] [varchar](100) NULL,
+	[MobileNo] [varchar](12) NULL,
+	[UserName] [varchar](100) NOT NULL,
+	[Password] [varchar](100) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsAdmin] [bit] NOT NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Userlog]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Userlog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [varchar](10) NULL,
+	[UserId] [int] NULL,
+	[FirstName] [varchar](100) NULL,
+	[LastName] [varchar](100) NULL,
+	[EmailId] [varchar](100) NULL,
+	[MobileNo] [varchar](12) NULL,
+	[UserName] [varchar](100) NULL,
+	[Password] [varchar](100) NULL,
+	[IsActive] [bit] NULL,
+	[IsAdmin] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+	[User_Id] [int] NULL,
+	[OrganizationId] [int] NULL,
+ CONSTRAINT [PK_Userlog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserOrganization]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserOrganization](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NULL,
+	[OrganizationId] [int] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedOn] [datetime] NULL,
+ CONSTRAINT [PK_UserOrganization] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Customer] ON 
+GO
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (9, N'Customer 1', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2022-12-21T22:53:55.767' AS DateTime), 4, CAST(N'2023-01-07T13:40:08.293' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (10, N'Customer or2', N'Address or2', 13, N'9856230147', 1, 4, CAST(N'2022-12-23T23:43:50.373' AS DateTime), NULL, NULL, 4, 27)
+GO
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (15, N'Customer 2', N'rajkot', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T12:41:08.050' AS DateTime), 4, CAST(N'2023-01-07T13:30:24.963' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (19, N'Customer 3', N'Junagadh', 14, N'9876543210', 1, 4, CAST(N'2023-01-07T13:44:00.780' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Customer] ([Id], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (20, N'Customer 4', N'Ahmedabad', 14, N'7894561230', 1, 4, NULL, 4, CAST(N'2023-01-09T23:47:22.213' AS DateTime), 4, 26)
+GO
+SET IDENTITY_INSERT [dbo].[Customer] OFF
+GO
+SET IDENTITY_INSERT [dbo].[CustomerLog] ON 
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (9, N'Insert', 9, N'Customer 1                                                                                          ', N'Junagadh', NULL, N'0123456789', 1, 4, CAST(N'2022-12-21T22:53:55.767' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (10, N'Insert', 10, N'Customer or2                                                                                        ', N'Address or2', NULL, N'1234567890', 1, 4, CAST(N'2022-12-23T23:43:50.373' AS DateTime), 4, 27)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (15, N'Insert', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 1234567802, N'13', 1, 4, CAST(N'2023-01-07T12:41:08.050' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (17, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 14, N'1234567802', 1, 4, CAST(N'2023-01-07T12:43:22.693' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (18, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:07.963' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (19, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:16.793' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (20, N'Update', 15, N'Customer 2                                                                                          ', N'time to time pay bill', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:48:23.187' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (21, N'Update', 15, N'Customer 2                                                                                          ', N'rajkot', 13, N'1234567802', 1, 4, CAST(N'2023-01-07T12:49:48.443' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (22, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 13, N'0123456789', 1, NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (23, N'Update', 10, N'Customer or2                                                                                        ', N'Address or2', 13, N'1234567890', 1, NULL, NULL, 4, 27)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (24, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 13, N'9874563210', 1, NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (25, N'Update', 10, N'Customer or2                                                                                        ', N'Address or2', 13, N'9856230147', 1, NULL, NULL, 4, 27)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (26, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2023-01-07T13:30:15.590' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (27, N'Update', 15, N'Customer 2                                                                                          ', N'rajkot', 15, N'1234567802', 1, 4, CAST(N'2023-01-07T13:30:24.963' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (28, N'Update', 9, N'Customer 1                                                                                          ', N'Junagadh', 14, N'9874563210', 1, 4, CAST(N'2023-01-07T13:40:08.293' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (31, N'Insert', 19, N'Customer 3                                                                                          ', N'Junagadh', 14, N'9876543210', 1, 4, CAST(N'2023-01-07T13:44:00.780' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (32, N'Insert', 20, N'Customer 4                                                                                          ', N'Ahmedabad', NULL, N'7894561230', 1, 4, NULL, 4, 26)
+GO
+INSERT [dbo].[CustomerLog] ([Id], [Action], [CustomerId], [Name], [Address], [LocationId], [Mobile], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (33, N'Update', 20, N'Customer 4                                                                                          ', N'Ahmedabad', 14, N'7894561230', 1, 4, CAST(N'2023-01-09T23:47:22.213' AS DateTime), 4, 26)
+GO
+SET IDENTITY_INSERT [dbo].[CustomerLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Distribution] ON 
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (59, 9, CAST(N'2022-12-22T00:00:00.000' AS DateTime), 44, 0, N'100', N'This Is first note', CAST(1800.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-21T23:59:19.297' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (60, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 43, 1, N'101', N'this is second distribute', CAST(64120.00 AS Decimal(18, 2)), 0, 4, CAST(N'2022-12-22T00:03:09.963' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (61, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 44, 1, N'101', N'this is second distribute', CAST(23510.00 AS Decimal(18, 2)), 0, 4, CAST(N'2022-12-22T00:03:09.967' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (62, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 40, 1, N'3205', N'All Distrubute', CAST(10000.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T22:54:55.423' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (63, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 41, 1, N'3205', N'All Distrubute', CAST(20000.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (64, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 42, 1, N'3205', N'All Distrubute', CAST(20000.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (65, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 45, 1, N'3205', N'All Distrubute', CAST(0.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (66, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 46, 1, N'3205', N'All Distrubute', CAST(0.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (67, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 47, 1, N'3205', N'All Distrubute', CAST(0.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (68, 9, CAST(N'2022-12-27T00:00:00.000' AS DateTime), 41, 1, NULL, N'a', CAST(0.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T23:03:44.330' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (69, 9, CAST(N'2023-01-31T00:00:00.000' AS DateTime), 48, 1, N'5630', NULL, CAST(6000.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-22T23:05:35.897' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (70, 10, CAST(N'2022-12-29T00:00:00.000' AS DateTime), 49, 0, N'1007', NULL, CAST(20.00 AS Decimal(18, 2)), 1, 4, CAST(N'2022-12-23T23:44:26.080' AS DateTime), NULL, NULL, 4, 27, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (71, 9, CAST(N'2023-01-24T00:00:00.000' AS DateTime), 50, 0, N'1007', NULL, CAST(200.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-01-10T18:10:54.753' AS DateTime), 4, CAST(N'2023-01-10T18:10:54.753' AS DateTime), 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (72, 9, CAST(N'2023-01-24T00:00:00.000' AS DateTime), 50, 0, N'1009', NULL, CAST(1800.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-01-08T12:39:45.103' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (73, 15, CAST(N'2023-01-22T00:00:00.000' AS DateTime), 50, 0, N'999', NULL, CAST(200.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-01-08T12:41:03.257' AS DateTime), NULL, NULL, 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (74, 9, CAST(N'2023-01-31T00:00:00.000' AS DateTime), 50, 0, N'105', NULL, CAST(200.00 AS Decimal(18, 2)), 1, NULL, CAST(N'2023-01-08T07:14:34.530' AS DateTime), NULL, CAST(N'2023-01-08T07:14:35.763' AS DateTime), 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (75, 9, CAST(N'2023-01-19T00:00:00.000' AS DateTime), 50, 0, N'2001', NULL, CAST(10.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-01-08T07:18:15.740' AS DateTime), 4, CAST(N'2023-01-08T07:18:15.740' AS DateTime), 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (76, 19, CAST(N'2023-01-25T00:00:00.000' AS DateTime), 50, 0, N'1009', NULL, CAST(1800.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-01-08T07:55:15.050' AS DateTime), 4, CAST(N'2023-01-08T07:55:15.050' AS DateTime), 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (77, 9, CAST(N'2023-03-14T00:00:00.000' AS DateTime), 79, 0, N'1007', N'qdsdwd', CAST(5.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-03-14T14:26:46.143' AS DateTime), 4, CAST(N'2023-03-14T14:26:46.143' AS DateTime), 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (78, 19, CAST(N'2023-03-22T00:00:00.000' AS DateTime), 69, 0, N'1009', N'dasc', CAST(27.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-03-15T13:40:17.413' AS DateTime), 4, CAST(N'2023-03-15T13:40:17.413' AS DateTime), 4, 26, NULL)
+GO
+INSERT [dbo].[Distribution] ([Id], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [LocationId]) VALUES (84, 19, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';losefse', CAST(6.00 AS Decimal(18, 2)), 1, 4, CAST(N'2023-03-16T03:38:41.047' AS DateTime), 4, CAST(N'2023-03-16T03:38:41.047' AS DateTime), 4, 26, 14)
+GO
+SET IDENTITY_INSERT [dbo].[Distribution] OFF
+GO
+SET IDENTITY_INSERT [dbo].[DistributionLog] ON 
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (102, N'Insert', 59, 9, CAST(N'2022-12-22T00:00:00.000' AS DateTime), 44, 0, N'100', N'This Is first note', CAST(1800.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-21T23:59:19.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (103, N'Insert', 60, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 43, 1, N'101', N'this is second distribute', CAST(64120.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T00:00:40.097' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (104, N'Insert', 61, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 44, 1, N'101', N'this is second distribute', CAST(23510.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T00:00:40.097' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (105, N'Update', 60, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 43, 1, N'101', N'this is second distribute', CAST(64120.00 AS Decimal(18, 2)), 4, 26, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (106, N'Update', 61, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 44, 1, N'101', N'this is second distribute', CAST(23510.00 AS Decimal(18, 2)), 4, 26, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (107, N'Insert', 62, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 40, 1, N'3205', N'All Distrubute', CAST(10000.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T22:54:55.423' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (108, N'Insert', 63, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 41, 1, N'3205', N'All Distrubute', CAST(20000.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (109, N'Insert', 64, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 42, 1, N'3205', N'All Distrubute', CAST(20000.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (110, N'Insert', 65, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 45, 1, N'3205', N'All Distrubute', CAST(0.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (111, N'Insert', 66, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 46, 1, N'3205', N'All Distrubute', CAST(0.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (112, N'Insert', 67, 9, CAST(N'2022-12-30T00:00:00.000' AS DateTime), 47, 1, N'3205', N'All Distrubute', CAST(0.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (113, N'Insert', 68, 9, CAST(N'2022-12-27T00:00:00.000' AS DateTime), 41, 1, NULL, N'a', CAST(0.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T23:03:44.330' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (114, N'Insert', 69, 9, CAST(N'2023-01-31T00:00:00.000' AS DateTime), 48, 1, N'5630', NULL, CAST(6000.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2022-12-22T23:05:35.897' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (115, N'Insert', 70, 10, CAST(N'2022-12-29T00:00:00.000' AS DateTime), 49, 0, N'1007', NULL, CAST(20.00 AS Decimal(18, 2)), 4, 27, 1, 4, CAST(N'2022-12-23T23:44:26.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (116, N'Insert', 71, 9, CAST(N'2023-01-24T00:00:00.000' AS DateTime), 50, 0, N'1007', NULL, CAST(200.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T12:11:03.283' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (117, N'Insert', 72, 9, CAST(N'2023-01-24T00:00:00.000' AS DateTime), 50, 0, N'1009', NULL, CAST(1800.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T12:39:45.103' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (118, N'Insert', 73, 15, CAST(N'2023-01-22T00:00:00.000' AS DateTime), 50, 0, N'999', NULL, CAST(200.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T12:41:03.257' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (119, N'Insert', 74, 9, CAST(N'2023-01-31T00:00:00.000' AS DateTime), 50, 0, N'105', NULL, CAST(200.00 AS Decimal(18, 2)), 4, 26, 1, NULL, CAST(N'2023-01-08T07:14:34.530' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (120, N'Insert', 75, 9, CAST(N'2023-01-19T00:00:00.000' AS DateTime), 50, 0, N'2001', NULL, CAST(10.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T07:18:15.740' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (121, N'Update', 71, 9, CAST(N'2023-01-24T00:00:00.000' AS DateTime), 50, 0, N'1007', NULL, CAST(200.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T07:24:10.390' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (122, N'Insert', 76, 19, CAST(N'2023-01-25T00:00:00.000' AS DateTime), 50, 0, N'1009', NULL, CAST(1800.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T07:54:57.450' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (123, N'Update', 76, 19, CAST(N'2023-01-25T00:00:00.000' AS DateTime), 50, 0, N'1009', NULL, CAST(1800.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-08T07:55:15.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (124, N'Update', 71, 9, CAST(N'2023-01-24T00:00:00.000' AS DateTime), 50, 0, N'1007', NULL, CAST(200.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-01-10T18:10:54.753' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (125, N'Insert', 77, 9, CAST(N'2023-03-14T00:00:00.000' AS DateTime), 79, 0, N'1007', N'qdsdwd', CAST(5.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-14T14:26:46.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (126, N'Insert', 78, 19, CAST(N'2023-03-22T00:00:00.000' AS DateTime), 69, 0, N'1009', N'dasc', CAST(27.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-14T14:28:24.720' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (127, N'Update', 78, 19, CAST(N'2023-03-22T00:00:00.000' AS DateTime), 69, 0, N'1009', N'dasc', CAST(27.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-15T13:40:17.413' AS DateTime), NULL)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (128, N'Insert', 84, 9, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';lo', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-15T17:35:02.537' AS DateTime), 13)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (129, N'Update', 84, 9, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';lo', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-15T17:42:56.787' AS DateTime), 14)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (130, N'Update', 84, 9, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';lo', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-15T17:45:05.157' AS DateTime), 15)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (131, N'Update', 84, 9, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';lo', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-16T03:20:02.773' AS DateTime), 13)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (132, N'Update', 84, 9, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';lo', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-16T03:21:03.073' AS DateTime), 14)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (133, N'Update', 84, 19, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';lo', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-16T03:22:34.227' AS DateTime), 15)
+GO
+INSERT [dbo].[DistributionLog] ([Id], [Action], [DistributionId], [CustomerId], [DistributionDate], [StockManagementId], [TypeId], [BillNo], [Note], [Quantity], [UserId], [OrganizationId], [IsActive], [CreatedBy], [CreatedOn], [LocationId]) VALUES (134, N'Update', 84, 19, CAST(N'2023-03-28T00:00:00.000' AS DateTime), 71, 0, N'1506', N';losefse', CAST(6.00 AS Decimal(18, 2)), 4, 26, 1, 4, CAST(N'2023-03-16T03:38:41.047' AS DateTime), 14)
+GO
+SET IDENTITY_INSERT [dbo].[DistributionLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Fabric] ON 
+GO
+INSERT [dbo].[Fabric] ([Id], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (25, N'Fabric 1', 1, 4, CAST(N'2022-12-21T23:21:32.990' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Fabric] ([Id], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (26, N'Fabric 2', 1, 4, CAST(N'2022-12-21T23:26:54.463' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Fabric] ([Id], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (27, N'Fabric 3', 1, 4, CAST(N'2022-12-21T23:41:23.833' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Fabric] ([Id], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (28, N'Fabric or2', 1, 4, CAST(N'2022-12-23T23:38:53.460' AS DateTime), NULL, NULL, 4, 27)
+GO
+INSERT [dbo].[Fabric] ([Id], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (29, N'Fabric 4', 1, 4, CAST(N'2023-01-10T17:55:26.600' AS DateTime), NULL, NULL, 4, 26)
+GO
+SET IDENTITY_INSERT [dbo].[Fabric] OFF
+GO
+SET IDENTITY_INSERT [dbo].[FabricLog] ON 
+GO
+INSERT [dbo].[FabricLog] ([Id], [Action], [FabricId], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (29, N'Insert', 25, N'Fabric 1', 1, 4, CAST(N'2022-12-21T23:21:32.990' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[FabricLog] ([Id], [Action], [FabricId], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (30, N'Insert', 26, N'Fabric 2', 1, 4, CAST(N'2022-12-21T23:26:54.463' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[FabricLog] ([Id], [Action], [FabricId], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (31, N'Insert', 27, N'Fabric 3', 1, 4, CAST(N'2022-12-21T23:41:23.833' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[FabricLog] ([Id], [Action], [FabricId], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (32, N'Insert', 28, N'Fabric or2', 1, 4, CAST(N'2022-12-23T23:38:53.460' AS DateTime), 4, 27)
+GO
+INSERT [dbo].[FabricLog] ([Id], [Action], [FabricId], [FabricName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (33, N'Insert', 29, N'Fabric 4', 1, 4, CAST(N'2023-01-10T17:55:26.600' AS DateTime), 4, 26)
+GO
+SET IDENTITY_INSERT [dbo].[FabricLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Item] ON 
+GO
+INSERT [dbo].[Item] ([Id], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (9, N'Item 1', 1, 4, CAST(N'2022-12-21T22:45:07.873' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Item] ([Id], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (10, N'Item 2', 0, 4, CAST(N'2022-12-21T22:45:20.613' AS DateTime), 4, CAST(N'2022-12-21T22:45:41.887' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[Item] ([Id], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (11, N'Item 2', 1, 4, CAST(N'2022-12-21T22:45:56.173' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Item] ([Id], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (12, N'Item 3', 1, 4, CAST(N'2022-12-21T22:46:05.687' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Item] ([Id], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (13, N'Item or2', 1, 4, CAST(N'2022-12-23T23:41:59.687' AS DateTime), NULL, NULL, 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[Item] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ItemLog] ON 
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (22, N'Insert', 9, N'Item 1', 1, 4, CAST(N'2022-12-21T22:45:07.873' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (23, N'Insert', 10, N'Item 2', 1, 4, CAST(N'2022-12-21T22:45:20.613' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (24, N'Update', 10, N'Item 2', 1, 4, CAST(N'2022-12-21T22:45:25.703' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (25, N'Update', 10, N'Item 2', 0, 4, CAST(N'2022-12-21T22:45:41.887' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (26, N'Insert', 11, N'Item 2', 1, 4, CAST(N'2022-12-21T22:45:56.173' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (27, N'Insert', 12, N'Item 3', 1, 4, CAST(N'2022-12-21T22:46:05.687' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ItemLog] ([Id], [Action], [ItemId], [ItemName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (28, N'Insert', 13, N'Item or2', 1, 4, CAST(N'2022-12-23T23:41:59.687' AS DateTime), 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[ItemLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Location] ON 
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (13, N'Location 1', 1, 4, CAST(N'2022-12-21T22:51:59.230' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (14, N'Location 2', 1, 4, CAST(N'2022-12-21T22:52:28.607' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (15, N'Location 3', 1, 4, CAST(N'2022-12-21T22:52:52.490' AS DateTime), 4, CAST(N'2022-12-21T22:53:11.907' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[Location] ([Id], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (16, N'Location or2', 1, 4, CAST(N'2022-12-23T23:43:12.863' AS DateTime), NULL, NULL, 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[Location] OFF
+GO
+SET IDENTITY_INSERT [dbo].[LocationLog] ON 
+GO
+INSERT [dbo].[LocationLog] ([Id], [Action], [LocationId], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (15, N'Insert', 13, N'Location 1', 1, 4, CAST(N'2022-12-21T22:51:59.230' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[LocationLog] ([Id], [Action], [LocationId], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (16, N'Insert', 14, N'Location 2', 1, 4, CAST(N'2022-12-21T22:52:28.607' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[LocationLog] ([Id], [Action], [LocationId], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (17, N'Insert', 15, N'Location 3', 1, 4, CAST(N'2022-12-21T22:52:52.490' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[LocationLog] ([Id], [Action], [LocationId], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (18, N'Update', 15, N'Location 4', 1, 4, CAST(N'2022-12-21T22:53:03.530' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[LocationLog] ([Id], [Action], [LocationId], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (19, N'Update', 15, N'Location 3', 1, 4, CAST(N'2022-12-21T22:53:11.907' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[LocationLog] ([Id], [Action], [LocationId], [LocationName], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (20, N'Insert', 16, N'Location or2', 1, 4, CAST(N'2022-12-23T23:43:12.863' AS DateTime), 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[LocationLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Organization] ON 
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (26, N'Organization 1', 1, 1, CAST(N'2022-12-21T21:53:20.433' AS DateTime), 1, CAST(N'2022-12-21T22:14:12.073' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (27, N'Organization 2', 1, 1, CAST(N'2022-12-21T22:14:45.700' AS DateTime), 1, CAST(N'2022-12-21T22:14:54.253' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[Organization] ([Id], [Name], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (28, N'Organization 3', 1, 1, CAST(N'2022-12-21T22:15:16.537' AS DateTime), NULL, NULL, 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Organization] OFF
+GO
+SET IDENTITY_INSERT [dbo].[OrganizationLog] ON 
+GO
+INSERT [dbo].[OrganizationLog] ([Id], [Action], [OrganizationId], [Name], [IsActive], [CreatedBy], [CreatedOn], [UserId], [Organization_Id]) VALUES (47, N'Insert', 26, N'Organization 1', 1, 1, CAST(N'2022-12-21T21:53:20.433' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[OrganizationLog] ([Id], [Action], [OrganizationId], [Name], [IsActive], [CreatedBy], [CreatedOn], [UserId], [Organization_Id]) VALUES (48, N'Update', 26, N'Organization 1', 1, 1, CAST(N'2022-12-21T22:14:12.073' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[OrganizationLog] ([Id], [Action], [OrganizationId], [Name], [IsActive], [CreatedBy], [CreatedOn], [UserId], [Organization_Id]) VALUES (49, N'Insert', 27, N'Organization 2', 1, 1, CAST(N'2022-12-21T22:14:45.700' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[OrganizationLog] ([Id], [Action], [OrganizationId], [Name], [IsActive], [CreatedBy], [CreatedOn], [UserId], [Organization_Id]) VALUES (50, N'Update', 27, N'Organization 2', 1, 1, CAST(N'2022-12-21T22:14:54.253' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[OrganizationLog] ([Id], [Action], [OrganizationId], [Name], [IsActive], [CreatedBy], [CreatedOn], [UserId], [Organization_Id]) VALUES (51, N'Insert', 28, N'Organization 3', 1, 1, CAST(N'2022-12-21T22:15:16.537' AS DateTime), 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[OrganizationLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ParcelCode] ON 
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (11, N'Parcel Code 1', 1, 4, CAST(N'2022-12-21T22:49:35.000' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (12, N'Parcel Code 2', 1, 4, CAST(N'2022-12-21T22:49:51.817' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (13, N'Parcel Code 3', 1, 4, CAST(N'2022-12-21T22:50:08.607' AS DateTime), 4, CAST(N'2022-12-21T22:50:41.467' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (14, N'Parcel Code or2', 1, 4, CAST(N'2022-12-23T23:42:43.130' AS DateTime), NULL, NULL, 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[ParcelCode] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ParcelCodeLog] ON 
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (14, N'Insert', 11, N'Parcel Code 1', 1, 4, CAST(N'2022-12-21T22:49:35.000' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (15, N'Insert', 12, N'Parcel Code 2', 1, 4, CAST(N'2022-12-21T22:49:51.817' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (16, N'Insert', 13, N'Parcel Code 3', 1, 4, CAST(N'2022-12-21T22:50:08.607' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (17, N'Update', 13, N'Parcel Code 3', 1, 4, CAST(N'2022-12-21T22:50:14.250' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (18, N'Update', 13, N'Parcel Code 4', 1, 4, CAST(N'2022-12-21T22:50:32.803' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (19, N'Update', 13, N'Parcel Code 3', 1, 4, CAST(N'2022-12-21T22:50:41.467' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[ParcelCodeLog] ([Id], [Action], [ParcelCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (20, N'Insert', 14, N'Parcel Code or2', 1, 4, CAST(N'2022-12-23T23:42:43.130' AS DateTime), 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[ParcelCodeLog] OFF
+GO
 SET IDENTITY_INSERT [dbo].[ParcelReport] ON 
 GO
 INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (17, 11, CAST(N'2023-01-01T00:00:00.000' AS DateTime), N'100', CAST(N'2023-01-05T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2022-12-21T23:47:13.030' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
@@ -90,6 +1146,8 @@ GO
 INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (23, 12, CAST(N'2023-01-25T00:00:00.000' AS DateTime), N'963', CAST(N'2023-02-10T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-09T21:57:22.783' AS DateTime), NULL, NULL, 4, 26, NULL, NULL)
 GO
 INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (24, 11, CAST(N'2023-01-17T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-25T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-13T17:27:25.510' AS DateTime), 4, CAST(N'2023-01-13T18:10:12.053' AS DateTime), 4, 26, CAST(N'2023-01-05T00:00:00.000' AS DateTime), N'120')
+GO
+INSERT [dbo].[ParcelReport] ([Id], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocatoinId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId], [ChallanDate], [TransportNo]) VALUES (25, 11, CAST(N'2023-03-22T00:00:00.000' AS DateTime), N'101', CAST(N'2023-03-30T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-03-14T14:07:12.840' AS DateTime), NULL, NULL, 4, 26, CAST(N'2023-03-13T00:00:00.000' AS DateTime), N'12')
 GO
 SET IDENTITY_INSERT [dbo].[ParcelReport] OFF
 GO
@@ -119,7 +1177,533 @@ INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [D
 GO
 INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (30, N'Update', 24, 11, CAST(N'2023-01-17T00:00:00.000' AS DateTime), N'101', CAST(N'2023-01-25T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-01-13T18:10:12.053' AS DateTime), 26, 4, CAST(N'2023-01-05T00:00:00.000' AS DateTime), N'120')
 GO
+INSERT [dbo].[ParcelReportLog] ([Id], [Action], [ParcelReportId], [ParcelId], [DispachedDate], [ChalanNo], [ArrivalDate], [LocationId], [IsActive], [CreatedBy], [CreatedOn], [OrganizationId], [UserId], [ChallanDate], [TransportNo]) VALUES (31, N'Insert', 25, 11, CAST(N'2023-03-22T00:00:00.000' AS DateTime), N'101', CAST(N'2023-03-30T00:00:00.000' AS DateTime), 13, 1, 4, CAST(N'2023-03-14T14:07:12.840' AS DateTime), 26, 4, CAST(N'2023-03-13T00:00:00.000' AS DateTime), N'12')
+GO
 SET IDENTITY_INSERT [dbo].[ParcelReportLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[StockCode] ON 
+GO
+INSERT [dbo].[StockCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (9, N'Stock Code 1', 1, 4, CAST(N'2022-12-21T22:47:46.647' AS DateTime), 4, CAST(N'2022-12-21T22:47:59.720' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[StockCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (10, N'Stock Code 2', 1, 4, CAST(N'2022-12-21T22:48:24.987' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[StockCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (11, N'Stock Code 3', 1, 4, CAST(N'2022-12-21T22:48:53.073' AS DateTime), NULL, NULL, 4, 26)
+GO
+INSERT [dbo].[StockCode] ([Id], [Code], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (12, N'Stock Code or2', 1, 4, CAST(N'2022-12-23T23:42:29.263' AS DateTime), NULL, NULL, 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[StockCode] OFF
+GO
+SET IDENTITY_INSERT [dbo].[StockCodeLog] ON 
+GO
+INSERT [dbo].[StockCodeLog] ([Id], [Action], [StockCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (13, N'Insert', 9, N'Stock 1', 1, 4, CAST(N'2022-12-21T22:47:46.647' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[StockCodeLog] ([Id], [Action], [StockCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (14, N'Update', 9, N'Stock Code 1', 1, 4, CAST(N'2022-12-21T22:47:59.720' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[StockCodeLog] ([Id], [Action], [StockCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (15, N'Insert', 10, N'Stock Code 2', 1, 4, CAST(N'2022-12-21T22:48:24.987' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[StockCodeLog] ([Id], [Action], [StockCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (16, N'Insert', 11, N'Stock Code 3', 1, 4, CAST(N'2022-12-21T22:48:53.073' AS DateTime), 4, 26)
+GO
+INSERT [dbo].[StockCodeLog] ([Id], [Action], [StockCodeId], [Code], [IsActive], [CreatedBy], [CreatedOn], [UserId], [OrganizationId]) VALUES (17, N'Insert', 12, N'Stock Code or2', 1, 4, CAST(N'2022-12-23T23:42:29.263' AS DateTime), 4, 27)
+GO
+SET IDENTITY_INSERT [dbo].[StockCodeLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[StockManagement] ON 
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (40, 18, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-10T18:19:48.643' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (41, 18, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-10T18:18:58.033' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (42, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (43, 18, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(64120.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2022-12-22T00:02:59.243' AS DateTime), 4, CAST(N'2022-12-22T00:00:40.097' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (44, 18, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2022-12-22T00:02:59.243' AS DateTime), 4, CAST(N'2022-12-22T00:00:40.097' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (45, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:33:00.050' AS DateTime), 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (46, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (47, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2022-12-22T22:54:55.477' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (48, 18, 11, 26, 12, 14, CAST(0.00 AS Decimal(18, 2)), CAST(6000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2022-12-22T23:05:35.897' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (49, 18, 12, 28, 13, 16, CAST(40.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 27, 4, 1, 4, CAST(N'2022-12-23T23:44:06.057' AS DateTime), 4, CAST(N'2022-12-23T23:44:26.087' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (50, 18, 9, 25, 9, 13, CAST(119246.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-08T07:54:57.450' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (51, 18, 9, 26, 12, 14, CAST(1452.00 AS Decimal(18, 2)), CAST(1452.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (52, 18, 11, 26, 12, 14, CAST(9874.00 AS Decimal(18, 2)), CAST(9874.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (53, 18, 11, 25, 11, 13, CAST(963.00 AS Decimal(18, 2)), CAST(963.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-07T15:18:25.843' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (54, 18, 9, 25, 9, 13, CAST(1.00 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (55, 18, 9, 25, 9, 13, CAST(2.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (56, 18, 9, 25, 9, 13, CAST(3.00 AS Decimal(18, 2)), CAST(3.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (57, 18, 10, 26, 11, 14, CAST(4.00 AS Decimal(18, 2)), CAST(4.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (58, 18, 10, 26, 11, 14, CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (59, 18, 10, 26, 11, 14, CAST(6.00 AS Decimal(18, 2)), CAST(6.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (60, 18, 10, 26, 11, 14, CAST(7.00 AS Decimal(18, 2)), CAST(7.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (61, 18, 10, 26, 11, 14, CAST(8.00 AS Decimal(18, 2)), CAST(8.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (62, 18, 11, 27, 12, 15, CAST(9.00 AS Decimal(18, 2)), CAST(9.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (63, 18, 11, 27, 12, 15, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (64, 18, 11, 27, 12, 15, CAST(12.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime), 4, CAST(N'2023-01-19T18:29:27.977' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (65, 18, 9, 25, 9, 13, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.920' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (66, 18, 9, 25, 9, 13, CAST(15.00 AS Decimal(18, 2)), CAST(15.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (67, 18, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (68, 18, 11, 26, 11, 14, CAST(60.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (69, 18, 11, 26, 11, 14, CAST(23.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-03-14T14:28:24.720' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (70, 18, 11, 26, 11, 14, CAST(40.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (71, 18, 11, 26, 11, 14, CAST(24.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-03-15T17:35:02.537' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (72, 18, 11, 26, 11, 14, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (73, 18, 11, 27, 12, 15, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (74, 18, 11, 27, 12, 15, CAST(40.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (75, 18, 11, 27, 12, 15, CAST(30.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (76, 18, 11, 27, 12, 15, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime), 4, CAST(N'2023-01-19T18:41:08.930' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (77, 18, 9, 25, 9, 13, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime), 4, CAST(N'2023-03-14T14:25:28.437' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (78, 18, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime), 4, CAST(N'2023-03-14T14:25:28.437' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (79, 18, 9, 25, 9, 13, CAST(15.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime), 4, CAST(N'2023-03-14T14:26:46.143' AS DateTime))
+GO
+INSERT [dbo].[StockManagement] ([Id], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn]) VALUES (80, 18, 9, 25, 9, 13, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime), 4, CAST(N'2023-03-14T14:25:28.437' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[StockManagement] OFF
+GO
+SET IDENTITY_INSERT [dbo].[StockManagementLog] ON 
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (207, N'Insert', 40, 11, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (208, N'Insert', 41, 11, 10, 26, 9, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (209, N'Update', 41, 11, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (210, N'Insert', 42, 11, 9, 25, 9, 13, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (211, N'Insert', 43, 12, 11, 26, 12, 13, CAST(64120.00 AS Decimal(18, 2)), CAST(64120.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (212, N'Insert', 44, 12, 11, 26, 12, 14, CAST(25310.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (213, N'Update', 44, 12, 11, 26, 12, 15, CAST(25310.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (214, N'Update', 44, 12, 11, 26, 12, 15, CAST(23510.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (215, N'Update', 43, 12, 11, 26, 12, 13, CAST(64120.00 AS Decimal(18, 2)), CAST(64120.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (216, N'Update', 44, 12, 11, 26, 12, 13, CAST(23510.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (217, N'Update', 43, 12, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(64120.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (218, N'Update', 44, 12, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (219, N'Update', 43, 12, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(64120.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2022-12-22T00:02:59.243' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (220, N'Update', 44, 12, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2022-12-22T00:02:59.243' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (221, N'Insert', 45, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T22:15:25.913' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (222, N'Insert', 46, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T22:15:25.913' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (223, N'Insert', 47, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T22:15:25.913' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (224, N'Update', 40, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (225, N'Update', 41, 11, 10, 26, 11, 14, CAST(0.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (226, N'Update', 42, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:53:22.670' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (227, N'Update', 45, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T22:15:25.913' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (228, N'Update', 46, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T22:15:25.913' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (229, N'Update', 47, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T22:15:25.913' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (230, N'Update', 41, 11, 10, 26, 11, 14, CAST(0.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (231, N'Insert', 48, 11, 11, 26, 12, 14, CAST(6000.00 AS Decimal(18, 2)), CAST(6000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T23:04:57.300' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (232, N'Update', 48, 11, 11, 26, 12, 14, CAST(0.00 AS Decimal(18, 2)), CAST(6000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-22T23:04:57.300' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (233, N'Insert', 49, 14, 12, 28, 13, 16, CAST(60.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 27, 4, 1, 4, CAST(N'2022-12-23T23:44:06.057' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (234, N'Update', 49, 14, 12, 28, 13, 16, CAST(40.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 27, 4, 1, 4, CAST(N'2022-12-23T23:44:06.057' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (235, N'Insert', 50, 11, 9, 25, 9, 13, CAST(123456.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (236, N'Insert', 51, 13, 9, 26, 12, 14, CAST(1452.00 AS Decimal(18, 2)), CAST(1452.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:43:14.250' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (237, N'Insert', 52, 12, 11, 26, 12, 14, CAST(9874.00 AS Decimal(18, 2)), CAST(9874.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:44:46.380' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (238, N'Update', 50, 11, 9, 25, 9, 13, CAST(123456.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (239, N'Insert', 53, 12, 11, 25, 11, 13, CAST(963.00 AS Decimal(18, 2)), CAST(963.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:48:25.843' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (240, N'Update', 50, 11, 9, 25, 9, 13, CAST(123256.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (241, N'Update', 50, 11, 9, 25, 9, 13, CAST(121456.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (242, N'Update', 50, 11, 9, 25, 9, 13, CAST(121256.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (243, N'Update', 50, 11, 9, 25, 9, 13, CAST(121056.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (244, N'Update', 50, 11, 9, 25, 9, 13, CAST(121046.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (245, N'Update', 50, 11, 9, 25, 9, 13, CAST(119246.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-07T20:42:17.507' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (246, N'Update', 40, 11, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (247, N'Update', 41, 11, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (248, N'Update', 41, 11, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (249, N'Update', 40, 11, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (250, N'Update', 41, 11, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (251, N'Update', 41, 11, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (252, N'Update', 40, 11, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2022-12-21T23:50:57.597' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (253, N'Insert', 54, 11, 9, 25, 9, 13, CAST(1.00 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (254, N'Insert', 55, 11, 9, 25, 9, 13, CAST(2.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (255, N'Insert', 56, 11, 9, 25, 9, 13, CAST(3.00 AS Decimal(18, 2)), CAST(3.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (256, N'Insert', 57, 11, 10, 26, 11, 14, CAST(4.00 AS Decimal(18, 2)), CAST(4.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (257, N'Insert', 58, 11, 10, 26, 11, 14, CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (258, N'Insert', 59, 11, 10, 26, 11, 14, CAST(6.00 AS Decimal(18, 2)), CAST(6.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (259, N'Insert', 60, 11, 10, 26, 11, 14, CAST(7.00 AS Decimal(18, 2)), CAST(7.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (260, N'Insert', 61, 11, 10, 26, 11, 14, CAST(8.00 AS Decimal(18, 2)), CAST(8.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (261, N'Insert', 62, 11, 11, 27, 12, 15, CAST(9.00 AS Decimal(18, 2)), CAST(9.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (262, N'Insert', 63, 11, 11, 27, 12, 15, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (263, N'Insert', 64, 11, 11, 27, 12, 15, CAST(12.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:29:27.973' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (264, N'Update', 40, 11, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (265, N'Update', 41, 11, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (266, N'Update', 42, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (267, N'Update', 46, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (268, N'Update', 47, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (269, N'Update', 48, 11, 11, 26, 12, 14, CAST(0.00 AS Decimal(18, 2)), CAST(6000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (270, N'Update', 50, 11, 9, 25, 9, 13, CAST(119246.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (271, N'Update', 51, 13, 9, 26, 12, 14, CAST(1452.00 AS Decimal(18, 2)), CAST(1452.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (272, N'Update', 52, 12, 11, 26, 12, 14, CAST(9874.00 AS Decimal(18, 2)), CAST(9874.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (273, N'Update', 53, 12, 11, 25, 11, 13, CAST(963.00 AS Decimal(18, 2)), CAST(963.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (274, N'Update', 54, 11, 9, 25, 9, 13, CAST(1.00 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (275, N'Update', 55, 11, 9, 25, 9, 13, CAST(2.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (276, N'Update', 56, 11, 9, 25, 9, 13, CAST(3.00 AS Decimal(18, 2)), CAST(3.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (277, N'Update', 57, 11, 10, 26, 11, 14, CAST(4.00 AS Decimal(18, 2)), CAST(4.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (278, N'Update', 58, 11, 10, 26, 11, 14, CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (279, N'Update', 59, 11, 10, 26, 11, 14, CAST(6.00 AS Decimal(18, 2)), CAST(6.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (280, N'Update', 60, 11, 10, 26, 11, 14, CAST(7.00 AS Decimal(18, 2)), CAST(7.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (281, N'Update', 61, 11, 10, 26, 11, 14, CAST(8.00 AS Decimal(18, 2)), CAST(8.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (282, N'Update', 62, 11, 11, 27, 12, 15, CAST(9.00 AS Decimal(18, 2)), CAST(9.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (283, N'Update', 63, 11, 11, 27, 12, 15, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (284, N'Update', 64, 11, 11, 27, 12, 15, CAST(12.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (285, N'Update', 45, 11, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:33:00.050' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (286, N'Insert', 65, 12, 9, 25, 9, 13, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.920' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (287, N'Insert', 66, 12, 9, 25, 9, 13, CAST(15.00 AS Decimal(18, 2)), CAST(15.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (288, N'Insert', 67, 12, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (289, N'Insert', 68, 12, 11, 26, 11, 14, CAST(60.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (290, N'Insert', 69, 12, 11, 26, 11, 14, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (291, N'Insert', 70, 12, 11, 26, 11, 14, CAST(40.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (292, N'Insert', 71, 12, 11, 26, 11, 14, CAST(30.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (293, N'Insert', 72, 12, 11, 26, 11, 14, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (294, N'Insert', 73, 12, 11, 27, 12, 15, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (295, N'Insert', 74, 12, 11, 27, 12, 15, CAST(40.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (296, N'Insert', 75, 12, 11, 27, 12, 15, CAST(30.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (297, N'Insert', 76, 12, 11, 27, 12, 15, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (298, N'Insert', 77, 12, 9, 25, 9, 13, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (299, N'Insert', 78, 12, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (300, N'Insert', 79, 12, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (301, N'Insert', 80, 12, 9, 25, 9, 13, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (302, N'Update', 79, 12, 9, 25, 9, 13, CAST(15.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (303, N'Update', 69, 12, 11, 26, 11, 14, CAST(23.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (309, N'Update', 71, 12, 11, 26, 11, 14, CAST(24.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (310, N'Update', 80, 18, 9, 25, 9, 13, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (311, N'Update', 79, 18, 9, 25, 9, 13, CAST(15.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (312, N'Update', 78, 18, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (313, N'Update', 77, 18, 9, 25, 9, 13, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-03-14T14:25:28.433' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (314, N'Update', 76, 18, 11, 27, 12, 15, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (315, N'Update', 75, 18, 11, 27, 12, 15, CAST(30.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (316, N'Update', 74, 18, 11, 27, 12, 15, CAST(40.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (317, N'Update', 73, 18, 11, 27, 12, 15, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (318, N'Update', 72, 18, 11, 26, 11, 14, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (319, N'Update', 71, 18, 11, 26, 11, 14, CAST(24.00 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (320, N'Update', 70, 18, 11, 26, 11, 14, CAST(40.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (321, N'Update', 69, 18, 11, 26, 11, 14, CAST(23.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (322, N'Update', 68, 18, 11, 26, 11, 14, CAST(60.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (323, N'Update', 67, 18, 9, 25, 9, 13, CAST(20.00 AS Decimal(18, 2)), CAST(20.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (324, N'Update', 66, 18, 9, 25, 9, 13, CAST(15.00 AS Decimal(18, 2)), CAST(15.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.927' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (325, N'Update', 65, 18, 9, 25, 9, 13, CAST(50.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)), 26, 4, 1, 4, CAST(N'2023-01-19T18:41:08.920' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (326, N'Update', 64, 18, 11, 27, 12, 15, CAST(12.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (327, N'Update', 63, 18, 11, 27, 12, 15, CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (328, N'Update', 62, 18, 11, 27, 12, 15, CAST(9.00 AS Decimal(18, 2)), CAST(9.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (329, N'Update', 61, 18, 10, 26, 11, 14, CAST(8.00 AS Decimal(18, 2)), CAST(8.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (330, N'Update', 60, 18, 10, 26, 11, 14, CAST(7.00 AS Decimal(18, 2)), CAST(7.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (331, N'Update', 59, 18, 10, 26, 11, 14, CAST(6.00 AS Decimal(18, 2)), CAST(6.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (332, N'Update', 58, 18, 10, 26, 11, 14, CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (333, N'Update', 57, 18, 10, 26, 11, 14, CAST(4.00 AS Decimal(18, 2)), CAST(4.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (334, N'Update', 56, 18, 9, 25, 9, 13, CAST(3.00 AS Decimal(18, 2)), CAST(3.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (335, N'Update', 55, 18, 9, 25, 9, 13, CAST(2.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (336, N'Update', 54, 18, 9, 25, 9, 13, CAST(1.00 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (337, N'Update', 53, 18, 11, 25, 11, 13, CAST(963.00 AS Decimal(18, 2)), CAST(963.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (338, N'Update', 52, 18, 11, 26, 12, 14, CAST(9874.00 AS Decimal(18, 2)), CAST(9874.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (339, N'Update', 51, 18, 9, 26, 12, 14, CAST(1452.00 AS Decimal(18, 2)), CAST(1452.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (340, N'Update', 50, 18, 9, 25, 9, 13, CAST(119246.00 AS Decimal(18, 2)), CAST(123456.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (341, N'Update', 49, 18, 12, 28, 13, 16, CAST(40.00 AS Decimal(18, 2)), CAST(60.00 AS Decimal(18, 2)), 27, 4, 1, 4, CAST(N'2022-12-23T23:44:06.057' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (342, N'Update', 48, 18, 11, 26, 12, 14, CAST(0.00 AS Decimal(18, 2)), CAST(6000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (343, N'Update', 47, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (344, N'Update', 46, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (345, N'Update', 45, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:33:00.050' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (346, N'Update', 44, 18, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(25310.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2022-12-22T00:02:59.243' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (347, N'Update', 43, 18, 11, 26, 12, 13, CAST(0.00 AS Decimal(18, 2)), CAST(64120.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2022-12-22T00:02:59.243' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (348, N'Update', 42, 18, 9, 25, 9, 13, CAST(0.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (349, N'Update', 41, 18, 10, 26, 11, 14, CAST(20000.00 AS Decimal(18, 2)), CAST(20000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+INSERT [dbo].[StockManagementLog] ([Id], [Action], [StockManagementId], [ParcelId], [StockCodeId], [FabricId], [ItemId], [LocationId], [ActualQuantity], [TotalQuantity], [OrganizationId], [UserId], [IsActive], [CreatedBy], [CreatedOn]) VALUES (350, N'Update', 40, 18, 9, 25, 9, 13, CAST(10000.00 AS Decimal(18, 2)), CAST(10000.00 AS Decimal(18, 2)), 26, 4, 0, 4, CAST(N'2023-01-19T18:32:52.420' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[StockManagementLog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User] ON 
+GO
+INSERT [dbo].[User] ([Id], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (1, N'Harshad', N'Patel', N'harshadpatel@gmail.com', N'9876543210', N'Admin', N'RkEIf9nIZus14fJ0vMhHDg==', 1, 1, NULL, NULL, 1, CAST(N'2022-12-21T21:56:36.617' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[User] ([Id], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (4, N'Vaibhav', N'Patel', N'vaibhav@gmail.com', N'1234567890', N'vaibhav', N'cKnPUSmx/FcVWvn4cRVLTQ==', 1, 0, NULL, CAST(N'2022-11-21T22:45:48.123' AS DateTime), 1, CAST(N'2022-12-21T22:35:34.333' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[User] ([Id], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [UserId], [OrganizationId]) VALUES (6, N'sagar', N'patel', N'sagar@gmail.com', N'9874561230', N'sagar', N'uTGO9Zt02bCzupT9+1SkmQ==', 1, 0, 1, CAST(N'2022-12-12T23:29:56.400' AS DateTime), 1, CAST(N'2022-12-21T22:00:10.033' AS DateTime), 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Userlog] ON 
+GO
+INSERT [dbo].[Userlog] ([Id], [Action], [UserId], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [User_Id], [OrganizationId]) VALUES (11, N'Update', 4, N'Vaibhav', N'Patel', N'vaihav@gmail.com', N'1234567890', N'vaibhav', N'cKnPUSmx/FcVWvn4cRVLTQ==', 1, 0, 1, CAST(N'2022-11-28T23:06:34.707' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[Userlog] ([Id], [Action], [UserId], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [User_Id], [OrganizationId]) VALUES (12, N'Update', 6, N'sagar', N'patel', N'sagar@gmail.com', N'9874561230', N'sagar', N'uTGO9Zt02bCzupT9+1SkmQ==', 1, 0, NULL, NULL, 1, NULL)
+GO
+INSERT [dbo].[Userlog] ([Id], [Action], [UserId], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [User_Id], [OrganizationId]) VALUES (13, N'Update', 1, N'Harshad', N'Patel', N'harshadpatel@gmail.com', N'9876543210', N'Admin', N'RkEIf9nIZus14fJ0vMhHDg==', 1, 1, 1, CAST(N'2022-12-21T21:56:36.617' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[Userlog] ([Id], [Action], [UserId], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [User_Id], [OrganizationId]) VALUES (14, N'Update', 4, N'Vaibhav', N'Patel', N'vaibhav@gmail.com', N'1234567890', N'vaibhav', N'cKnPUSmx/FcVWvn4cRVLTQ==', 1, 0, 1, CAST(N'2022-12-21T22:00:05.093' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[Userlog] ([Id], [Action], [UserId], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [User_Id], [OrganizationId]) VALUES (15, N'Update', 6, N'sagar', N'patel', N'sagar@gmail.com', N'9874561230', N'sagar', N'uTGO9Zt02bCzupT9+1SkmQ==', 1, 0, 1, CAST(N'2022-12-21T22:00:10.033' AS DateTime), 1, NULL)
+GO
+INSERT [dbo].[Userlog] ([Id], [Action], [UserId], [FirstName], [LastName], [EmailId], [MobileNo], [UserName], [Password], [IsActive], [IsAdmin], [CreatedBy], [CreatedOn], [User_Id], [OrganizationId]) VALUES (16, N'Update', 4, N'Vaibhav', N'Patel', N'vaibhav@gmail.com', N'1234567890', N'vaibhav', N'cKnPUSmx/FcVWvn4cRVLTQ==', 1, 0, 1, CAST(N'2022-12-21T22:35:34.333' AS DateTime), 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Userlog] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserOrganization] ON 
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (35, 1, 26, NULL, NULL)
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (37, 6, 26, NULL, NULL)
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (38, 4, 26, NULL, NULL)
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (39, 4, 27, NULL, NULL)
+GO
+INSERT [dbo].[UserOrganization] ([Id], [UserId], [OrganizationId], [CreatedBy], [CreatedOn]) VALUES (40, 4, 28, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[UserOrganization] OFF
+GO
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Location] FOREIGN KEY([LocationId])
+REFERENCES [dbo].[Location] ([Id])
+GO
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Location]
+GO
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Organization]
+GO
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_User]
+GO
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_Customer] FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customer] ([Id])
+GO
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Customer]
+GO
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_Location] FOREIGN KEY([LocationId])
+REFERENCES [dbo].[Location] ([Id])
+GO
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Location]
+GO
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_Organization]
+GO
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_StockManagement] FOREIGN KEY([StockManagementId])
+REFERENCES [dbo].[StockManagement] ([Id])
+GO
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_StockManagement]
+GO
+ALTER TABLE [dbo].[Distribution]  WITH CHECK ADD  CONSTRAINT [FK_Distribution_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[Distribution] CHECK CONSTRAINT [FK_Distribution_User]
+GO
+ALTER TABLE [dbo].[Fabric]  WITH CHECK ADD  CONSTRAINT [FK_Fabric_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[Fabric] CHECK CONSTRAINT [FK_Fabric_Organization]
+GO
+ALTER TABLE [dbo].[Fabric]  WITH CHECK ADD  CONSTRAINT [FK_Fabric_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[Fabric] CHECK CONSTRAINT [FK_Fabric_User]
+GO
+ALTER TABLE [dbo].[Item]  WITH CHECK ADD  CONSTRAINT [FK_Item_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_Item_Organization]
+GO
+ALTER TABLE [dbo].[Item]  WITH CHECK ADD  CONSTRAINT [FK_Item_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_Item_User]
+GO
+ALTER TABLE [dbo].[Location]  WITH CHECK ADD  CONSTRAINT [FK_Location_Location] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[Location] CHECK CONSTRAINT [FK_Location_Location]
+GO
+ALTER TABLE [dbo].[Location]  WITH CHECK ADD  CONSTRAINT [FK_Location_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[Location] CHECK CONSTRAINT [FK_Location_User]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Organization]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_User]
+GO
+ALTER TABLE [dbo].[ParcelCode]  WITH CHECK ADD  CONSTRAINT [FK_ParcelCode_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[ParcelCode] CHECK CONSTRAINT [FK_ParcelCode_Organization]
+GO
+ALTER TABLE [dbo].[ParcelCode]  WITH CHECK ADD  CONSTRAINT [FK_ParcelCode_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[ParcelCode] CHECK CONSTRAINT [FK_ParcelCode_User]
 GO
 ALTER TABLE [dbo].[ParcelReport]  WITH CHECK ADD  CONSTRAINT [FK_ParcelReport_Location] FOREIGN KEY([LocatoinId])
 REFERENCES [dbo].[Location] ([Id])
@@ -141,7 +1725,436 @@ REFERENCES [dbo].[User] ([Id])
 GO
 ALTER TABLE [dbo].[ParcelReport] CHECK CONSTRAINT [FK_ParcelReport_User]
 GO
-/****** Object:  Trigger [dbo].[Trig_ParcelReport]    Script Date: 15-01-2023 09:05:36 PM ******/
+ALTER TABLE [dbo].[StockCode]  WITH CHECK ADD  CONSTRAINT [FK_StockCode_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[StockCode] CHECK CONSTRAINT [FK_StockCode_Organization]
+GO
+ALTER TABLE [dbo].[StockCode]  WITH CHECK ADD  CONSTRAINT [FK_StockCode_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[StockCode] CHECK CONSTRAINT [FK_StockCode_User]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Fabric] FOREIGN KEY([FabricId])
+REFERENCES [dbo].[Fabric] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Fabric]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Item] FOREIGN KEY([ItemId])
+REFERENCES [dbo].[Item] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Item]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Location] FOREIGN KEY([LocationId])
+REFERENCES [dbo].[Location] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Location]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_Organization]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_ParcelReport] FOREIGN KEY([ParcelId])
+REFERENCES [dbo].[ParcelReport] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_ParcelReport]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_StockCode] FOREIGN KEY([StockCodeId])
+REFERENCES [dbo].[StockCode] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_StockCode]
+GO
+ALTER TABLE [dbo].[StockManagement]  WITH CHECK ADD  CONSTRAINT [FK_StockManagement_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[StockManagement] CHECK CONSTRAINT [FK_StockManagement_User]
+GO
+ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_Organization]
+GO
+ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_User1] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_User1]
+GO
+ALTER TABLE [dbo].[UserOrganization]  WITH CHECK ADD  CONSTRAINT [FK_UserOrganization_Organization] FOREIGN KEY([OrganizationId])
+REFERENCES [dbo].[Organization] ([Id])
+GO
+ALTER TABLE [dbo].[UserOrganization] CHECK CONSTRAINT [FK_UserOrganization_Organization]
+GO
+ALTER TABLE [dbo].[UserOrganization]  WITH CHECK ADD  CONSTRAINT [FK_UserOrganization_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+ALTER TABLE [dbo].[UserOrganization] CHECK CONSTRAINT [FK_UserOrganization_User]
+GO
+/****** Object:  Trigger [dbo].[Trig_Customer]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[Trig_Customer] ON [dbo].[Customer]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[CustomerLog]
+           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
+		SELECT 
+			'Insert',Id,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[CustomerLog]
+           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
+		SELECT 
+			'Update',Id,Name,Address,LocationId,Mobile,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[CustomerLog]
+           (Action,CustomerId,Name,Address,LocationId,Mobile,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId)
+		SELECT 
+			'Delete',Id,Name,Address,LocationId,Mobile,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+END
+GO
+ALTER TABLE [dbo].[Customer] ENABLE TRIGGER [Trig_Customer]
+GO
+/****** Object:  Trigger [dbo].[Trig_Distribution]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[Trig_Distribution] ON [dbo].[Distribution]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[DistributionLog]
+           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn],LocationId)
+		SELECT 
+			'Insert',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn],LocationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[DistributionLog]
+           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn],LocationId)
+		SELECT 
+			'Update',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[ModifiedBy],[ModifiedOn],LocationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[DistributionLog]
+           ([Action],[DistributionId],[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[CreatedBy],[CreatedOn],LocationId)
+		SELECT 
+			'Delete',Id,[CustomerId],[DistributionDate],[StockManagementId],[TypeId],[BillNo],[Note],[Quantity],[UserId],[OrganizationId],[IsActive],[ModifiedBy],[ModifiedOn],LocationId
+		FROM Inserted
+	End
+
+END
+GO
+ALTER TABLE [dbo].[Distribution] ENABLE TRIGGER [Trig_Distribution]
+GO
+/****** Object:  Trigger [dbo].[Trig_Fabric]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TRIGGER [dbo].[Trig_Fabric] ON [dbo].[Fabric]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [FabricLog]
+           ([Action],[FabricId],[FabricName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Insert',Id,FabricName,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [FabricLog]
+           ([Action],[FabricId],[FabricName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Update',Id,FabricName,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [FabricLog]
+           ([Action],[FabricId],[FabricName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Delete',Id,FabricName,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[Fabric] ENABLE TRIGGER [Trig_Fabric]
+GO
+/****** Object:  Trigger [dbo].[Trig_Item]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TRIGGER [dbo].[Trig_Item] ON [dbo].[Item]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[ItemLog]
+           ([Action],[ItemId],[ItemName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Insert',Id,ItemName,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[ItemLog]
+           ([Action],[ItemId],[ItemName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Update',Id,ItemName,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[ItemLog]
+           ([Action],[ItemId],[ItemName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Delete',Id,ItemName,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[Item] ENABLE TRIGGER [Trig_Item]
+GO
+/****** Object:  Trigger [dbo].[Trig_Location]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TRIGGER [dbo].[Trig_Location] ON [dbo].[Location]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[LocationLog]
+           ([Action],[LocationId],[LocationName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Insert',Id,LocationName,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[LocationLog]
+           ([Action],[LocationId],[LocationName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Update',Id,LocationName,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[LocationLog]
+           ([Action],[LocationId],[LocationName],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Delete',Id,LocationName,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[Location] ENABLE TRIGGER [Trig_Location]
+GO
+/****** Object:  Trigger [dbo].[Trig_Organization]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[Trig_Organization] ON [dbo].[Organization]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [OrganizationLog]
+           ([Action],OrganizationId,[Name],IsActive,CreatedBy,CreatedOn,UserId,Organization_Id)
+		SELECT 
+			'Insert',Id,[Name],IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [OrganizationLog]
+           ([Action],OrganizationId,[Name],IsActive,CreatedBy,CreatedOn,UserId,Organization_Id)
+		SELECT 
+			'Update',Id,[Name],IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [OrganizationLog]
+           ([Action],OrganizationId,[Name],IsActive,CreatedBy,CreatedOn,UserId,Organization_Id)
+		SELECT 
+			'delete',Id,[Name],IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Deleted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[Organization] ENABLE TRIGGER [Trig_Organization]
+GO
+/****** Object:  Trigger [dbo].[Trig_ParcelCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TRIGGER [dbo].[Trig_ParcelCode] ON [dbo].[ParcelCode]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[ParcelCodeLog]
+           ([Action],[ParcelCodeId],[Code],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Insert',Id,Code,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[ParcelCodeLog]
+           ([Action],[ParcelCodeId],[Code],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Update',Id,Code,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[ParcelCodeLog]
+           ([Action],[ParcelCodeId],[Code],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Delete',Id,Code,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[ParcelCode] ENABLE TRIGGER [Trig_ParcelCode]
+GO
+/****** Object:  Trigger [dbo].[Trig_ParcelReport]    Script Date: 17-03-2023 10:48:03 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,4 +2203,170 @@ BEGIN
 END
 GO
 ALTER TABLE [dbo].[ParcelReport] ENABLE TRIGGER [Trig_ParcelReport]
+GO
+/****** Object:  Trigger [dbo].[Trig_StockCode]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TRIGGER [dbo].[Trig_StockCode] ON [dbo].[StockCode]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[StockCodeLog]
+           ([Action],[StockCodeId],[Code],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Insert',Id,Code,IsActive,CreatedBy,CreatedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[StockCodeLog]
+           ([Action],[StockCodeId],[Code],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Update',Id,Code,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[StockCodeLog]
+           ([Action],[StockCodeId],[Code],[IsActive],[CreatedBy],[CreatedOn],UserId,OrganizationId)
+		SELECT 
+			'Delete',Id,Code,IsActive,ModifiedBy,ModifiedOn,UserId,OrganizationId
+		FROM Inserted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[StockCode] ENABLE TRIGGER [Trig_StockCode]
+GO
+/****** Object:  Trigger [dbo].[Trig_StockManagement]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[Trig_StockManagement] ON [dbo].[StockManagement]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[StockManagementLog]
+           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Insert',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[StockManagementLog]
+           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Update',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[StockManagementLog]
+           ([Action],[StockManagementId],[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn])
+		SELECT 
+			'Delete',Id,[ParcelId],[StockCodeId],[FabricId],[ItemId],[LocationId],[ActualQuantity],[TotalQuantity],[OrganizationId],
+			[UserId],[IsActive],[CreatedBy],[CreatedOn]
+		FROM Inserted
+	End
+
+END
+GO
+ALTER TABLE [dbo].[StockManagement] ENABLE TRIGGER [Trig_StockManagement]
+GO
+/****** Object:  Trigger [dbo].[Trig_User]    Script Date: 17-03-2023 10:48:03 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TRIGGER [dbo].[Trig_User] ON [dbo].[User]
+    AFTER INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @vIdCompra_Ins INT,@vIdCompra_Del INT
+
+	SELECT @vIdCompra_Ins = Inserted.Id FROM Inserted
+	SELECT @vIdCompra_Del = Deleted.Id FROM Deleted
+	
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NULL)  
+	BEGIN
+		-- Todo Insert
+		INSERT INTO [dbo].[Userlog]
+           ([Action],[UserId],[FirstName],[LastName],[EmailId],[MobileNo],[UserName],[Password],[IsActive],[IsAdmin],[CreatedBy],[CreatedOn],[User_Id],OrganizationId)
+		SELECT 
+			'Insert',Id,FirstName,LastName,EmailId,MobileNo,UserName,[Password],IsActive,IsAdmin,CreatedBy,CreatedOn,[UserId],OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NOT NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Update
+		INSERT INTO [dbo].[Userlog]
+           ([Action],[UserId],[FirstName],[LastName],[EmailId],[MobileNo],[UserName],[Password],[IsActive],[IsAdmin],[CreatedBy],[CreatedOn],[User_Id],OrganizationId)
+		SELECT 
+			'Update',Id,FirstName,LastName,EmailId,MobileNo,UserName,[Password],IsActive,IsAdmin,ModifiedBy,ModifiedOn,[UserId],OrganizationId
+		FROM Inserted
+	End
+
+	IF (@vIdCompra_Ins IS NULL AND @vIdCompra_Del IS NOT NULL)
+	BEGIN
+		-- Todo Delete
+		INSERT INTO [dbo].[Userlog]
+           ([Action],[UserId],[FirstName],[LastName],[EmailId],[MobileNo],[UserName],[Password],[IsActive],[IsAdmin],[CreatedBy],[CreatedOn],[User_Id],OrganizationId)
+		SELECT 
+			'Delete',Id,FirstName,LastName,EmailId,MobileNo,UserName,[Password],IsActive,IsAdmin,ModifiedBy,ModifiedOn,[UserId],OrganizationId
+		FROM Inserted
+	End
+
+END
+
+
+GO
+ALTER TABLE [dbo].[User] ENABLE TRIGGER [Trig_User]
+GO
+USE [master]
+GO
+ALTER DATABASE [VKTracker] SET  READ_WRITE 
 GO
