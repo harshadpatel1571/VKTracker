@@ -41,7 +41,13 @@
                 }
             },
             { data: "id", name: "Id", "autoWidth": true },
-            { data: "parcelCode", name: "Parcel Code", "autoWidth": true },
+            {
+                data: "parcelCode", name: "parcelCode", "autoWidth": true,
+                render: function (data, type, row) {
+                    console.log(row);
+                    return formateParcelCode(row.parcelCode, row.arrivalDate, row.chalanNo);
+                }
+            },
             { data: "stockCode", name: "Stock Code", "autoWidth": true },
             { data: "fabricName", name: "Fabric Name", "autoWidth": true },
             { data: "itemName", name: "Item Name", "autoWidth": true },

@@ -49,6 +49,9 @@ namespace VKTracker.Model.ViewModel
         public string StockNo { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+
+        public string ChalanNo { get; set; }
+        public DateTime? ArrivalDate { get; set;}
     }
 
     public class StockManagementListModel

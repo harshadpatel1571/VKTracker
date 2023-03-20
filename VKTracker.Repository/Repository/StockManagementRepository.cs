@@ -31,10 +31,9 @@ namespace VKTracker.Repository.Repository
                 //&& x.UserId == userId 
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
-                    result = result.Where(x => x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
+                    result = result.Where(x => x.ParcelReport.ParcelCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.StockCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.Location.LocationName.Contains(filterDto.SearchValue) ||
-                                                x.ParcelCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.Fabric.FabricName.ToString().Contains(filterDto.SearchValue) ||
                                                 x.ActualQuantity.ToString().Contains(filterDto.SearchValue) ||
                                                 x.TotalQuantity.ToString().Contains(filterDto.SearchValue));
@@ -44,7 +43,7 @@ namespace VKTracker.Repository.Repository
                 {
                     TotalCount = result.Count()
                 };
-                result = result.OrderBy(x => x.Id);
+                result = result.OrderByDescending(x => x.ModifiedOn);
                 result = result.Skip(filterDto.Skip);
 
                 if (filterDto.Take != -1)
@@ -56,7 +55,10 @@ namespace VKTracker.Repository.Repository
                 {
                     Id = x.Id,
                     ParcelId = (int)x.ParcelId,
-                    ParcelCode = x.ParcelCode.Code,
+                    //ParcelCode = x.ParcelId.ToString() + "-" + DbFunctions.TruncateTime(x.ParcelReport.ArrivalDate).Value.ToString("yyy-MM-dd") + "-" + x.ParcelReport.ChalanNo,
+                    ParcelCode = x.ParcelReport.ParcelCode.Code,
+                    ArrivalDate = x.ParcelReport.ArrivalDate,
+                    ChalanNo = x.ParcelReport.ChalanNo,
                     LocationId = (int)x.LocationId,
                     LocationName = x.Location.LocationName,
                     FabricId = (int)x.FabricId,

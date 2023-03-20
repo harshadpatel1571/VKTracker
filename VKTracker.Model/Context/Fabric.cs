@@ -30,9 +30,9 @@ namespace VKTracker.Model.Context
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrganizationId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockManagement> StockManagements { get; set; }
         public virtual User User { get; set; }
         public virtual Organization Organization { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockManagement> StockManagements { get; set; }
     }
 }

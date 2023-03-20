@@ -26,6 +26,7 @@ namespace VKTracker.Model.Context
         public Nullable<int> FabricId { get; set; }
         public Nullable<int> ItemId { get; set; }
         public Nullable<int> LocationId { get; set; }
+        public decimal ActualQuantity { get; set; }
         public decimal TotalQuantity { get; set; }
         public Nullable<int> OrganizationId { get; set; }
         public Nullable<int> UserId { get; set; }
@@ -34,16 +35,15 @@ namespace VKTracker.Model.Context
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
-        public decimal ActualQuantity { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Distribution> Distributions { get; set; }
         public virtual Fabric Fabric { get; set; }
         public virtual Item Item { get; set; }
         public virtual Location Location { get; set; }
-        public virtual StockCode StockCode { get; set; }
-        public virtual ParcelCode ParcelCode { get; set; }
         public virtual Organization Organization { get; set; }
+        public virtual ParcelReport ParcelReport { get; set; }
+        public virtual StockCode StockCode { get; set; }
         public virtual User User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Distribution> Distributions { get; set; }
     }
 }

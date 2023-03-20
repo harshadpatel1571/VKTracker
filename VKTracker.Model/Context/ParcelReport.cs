@@ -31,16 +31,16 @@ namespace VKTracker.Model.Context
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
-        public Nullable<int> OrganizationId { get; set; }
         public Nullable<int> UserId { get; set; }
+        public Nullable<int> OrganizationId { get; set; }
         public Nullable<System.DateTime> ChallanDate { get; set; }
         public string TransportNo { get; set; }
     
         public virtual Location Location { get; set; }
+        public virtual Organization Organization { get; set; }
         public virtual ParcelCode ParcelCode { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockManagement> StockManagements { get; set; }
-        public virtual Organization Organization { get; set; }
-        public virtual User User { get; set; }
     }
 }

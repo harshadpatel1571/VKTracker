@@ -22,24 +22,11 @@
         <EntityTypeShape EntityType="VKTrackerModel.ParcelCodeLog" Width="1.5" PointX="2.625" PointY="20.25" />
         <EntityTypeShape EntityType="VKTrackerModel.StockCodeLog" Width="1.5" PointX="10.875" PointY="17" />
         <EntityTypeShape EntityType="VKTrackerModel.Userlog" Width="1.5" PointX="16.75" PointY="17" />
-        <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="9.125" PointY="0.5" />
-        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Location" />
-        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_ParcelCode" />
         <EntityTypeShape EntityType="VKTrackerModel.ParcelReportLog" Width="1.5" PointX="14.75" PointY="17" />
         <EntityTypeShape EntityType="VKTrackerModel.CustomerLog" Width="1.5" PointX="9" PointY="17" />
-        <EntityTypeShape EntityType="VKTrackerModel.StockManagement" Width="1.5" PointX="11.75" PointY="0.5" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Fabric" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Item" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Location" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_ParcelReport" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_StockCode" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_ParcelReport1" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Organization" />
-        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_User" />
         <EntityTypeShape EntityType="VKTrackerModel.StockManagementLog" Width="1.5" PointX="5" PointY="17" />
         <EntityTypeShape EntityType="VKTrackerModel.Distribution" Width="1.5" PointX="16.75" PointY="4.375" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Organization" />
-        <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_User" />
         <EntityTypeShape EntityType="VKTrackerModel.DistributionLog" Width="1.5" PointX="7" PointY="17" />
         <AssociationConnector Association="VKTrackerModel.FK_Fabric_User" />
@@ -50,11 +37,9 @@
         <AssociationConnector Association="VKTrackerModel.FK_Organization_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_Organization_User" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelCode_Organization" />
-        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_StockCode_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_User_Organization" />
         <AssociationConnector Association="VKTrackerModel.FK_ParcelCode_User" />
-        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_User" />
         <AssociationConnector Association="VKTrackerModel.FK_StockCode_User" />
         <AssociationConnector Association="VKTrackerModel.FK_User_User1" />
         <AssociationConnector Association="VKTrackerModel.FK_Fabric_OrganizationLog1" />
@@ -64,6 +49,20 @@
         <AssociationConnector Association="VKTrackerModel.FK_Customer_User" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Customer" />
         <AssociationConnector Association="VKTrackerModel.FK_Distribution_Location" />
+        <EntityTypeShape EntityType="VKTrackerModel.ParcelReport" Width="1.5" PointX="13" PointY="4.375" />
+        <EntityTypeShape EntityType="VKTrackerModel.StockManagement" Width="1.5" PointX="9" PointY="2.125" />
+        <AssociationConnector Association="VKTrackerModel.FK_Distribution_StockManagement" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Fabric" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Item" />
+        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Location" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Location" />
+        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_Organization" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_Organization" />
+        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_ParcelCode" />
+        <AssociationConnector Association="VKTrackerModel.FK_ParcelReport_User" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_ParcelReport" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_StockCode" />
+        <AssociationConnector Association="VKTrackerModel.FK_StockManagement_User" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

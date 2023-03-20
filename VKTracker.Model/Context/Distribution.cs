@@ -32,9 +32,9 @@ namespace VKTracker.Model.Context
         public Nullable<int> LocationId { get; set; }
     
         public virtual Organization Organization { get; set; }
-        public virtual StockManagement StockManagement { get; set; }
         public virtual User User { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Location Location { get; set; }
+        public virtual StockManagement StockManagement { get; set; }
     }
 }

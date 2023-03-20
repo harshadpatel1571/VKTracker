@@ -267,11 +267,19 @@ namespace VKTracker.Repository.Repository
             var db = new VKTrackerEntities();
             try
             {
-                return await db.ParcelReports.Where(x => x.IsActive && x.OrganizationId == organizationId).Select(x => new BindDropdownViewModel
+                var ddlData = await db.ParcelReports.Where(x => x.IsActive && x.OrganizationId == organizationId).ToListAsync().ConfigureAwait(false);
+                List<BindDropdownViewModel> list = new List<BindDropdownViewModel>();
+                foreach (var item in ddlData)
                 {
-                    Id = x.Id,
-                    Name = x.ParcelId.ToString() +"-"+ x.ArrivalDate.ToString() + "-"+ x.ChalanNo
-                }).ToListAsync().ConfigureAwait(false);
+                    BindDropdownViewModel model = new BindDropdownViewModel
+                    {
+                        Id =item.Id,
+                        Name = item.ParcelCode.Code + "-" + item.ArrivalDate.Value.ToString("yyyy-MM-dd").Replace("-","") + "-" + item.ChalanNo.ToString(),
+                    };
+                    list.Add(model);
+                }
+
+                return list;
             }
             catch (Exception ex)
             {

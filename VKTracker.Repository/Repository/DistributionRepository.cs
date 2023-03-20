@@ -30,7 +30,7 @@ namespace VKTracker.Repository.Repository
                 if (!string.IsNullOrEmpty(filterDto.SearchValue))
                 {
                     result = result.Where(x => x.StockManagement.Location.LocationName.Contains(filterDto.SearchValue) ||
-                                                x.StockManagement.ParcelCode.Code.Contains(filterDto.SearchValue) ||
+                                                x.StockManagement.ParcelReport.ParcelCode.Code.Contains(filterDto.SearchValue) ||
                                                 x.StockManagement.Fabric.FabricName.Contains(filterDto.SearchValue) ||
                                                 x.StockManagement.Item.ItemName.Contains(filterDto.SearchValue) ||
                                                 x.StockManagement.TotalQuantity.ToString().Contains(filterDto.SearchValue) ||
@@ -55,7 +55,7 @@ namespace VKTracker.Repository.Repository
                 {
                     Id = x.Id,
                     StockManagementId = (int)x.StockManagementId,
-                    ParcelId = x.StockManagement.ParcelCode.Id,
+                    ParcelId = x.StockManagement.ParcelReport.ParcelCode.Id,
                     StockCode = x.StockManagement.StockCode.Code,
                     FabricName = x.StockManagement.Fabric.FabricName,
                     ItemName = x.StockManagement.Item.ItemName,

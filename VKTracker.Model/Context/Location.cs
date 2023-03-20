@@ -17,10 +17,10 @@ namespace VKTracker.Model.Context
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Location()
         {
-            this.ParcelReports = new HashSet<ParcelReport>();
-            this.StockManagements = new HashSet<StockManagement>();
             this.Customers = new HashSet<Customer>();
             this.Distributions = new HashSet<Distribution>();
+            this.ParcelReports = new HashSet<ParcelReport>();
+            this.StockManagements = new HashSet<StockManagement>();
         }
     
         public int Id { get; set; }
@@ -33,15 +33,15 @@ namespace VKTracker.Model.Context
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrganizationId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ParcelReport> ParcelReports { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockManagement> StockManagements { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Distribution> Distributions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ParcelReport> ParcelReports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockManagement> StockManagements { get; set; }
     }
 }

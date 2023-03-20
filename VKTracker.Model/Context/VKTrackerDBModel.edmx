@@ -979,11 +979,11 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="FabricName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Fabric" FromRole="Fabric" ToRole="StockManagement" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Fabric_User" FromRole="Fabric" ToRole="User" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog1" FromRole="Fabric" ToRole="Organization" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Fabric" FromRole="Fabric" ToRole="StockManagement" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -996,11 +996,11 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Item" FromRole="Item" ToRole="StockManagement" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Item_Organization" FromRole="Item" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Item_User" FromRole="Item" ToRole="User" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Item" FromRole="Item" ToRole="StockManagement" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1013,14 +1013,14 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LocationName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="Location" ToRole="ParcelReport" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Location" FromRole="Location" ToRole="StockManagement" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Location_Location" FromRole="Location" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Location_User" FromRole="Location" ToRole="User" />
           <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_Location" FromRole="Location" ToRole="Customer" />
           <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_Location" FromRole="Location" ToRole="Distribution" />
+          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="Location" ToRole="ParcelReport" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Location" FromRole="Location" ToRole="StockManagement" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -1034,7 +1034,6 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="UserOrganizations" Relationship="VKTrackerModel.FK_UserOrganization_Organization" FromRole="Organization" ToRole="UserOrganization" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="Organization" ToRole="StockManagement" />
           <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_Organization" FromRole="Organization" ToRole="Distribution" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
@@ -1044,11 +1043,12 @@
           <NavigationProperty Name="Organization2" Relationship="VKTrackerModel.FK_Organization_Organization" FromRole="Organization1" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Organization_User" FromRole="Organization" ToRole="User" />
           <NavigationProperty Name="ParcelCodes" Relationship="VKTrackerModel.FK_ParcelCode_Organization" FromRole="Organization" ToRole="ParcelCode" />
-          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="Organization" ToRole="ParcelReport" />
           <NavigationProperty Name="StockCodes" Relationship="VKTrackerModel.FK_StockCode_Organization" FromRole="Organization" ToRole="StockCode" />
           <NavigationProperty Name="Users" Relationship="VKTrackerModel.FK_User_Organization" FromRole="Organization" ToRole="User" />
           <NavigationProperty Name="Fabrics" Relationship="VKTrackerModel.FK_Fabric_OrganizationLog1" FromRole="Organization" ToRole="Fabric" />
           <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_Organization" FromRole="Organization" ToRole="Customer" />
+          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="Organization" ToRole="ParcelReport" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="Organization" ToRole="StockManagement" />
         </EntityType>
         <EntityType Name="ParcelCode">
           <Key>
@@ -1061,12 +1061,11 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelCode" ToRole="ParcelReport" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport1" FromRole="ParcelCode" ToRole="StockManagement" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_ParcelCode_Organization" FromRole="ParcelCode" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_ParcelCode_User" FromRole="ParcelCode" ToRole="User" />
+          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelCode" ToRole="ParcelReport" />
         </EntityType>
         <EntityType Name="StockCode">
           <Key>
@@ -1079,11 +1078,11 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_StockCode" FromRole="StockCode" ToRole="StockManagement" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_StockCode_Organization" FromRole="StockCode" ToRole="Organization" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_StockCode_User" FromRole="StockCode" ToRole="User" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_StockCode" FromRole="StockCode" ToRole="StockManagement" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1103,7 +1102,6 @@
           <Property Name="MobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserOrganizations" Relationship="VKTrackerModel.FK_UserOrganization_User" FromRole="User" ToRole="UserOrganization" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="User" ToRole="StockManagement" />
           <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_User" FromRole="User" ToRole="Distribution" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
@@ -1113,11 +1111,12 @@
           <NavigationProperty Name="Organizations" Relationship="VKTrackerModel.FK_Organization_User" FromRole="User" ToRole="Organization" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_User_Organization" FromRole="User" ToRole="Organization" />
           <NavigationProperty Name="ParcelCodes" Relationship="VKTrackerModel.FK_ParcelCode_User" FromRole="User" ToRole="ParcelCode" />
-          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_User" FromRole="User" ToRole="ParcelReport" />
           <NavigationProperty Name="StockCodes" Relationship="VKTrackerModel.FK_StockCode_User" FromRole="User" ToRole="StockCode" />
           <NavigationProperty Name="User1" Relationship="VKTrackerModel.FK_User_User1" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User2" Relationship="VKTrackerModel.FK_User_User1" FromRole="User1" ToRole="User" />
           <NavigationProperty Name="Customers" Relationship="VKTrackerModel.FK_Customer_User" FromRole="User" ToRole="Customer" />
+          <NavigationProperty Name="ParcelReports" Relationship="VKTrackerModel.FK_ParcelReport_User" FromRole="User" ToRole="ParcelReport" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="User" ToRole="StockManagement" />
         </EntityType>
         <EntityContainer Name="VKTrackerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Fabrics" EntityType="Self.Fabric" />
@@ -1143,58 +1142,12 @@
           <EntitySet Name="ParcelCodeLogs" EntityType="VKTrackerModel.ParcelCodeLog" />
           <EntitySet Name="StockCodeLogs" EntityType="VKTrackerModel.StockCodeLog" />
           <EntitySet Name="Userlogs" EntityType="VKTrackerModel.Userlog" />
-          <EntitySet Name="ParcelReports" EntityType="VKTrackerModel.ParcelReport" />
-          <AssociationSet Name="FK_ParcelReport_Location" Association="VKTrackerModel.FK_ParcelReport_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="ParcelReport" EntitySet="ParcelReports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ParcelReport_ParcelCode" Association="VKTrackerModel.FK_ParcelReport_ParcelCode">
-            <End Role="ParcelCode" EntitySet="ParcelCodes" />
-            <End Role="ParcelReport" EntitySet="ParcelReports" />
-          </AssociationSet>
           <EntitySet Name="ParcelReportLogs" EntityType="VKTrackerModel.ParcelReportLog" />
           <EntitySet Name="CustomerLogs" EntityType="VKTrackerModel.CustomerLog" />
-          <EntitySet Name="StockManagements" EntityType="VKTrackerModel.StockManagement" />
-          <AssociationSet Name="FK_StockManagement_Fabric" Association="VKTrackerModel.FK_StockManagement_Fabric">
-            <End Role="Fabric" EntitySet="Fabrics" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_Item" Association="VKTrackerModel.FK_StockManagement_Item">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_Location" Association="VKTrackerModel.FK_StockManagement_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_ParcelReport" Association="VKTrackerModel.FK_StockManagement_ParcelReport">
-            <End Role="ParcelReport" EntitySet="ParcelReports" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_StockCode" Association="VKTrackerModel.FK_StockManagement_StockCode">
-            <End Role="StockCode" EntitySet="StockCodes" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_ParcelReport1" Association="VKTrackerModel.FK_StockManagement_ParcelReport1">
-            <End Role="ParcelCode" EntitySet="ParcelCodes" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_Organization" Association="VKTrackerModel.FK_StockManagement_Organization">
-            <End Role="Organization" EntitySet="Organizations" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockManagement_User" Association="VKTrackerModel.FK_StockManagement_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="StockManagement" EntitySet="StockManagements" />
-          </AssociationSet>
           <EntitySet Name="StockManagementLogs" EntityType="VKTrackerModel.StockManagementLog" />
           <EntitySet Name="Distributions" EntityType="VKTrackerModel.Distribution" />
           <AssociationSet Name="FK_Distribution_Organization" Association="VKTrackerModel.FK_Distribution_Organization">
             <End Role="Organization" EntitySet="Organizations" />
-            <End Role="Distribution" EntitySet="Distributions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Distribution_StockManagement" Association="VKTrackerModel.FK_Distribution_StockManagement">
-            <End Role="StockManagement" EntitySet="StockManagements" />
             <End Role="Distribution" EntitySet="Distributions" />
           </AssociationSet>
           <AssociationSet Name="FK_Distribution_User" Association="VKTrackerModel.FK_Distribution_User">
@@ -1234,10 +1187,6 @@
             <End Role="Organization" EntitySet="Organizations" />
             <End Role="ParcelCode" EntitySet="ParcelCodes" />
           </AssociationSet>
-          <AssociationSet Name="FK_ParcelReport_Organization" Association="VKTrackerModel.FK_ParcelReport_Organization">
-            <End Role="Organization" EntitySet="Organizations" />
-            <End Role="ParcelReport" EntitySet="ParcelReports" />
-          </AssociationSet>
           <AssociationSet Name="FK_StockCode_Organization" Association="VKTrackerModel.FK_StockCode_Organization">
             <End Role="Organization" EntitySet="Organizations" />
             <End Role="StockCode" EntitySet="StockCodes" />
@@ -1249,10 +1198,6 @@
           <AssociationSet Name="FK_ParcelCode_User" Association="VKTrackerModel.FK_ParcelCode_User">
             <End Role="User" EntitySet="Users" />
             <End Role="ParcelCode" EntitySet="ParcelCodes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ParcelReport_User" Association="VKTrackerModel.FK_ParcelReport_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="ParcelReport" EntitySet="ParcelReports" />
           </AssociationSet>
           <AssociationSet Name="FK_StockCode_User" Association="VKTrackerModel.FK_StockCode_User">
             <End Role="User" EntitySet="Users" />
@@ -1286,6 +1231,56 @@
           <AssociationSet Name="FK_Distribution_Location" Association="VKTrackerModel.FK_Distribution_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="Distribution" EntitySet="Distributions" />
+          </AssociationSet>
+          <EntitySet Name="ParcelReports" EntityType="VKTrackerModel.ParcelReport" />
+          <EntitySet Name="StockManagements" EntityType="VKTrackerModel.StockManagement" />
+          <AssociationSet Name="FK_Distribution_StockManagement" Association="VKTrackerModel.FK_Distribution_StockManagement">
+            <End Role="StockManagement" EntitySet="StockManagements" />
+            <End Role="Distribution" EntitySet="Distributions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_Fabric" Association="VKTrackerModel.FK_StockManagement_Fabric">
+            <End Role="Fabric" EntitySet="Fabrics" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_Item" Association="VKTrackerModel.FK_StockManagement_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelReport_Location" Association="VKTrackerModel.FK_ParcelReport_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_Location" Association="VKTrackerModel.FK_StockManagement_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelReport_Organization" Association="VKTrackerModel.FK_ParcelReport_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_Organization" Association="VKTrackerModel.FK_StockManagement_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelReport_ParcelCode" Association="VKTrackerModel.FK_ParcelReport_ParcelCode">
+            <End Role="ParcelCode" EntitySet="ParcelCodes" />
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelReport_User" Association="VKTrackerModel.FK_ParcelReport_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_ParcelReport" Association="VKTrackerModel.FK_StockManagement_ParcelReport">
+            <End Role="ParcelReport" EntitySet="ParcelReports" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_StockCode" Association="VKTrackerModel.FK_StockManagement_StockCode">
+            <End Role="StockCode" EntitySet="StockCodes" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockManagement_User" Association="VKTrackerModel.FK_StockManagement_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="StockManagement" EntitySet="StockManagements" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserOrganization">
@@ -1428,55 +1423,6 @@
           <Property Name="User_Id" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
         </EntityType>
-        <EntityType Name="ParcelReport">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParcelId" Type="Int32" Nullable="false" />
-          <Property Name="DispachedDate" Type="DateTime" Precision="3" />
-          <Property Name="ChalanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ArrivalDate" Type="DateTime" Precision="3" />
-          <Property Name="LocatoinId" Type="Int32" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="ParcelReport" ToRole="Location" />
-          <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelReport" ToRole="ParcelCode" />
-          <Property Name="OrganizationId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
-          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport" FromRole="ParcelReport" ToRole="StockManagement" />
-          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="ParcelReport" ToRole="Organization" />
-          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_ParcelReport_User" FromRole="ParcelReport" ToRole="User" />
-          <Property Name="ChallanDate" Type="DateTime" Precision="3" />
-          <Property Name="TransportNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_ParcelReport_Location">
-          <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ParcelReport">
-              <PropertyRef Name="LocatoinId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ParcelReport_ParcelCode">
-          <End Type="VKTrackerModel.ParcelCode" Role="ParcelCode" Multiplicity="1" />
-          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParcelCode">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ParcelReport">
-              <PropertyRef Name="ParcelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ParcelReportLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -1514,130 +1460,6 @@
           <Property Name="OrganizationId" Type="Int32" />
           <Property Name="LocationId" Type="Int32" />
         </EntityType>
-        <EntityType Name="StockManagement">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParcelId" Type="Int32" />
-          <Property Name="StockCodeId" Type="Int32" />
-          <Property Name="FabricId" Type="Int32" />
-          <Property Name="ItemId" Type="Int32" />
-          <Property Name="LocationId" Type="Int32" />
-          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="OrganizationId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Fabric" Relationship="VKTrackerModel.FK_StockManagement_Fabric" FromRole="StockManagement" ToRole="Fabric" />
-          <NavigationProperty Name="Item" Relationship="VKTrackerModel.FK_StockManagement_Item" FromRole="StockManagement" ToRole="Item" />
-          <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_StockManagement_Location" FromRole="StockManagement" ToRole="Location" />
-          <NavigationProperty Name="StockCode" Relationship="VKTrackerModel.FK_StockManagement_StockCode" FromRole="StockManagement" ToRole="StockCode" />
-          <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport1" FromRole="StockManagement" ToRole="ParcelCode" />
-          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="StockManagement" ToRole="Organization" />
-          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="StockManagement" ToRole="User" />
-          <Property Name="ActualQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="StockManagement" ToRole="Distribution" />
-        </EntityType>
-        <Association Name="FK_StockManagement_Fabric">
-          <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fabric">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="FabricId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_Item">
-          <End Type="VKTrackerModel.Item" Role="Item" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_Location">
-          <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_ParcelReport">
-          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParcelReport">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="ParcelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_StockCode">
-          <End Type="VKTrackerModel.StockCode" Role="StockCode" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockCode">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="StockCodeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_ParcelReport1">
-          <End Type="VKTrackerModel.ParcelCode" Role="ParcelCode" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ParcelCode">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="ParcelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_Organization">
-          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Organization">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="OrganizationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockManagement_User">
-          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockManagement">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="StockManagementLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -1678,11 +1500,11 @@
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrganizationId" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_Distribution_Organization" FromRole="Distribution" ToRole="Organization" />
-          <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
           <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_Distribution_User" FromRole="Distribution" ToRole="User" />
           <NavigationProperty Name="Customer" Relationship="VKTrackerModel.FK_Distribution_Customer" FromRole="Distribution" ToRole="Customer" />
           <Property Name="LocationId" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_Distribution_Location" FromRole="Distribution" ToRole="Location" />
+          <NavigationProperty Name="StockManagement" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="Distribution" ToRole="StockManagement" />
         </EntityType>
         <Association Name="FK_Distribution_Organization">
           <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
@@ -1693,18 +1515,6 @@
             </Principal>
             <Dependent Role="Distribution">
               <PropertyRef Name="OrganizationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Distribution_StockManagement">
-          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockManagement">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Distribution">
-              <PropertyRef Name="StockManagementId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1837,18 +1647,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ParcelReport_Organization">
-          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Organization">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ParcelReport">
-              <PropertyRef Name="OrganizationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_StockCode_Organization">
           <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
           <End Type="VKTrackerModel.StockCode" Role="StockCode" Multiplicity="*" />
@@ -1881,18 +1679,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ParcelCode">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ParcelReport_User">
-          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ParcelReport">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2011,6 +1797,203 @@
             </Principal>
             <Dependent Role="Distribution">
               <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ParcelReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParcelId" Type="Int32" Nullable="false" />
+          <Property Name="DispachedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChalanNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ArrivalDate" Type="DateTime" Precision="3" />
+          <Property Name="LocatoinId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="ChallanDate" Type="DateTime" Precision="3" />
+          <Property Name="TransportNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_ParcelReport_Location" FromRole="ParcelReport" ToRole="Location" />
+          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_ParcelReport_Organization" FromRole="ParcelReport" ToRole="Organization" />
+          <NavigationProperty Name="ParcelCode" Relationship="VKTrackerModel.FK_ParcelReport_ParcelCode" FromRole="ParcelReport" ToRole="ParcelCode" />
+          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_ParcelReport_User" FromRole="ParcelReport" ToRole="User" />
+          <NavigationProperty Name="StockManagements" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport" FromRole="ParcelReport" ToRole="StockManagement" />
+        </EntityType>
+        <EntityType Name="StockManagement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParcelId" Type="Int32" />
+          <Property Name="StockCodeId" Type="Int32" />
+          <Property Name="FabricId" Type="Int32" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="LocationId" Type="Int32" />
+          <Property Name="ActualQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Distributions" Relationship="VKTrackerModel.FK_Distribution_StockManagement" FromRole="StockManagement" ToRole="Distribution" />
+          <NavigationProperty Name="Fabric" Relationship="VKTrackerModel.FK_StockManagement_Fabric" FromRole="StockManagement" ToRole="Fabric" />
+          <NavigationProperty Name="Item" Relationship="VKTrackerModel.FK_StockManagement_Item" FromRole="StockManagement" ToRole="Item" />
+          <NavigationProperty Name="Location" Relationship="VKTrackerModel.FK_StockManagement_Location" FromRole="StockManagement" ToRole="Location" />
+          <NavigationProperty Name="Organization" Relationship="VKTrackerModel.FK_StockManagement_Organization" FromRole="StockManagement" ToRole="Organization" />
+          <NavigationProperty Name="ParcelReport" Relationship="VKTrackerModel.FK_StockManagement_ParcelReport" FromRole="StockManagement" ToRole="ParcelReport" />
+          <NavigationProperty Name="StockCode" Relationship="VKTrackerModel.FK_StockManagement_StockCode" FromRole="StockManagement" ToRole="StockCode" />
+          <NavigationProperty Name="User" Relationship="VKTrackerModel.FK_StockManagement_User" FromRole="StockManagement" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Distribution_StockManagement">
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.Distribution" Role="Distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockManagement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Distribution">
+              <PropertyRef Name="StockManagementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_Fabric">
+          <End Type="VKTrackerModel.Fabric" Role="Fabric" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fabric">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="FabricId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_Item">
+          <End Type="VKTrackerModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelReport_Location">
+          <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="LocatoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_Location">
+          <End Type="VKTrackerModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelReport_Organization">
+          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_Organization">
+          <End Type="VKTrackerModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelReport_ParcelCode">
+          <End Type="VKTrackerModel.ParcelCode" Role="ParcelCode" Multiplicity="1" />
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParcelCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="ParcelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelReport_User">
+          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParcelReport">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_ParcelReport">
+          <End Type="VKTrackerModel.ParcelReport" Role="ParcelReport" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParcelReport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="ParcelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_StockCode">
+          <End Type="VKTrackerModel.StockCode" Role="StockCode" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="StockCodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockManagement_User">
+          <End Type="VKTrackerModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="VKTrackerModel.StockManagement" Role="StockManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockManagement">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2253,27 +2236,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ParcelReports">
-            <EntityTypeMapping TypeName="VKTrackerModel.ParcelReport">
-              <MappingFragment StoreEntitySet="ParcelReport">
-                <ScalarProperty Name="TransportNo" ColumnName="TransportNo" />
-                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="LocatoinId" ColumnName="LocatoinId" />
-                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
-                <ScalarProperty Name="ChalanNo" ColumnName="ChalanNo" />
-                <ScalarProperty Name="DispachedDate" ColumnName="DispachedDate" />
-                <ScalarProperty Name="ParcelId" ColumnName="ParcelId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ParcelReportLogs">
             <EntityTypeMapping TypeName="VKTrackerModel.ParcelReportLog">
               <MappingFragment StoreEntitySet="ParcelReportLog">
@@ -2309,27 +2271,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockManagements">
-            <EntityTypeMapping TypeName="VKTrackerModel.StockManagement">
-              <MappingFragment StoreEntitySet="StockManagement">
-                <ScalarProperty Name="ActualQuantity" ColumnName="ActualQuantity" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
-                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="FabricId" ColumnName="FabricId" />
-                <ScalarProperty Name="StockCodeId" ColumnName="StockCodeId" />
-                <ScalarProperty Name="ParcelId" ColumnName="ParcelId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2413,6 +2354,48 @@
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParcelReports">
+            <EntityTypeMapping TypeName="VKTrackerModel.ParcelReport">
+              <MappingFragment StoreEntitySet="ParcelReport">
+                <ScalarProperty Name="TransportNo" ColumnName="TransportNo" />
+                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LocatoinId" ColumnName="LocatoinId" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+                <ScalarProperty Name="ChalanNo" ColumnName="ChalanNo" />
+                <ScalarProperty Name="DispachedDate" ColumnName="DispachedDate" />
+                <ScalarProperty Name="ParcelId" ColumnName="ParcelId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockManagements">
+            <EntityTypeMapping TypeName="VKTrackerModel.StockManagement">
+              <MappingFragment StoreEntitySet="StockManagement">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="ActualQuantity" ColumnName="ActualQuantity" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="FabricId" ColumnName="FabricId" />
+                <ScalarProperty Name="StockCodeId" ColumnName="StockCodeId" />
+                <ScalarProperty Name="ParcelId" ColumnName="ParcelId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
